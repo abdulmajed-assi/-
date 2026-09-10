@@ -25,7 +25,6 @@
         .form-control { width: 100%; padding: 8px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 13px; }
         .btn-action { background: #333; color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; margin-top: 5px; font-weight: bold; width: 100%; font-size: 13px; }
         .btn-green { background: var(--primary-green); }
-        .item-row { background: #f9f9f9; padding: 8px; border-radius: 6px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #e5e5e5; font-size: 12px; }
     </style>
 </head>
 <body>
@@ -97,11 +96,40 @@
             }
         }
 
-        // تحويل الصورة المرفوعة إلى نص (Base64) لكي تظهر فوراً بالصفحة الرئيسية
-        function getBaseImage(fileInput, callback) {
+        // دالة لضغط ومعالجة الصورة المرفوعة وضمان تخزينها وعرضها بنجاح
+        function processImage(fileInput, callback) {
             if (fileInput.files && fileInput.files[0]) {
                 let reader = new FileReader();
-                reader.onload = function(e) { callback(e.target.result); }
+                reader.onload = function(e) {
+                    let img = new Image();
+                    img.onload = function() {
+                        let canvas = document.createElement('canvas');
+                        let ctx = canvas.getContext('2d');
+                        let MAX_WIDTH = 400;
+                        let MAX_HEIGHT = 400;
+                        let width = img.width;
+                        let height = img.height;
+
+                        if (width > height) {
+                            if (width > MAX_WIDTH) {
+                                height *= MAX_WIDTH / width;
+                                width = MAX_WIDTH;
+                            }
+                        } else {
+                            if (height > MAX_HEIGHT) {
+                                width *= MAX_HEIGHT / height;
+                                height = MAX_HEIGHT;
+                            }
+                        }
+
+                        canvas.width = width;
+                        canvas.height = height;
+                        ctx.drawImage(img, 0, 0, width, height);
+                        let dataUrl = canvas.toDataURL('image/jpeg', 0.8);
+                        callback(dataUrl);
+                    }
+                    img.src = e.target.result;
+                }
                 reader.readAsDataURL(fileInput.files[0]);
             } else {
                 callback('https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400');
@@ -113,12 +141,12 @@
             let fileInput = document.getElementById('offerImgFile');
             if(!title) { alert('الرجاء كتابة اسم العرض'); return; }
 
-            getBaseImage(fileInput, function(imgData) {
+            processImage(fileInput, function(imgData) {
                 let offers = JSON.parse(localStorage.getItem('admin_offers')) || [];
                 offers.push({ title: title, img: imgData });
                 localStorage.setItem('admin_offers', JSON.stringify(offers));
 
-                alert('تم نشر العرض بنجاح وسيظهر الآن في الصفحة الرئيسية!');
+                alert('تم نشر العرض وحفظ الصورة بنجاح وتظهر الآن في الصفحة الرئيسية!');
                 document.getElementById('offerTitle').value = '';
                 document.getElementById('offerImgFile').value = '';
             });
@@ -129,12 +157,12 @@
             let fileInput = document.getElementById('foodImgFile');
             if(!cat) { alert('الرجاء اختيار القسم المبوب'); return; }
 
-            getBaseImage(fileInput, function(imgData) {
+            processImage(fileInput, function(imgData) {
                 let foods = JSON.parse(localStorage.getItem('admin_foods')) || [];
                 foods.push({ name: cat, img: imgData });
                 localStorage.setItem('admin_foods', JSON.stringify(foods));
 
-                alert(`تم إضافة القسم "${cat}" بنجاح وسيعرض في الموقع!`);
+                alert(`تم إضافة القسم "${cat}" وحفظ صورته بنجاح وستظهر في الموقع!`);
                 document.getElementById('foodCategory').value = '';
                 document.getElementById('foodImgFile').value = '';
             });
