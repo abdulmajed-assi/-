@@ -112,20 +112,19 @@
         </sidebar>
 
         <main>
-            <!-- قسم العروض (يتم جلبها ديناميكياً من الأدمن) -->
+            <!-- قسم العروض -->
             <div class="section-header">
                 <h2>العروض</h2>
                 <a href="#" class="see-all">عرض الكل</a>
             </div>
             <div class="kampanyalar-slider" id="homeOffersContainer">
-                <!-- عرض افتراضي أولوي -->
                 <div class="kampanya-card">
                     <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400">
                     <p>عرض العائلة المميز</p>
                 </div>
             </div>
 
-            <!-- قسم أقسام الطعام (يتم جلبها ديناميكياً) -->
+            <!-- أقسام الطعام -->
             <div class="section-header">
                 <h2>أقسام الطعام</h2>
             </div>
@@ -187,7 +186,7 @@
         function openModal(id) { document.getElementById(id).style.display = 'flex'; }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
-        // تحميل العروض وأقسام الطعام والمطاعم المخزنة من لوحة الأدمن تلقائياً
+        // تحميل وعرض العناصر المخزنة من لوحة الأدمن تلقائياً
         window.onload = function() {
             let savedOffers = JSON.parse(localStorage.getItem('admin_offers')) || [];
             let offersContainer = document.getElementById('homeOffersContainer');
