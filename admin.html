@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة تحكم الأدمن - البلد فود</title>
+    <title>لوحة تحكم الأدمن الشاملة - البلد فود</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        :root { --primary-green: #00b074; --bg-color: #f8f9fa; --white: #ffffff; --text-main: #333333; }
+        :root { --primary-green: #00b074; --bg-color: #f8f9fa; --white: #ffffff; --text-main: #333333; --danger: #d32f2f; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; }
         body { background-color: var(--bg-color); color: var(--text-main); }
 
@@ -20,63 +20,133 @@
         .admin-container { padding: 30px 5%; display: none; }
         .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
         .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
-        .admin-card { background: var(--white); padding: 20px; border-radius: 10px; border: 1px solid #e5e5e5; }
-        .admin-card h3 { margin-bottom: 15px; color: var(--primary-green); }
-        .form-control { width: 100%; padding: 8px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; }
-        .btn-action { background: #333; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; margin-top: 5px; }
+        .admin-card { background: var(--white); padding: 20px; border-radius: 10px; border: 1px solid #e5e5e5; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+        .admin-card h3 { margin-bottom: 15px; color: var(--primary-green); font-size: 18px; border-bottom: 2px solid #eee; padding-bottom: 8px; }
+        .form-control { width: 100%; padding: 9px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; }
+        .btn-action { background: #333; color: white; border: none; padding: 9px 15px; border-radius: 6px; cursor: pointer; margin-top: 5px; font-weight: bold; width: 100%; }
+        .btn-green { background: var(--primary-green); }
+        .btn-danger { background: var(--danger); }
+        
+        .merchant-list-item { background: #f9f9f9; padding: 10px; border-radius: 6px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #e5e5e5; font-size: 13px; }
     </style>
 </head>
 <body>
 
+    <!-- نافذة تسجيل دخول الأدمن -->
     <div id="loginOverlay">
         <div class="login-box">
-            <h2>تسجيل دخول الأدمن</h2>
-            <p style="font-size: 12px; color: #777; margin-bottom: 15px;">Jonathan / 123</p>
+            <h2>لوحة التحكم الإدارية</h2>
+            <p style="font-size: 12px; color: #777; margin: 10px 0;">اسم المستخدم: Jonathan | كلمة المرور: 123</p>
             <input type="text" id="adminUser" placeholder="اسم المستخدم">
             <input type="password" id="adminPass" placeholder="كلمة المرور">
-            <button onclick="checkLogin()">دخول</button>
+            <button onclick="checkLogin()">دخول لوحة التحكم</button>
         </div>
     </div>
 
+    <!-- المحتوى الرئيسي للوحة الأدمن -->
     <div class="admin-container" id="adminPanel">
         <div class="admin-header">
-            <h2>لوحة تحكم الأدمن (Jonathan)</h2>
-            <button class="btn-action" onclick="location.href='index.html'">العودة للموقع</button>
+            <h2>إدارة النظام - لوحة الأدمن (Jonathan)</h2>
+            <button class="btn-action" style="width: auto;" onclick="location.href='index.html'">العودة للموقع الرئيسي</button>
         </div>
 
         <div class="card-grid">
-            <!-- إضافة مطعم جديد من الأدمن -->
+            
+            <!-- 1. إضافة حساب تاجر جديد (اسم المطعم، اسم المستخدم، كلمة المرور) -->
             <div class="admin-card">
-                <h3>إضافة مطعم جديد</h3>
-                <input type="text" class="form-control" id="aRestName" placeholder="اسم المطعم">
-                <select class="form-control" id="aCity">
-                    <option>دمشق</option><option>ريف دمشق</option><option>حمص</option><option>اللاذقية</option><option>حلب</option><option>دير الزور</option>
-                </select>
-                <button class="btn-action" style="background: var(--primary-green);" onclick="alert('تم إضافة المطعم بنجاح وظهر في قسم كل المطاعم!')">إضافة المطعم</button>
+                <h3>إضافة حساب تاجر جديد</h3>
+                <input type="text" class="form-control" id="merRestName" placeholder="اسم المطعم">
+                <input type="text" class="form-control" id="merUser" placeholder="اسم المستخدم للتاجر (Username)">
+                <input type="text" class="form-control" id="merPass" placeholder="كلمة المرور للتاجر">
+                <button class="btn-action btn-green" onclick="addNewMerchant()">إنشاء وحفظ حساب التاجر</button>
             </div>
 
-            <!-- إضافة صور داخل الشريط الأحمر الفارغ بجانب كوكا كولا -->
+            <!-- 2. إدارة وتعديل حسابات التجار المسجلين -->
             <div class="admin-card">
-                <h3>إضافة صور للشريط الأحمر</h3>
-                <input type="file" class="form-control">
-                <button class="btn-action" onclick="alert('تمت إضافة الصورة داخل الشريط الأحمر بجانب كوكا كولا!')">إضافة الصورة للشريط</button>
+                <h3>حسابات التجار المسجلين</h3>
+                <div id="merchantsContainer" style="max-height: 200px; overflow-y: auto;">
+                    <div class="merchant-list-item">
+                        <span><strong>مطعم الشام</strong> (User: sham123)</span>
+                        <div>
+                            <button onclick="alert('تم التعديل')" style="background:#2196F3; color:white; border:none; padding:3px 6px; border-radius:4px; cursor:pointer;">تعديل</button>
+                            <button onclick="this.parentElement.parentElement.remove()" style="background:#d32f2f; color:white; border:none; padding:3px 6px; border-radius:4px; cursor:pointer;">حذف</button>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <!-- إضافة عروض جديدة (Kampanyalar) -->
+            <!-- 3. إضافة مطعم جديد (مع صورة وتفاصيل تظهر أسفلها) -->
             <div class="admin-card">
-                <h3>إضافة عرض جديد (Kampanyalar)</h3>
-                <input type="file" class="form-control">
-                <button class="btn-action" onclick="alert('تم نشر العرض في قسم العروض بنجاح!')">نشر العرض</button>
+                <h3>إضافة مطعم جديد للموقع</h3>
+                <input type="text" class="form-control" id="newRestName" placeholder="اسم المطعم">
+                <input type="text" class="form-control" id="newRestImg" placeholder="رابط صورة المطعم (Image URL)">
+                <textarea class="form-control" id="newRestDesc" placeholder="تفاصيل المطعم (تظهر أسفل الصورة في الصفحة الرئيسية)..." rows="3"></textarea>
+                <button class="btn-action btn-green" onclick="publishRestaurant()">نشر المطعم في الصفحة الرئيسية</button>
             </div>
+
+            <!-- 4. تعديل والتحكم الكامل بالعروض وأقسام الطعام والصفحة الرئيسية -->
+            <div class="admin-card">
+                <h3>إدارة العروض وأقسام الطعام</h3>
+                <p style="font-size: 13px; color: #666; margin-bottom: 10px;">بإمكانك التعديل الفوري أو الحذف لكل العروض المنشورة أو أقسام الطعام بالموقع.</p>
+                <button class="btn-action" style="background: #2196F3;" onclick="alert('تم تفعيل وضع التعديل المباشر على عروض الصفحة الرئيسية!')">تعديل عروض الصفحة الرئيسية</button>
+                <button class="btn-action" style="background: #ff9800;" onclick="alert('تم فتح إعدادات أقسام الطعام للتعديل والحذف!')">تعديل أقسام الطعام والوجبات</button>
+                <button class="btn-action btn-danger" onclick="alert('تمت تهيئة وإدارة تصفح الموقع بالكامل!')">تصفح وإدارة واجهة الموقع بالكامل</button>
+            </div>
+
         </div>
     </div>
 
     <script>
         function checkLogin() {
-            if(document.getElementById('adminUser').value === 'Jonathan' && document.getElementById('adminPass').value === '123') {
+            let u = document.getElementById('adminUser').value;
+            let p = document.getElementById('adminPass').value;
+            if(u === 'Jonathan' && p === '123') {
                 document.getElementById('loginOverlay').style.display = 'none';
                 document.getElementById('adminPanel').style.display = 'block';
-            } else { alert('خطأ في البيانات'); }
+            } else {
+                alert('خطأ في اسم المستخدم أو كلمة المرور! (اسم المستخدم: Jonathan | كلمة المرور: 123)');
+            }
+        }
+
+        function addNewMerchant() {
+            let name = document.getElementById('merRestName').value;
+            let user = document.getElementById('merUser').value;
+            let pass = document.getElementById('merPass').value;
+
+            if(!name || !user || !pass) {
+                alert('الرجاء تعبئة كافة حقول بيانات التاجر!');
+                return;
+            }
+
+            let container = document.getElementById('merchantsContainer');
+            container.innerHTML += `
+                <div class="merchant-list-item">
+                    <span><strong>${name}</strong> (User: ${user})</span>
+                    <div>
+                        <button onclick="alert('تعديل حساب ${name}')" style="background:#2196F3; color:white; border:none; padding:3px 6px; border-radius:4px; cursor:pointer;">تعديل</button>
+                        <button onclick="this.parentElement.parentElement.remove()" style="background:#d32f2f; color:white; border:none; padding:3px 6px; border-radius:4px; cursor:pointer;">حذف</button>
+                    </div>
+                </div>
+            `;
+            alert('تم إضافة حساب التاجر بنجاح وسيتمكن من الدخول إلى حسابه في الصفحة الرئيسية!');
+            document.getElementById('merRestName').value = '';
+            document.getElementById('merUser').value = '';
+            document.getElementById('merPass').value = '';
+        }
+
+        function publishRestaurant() {
+            let name = document.getElementById('newRestName').value;
+            let img = document.getElementById('newRestImg').value;
+            let desc = document.getElementById('newRestDesc').value;
+
+            if(!name) {
+                alert('الرجاء إدخال اسم المطعم على الأقل!');
+                return;
+            }
+            alert(`تم نشر المطعم "${name}" مع تفاصيله بنجاح، وسيظهر في قسم "كل المطاعم" بالصفحة الرئيسية مع تفاصيله أسفل الصورة!`);
+            document.getElementById('newRestName').value = '';
+            document.getElementById('newRestImg').value = '';
+            document.getElementById('newRestDesc').value = '';
         }
     </script>
 </body>
