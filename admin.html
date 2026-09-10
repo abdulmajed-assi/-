@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة التحكم المطورة - البلد فود</title>
+    <title>لوحة التحكم الشاملة - البلد فود</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -19,14 +19,13 @@
 
         .admin-container { padding: 30px 5%; display: none; }
         .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
-        .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
+        .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
         .admin-card { background: var(--white); padding: 20px; border-radius: 10px; border: 1px solid #e5e5e5; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
-        .admin-card h3 { margin-bottom: 15px; color: var(--primary-green); font-size: 18px; border-bottom: 2px solid #eee; padding-bottom: 8px; }
-        .form-control { width: 100%; padding: 9px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; }
-        .btn-action { background: #333; color: white; border: none; padding: 9px 15px; border-radius: 6px; cursor: pointer; margin-top: 5px; font-weight: bold; width: 100%; }
+        .admin-card h3 { margin-bottom: 15px; color: var(--primary-green); font-size: 16px; border-bottom: 2px solid #eee; padding-bottom: 8px; }
+        .form-control { width: 100%; padding: 8px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 13px; }
+        .btn-action { background: #333; color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; margin-top: 5px; font-weight: bold; width: 100%; font-size: 13px; }
         .btn-green { background: var(--primary-green); }
-        .btn-danger { background: var(--danger); }
-        .item-row { background: #f9f9f9; padding: 10px; border-radius: 6px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #e5e5e5; font-size: 13px; }
+        .item-row { background: #f9f9f9; padding: 8px; border-radius: 6px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #e5e5e5; font-size: 12px; }
     </style>
 </head>
 <body>
@@ -42,28 +41,29 @@
         </div>
     </div>
 
-    <!-- لوحة التحكم المطورة -->
+    <!-- لوحة التحكم -->
     <div class="admin-container" id="adminPanel">
         <div class="admin-header">
-            <h2>لوحة التحكم المطورة (Jonathan)</h2>
+            <h2>لوحة تحكم الأدمن (Jonathan)</h2>
             <button class="btn-action" style="width: auto; background:#2196F3;" onclick="location.href='index.html'">معاينة الموقع الرئيسي</button>
         </div>
 
         <div class="card-grid">
             
-            <!-- 1. إضافة عرض جديد ونشره في قسم العروض بالصفحة الرئيسية -->
+            <!-- 1. إضافة عرض جديد -->
             <div class="admin-card">
-                <h3>إضافة عرض جديد</h3>
-                <input type="text" class="form-control" id="newOfferTitle" placeholder="اسم أو عنوان العرض">
-                <label style="font-size: 12px; color: #666;">تحميل صورة العرض:</label>
-                <input type="file" class="form-control" id="newOfferImg" accept="image/*">
-                <button class="btn-action btn-green" onclick="publishNewOffer()">نشر العرض في الصفحة الرئيسية</button>
+                <h3>1. إضافة عرض جديد</h3>
+                <input type="text" class="form-control" id="offerTitle" placeholder="اسم العرض">
+                <label style="font-size: 11px; color: #666;">تحميل صورة العرض:</label>
+                <input type="file" class="form-control" id="offerImg" accept="image/*">
+                <button class="btn-action btn-green" onclick="addOffer()">نشر العرض</button>
+                <div id="offersList" style="margin-top: 10px; max-height: 120px; overflow-y: auto;"></div>
             </div>
 
             <!-- 2. إضافة قسم طعام مستقل (مبوب + تحميل صورة) -->
             <div class="admin-card">
-                <h3>إضافة قسم طعام جديد</h3>
-                <select class="form-control" id="foodCategorySelect">
+                <h3>2. إضافة قسم طعام جديد</h3>
+                <select class="form-control" id="foodCategory">
                     <option value="">اختر القسم المبوب</option>
                     <option>شاورما</option>
                     <option>بروستد</option>
@@ -74,33 +74,22 @@
                     <option>مندي</option>
                     <option>كوكتيل</option>
                 </select>
-                <label style="font-size: 12px; color: #666;">تحميل صورة القسم من الكمبيوتر:</label>
-                <input type="file" class="form-control" id="foodCategoryImg" accept="image/*">
-                <button class="btn-action btn-green" onclick="publishFoodCategory()">إضافة القسم للموقع</button>
+                <label style="font-size: 11px; color: #666;">تحميل صورة القسم من الكمبيوتر:</label>
+                <input type="file" class="form-control" id="foodImg" accept="image/*">
+                <button class="btn-action btn-green" onclick="addFoodCategory()">إضافة قسم الطعام</button>
+                <div id="foodList" style="margin-top: 10px; max-height: 120px; overflow-y: auto;"></div>
             </div>
 
-            <!-- 3. إدارة، تعديل وحذف العروض القديمة والحديثة -->
+            <!-- 3. إضافة حساب تاجر واشتراك -->
             <div class="admin-card">
-                <h3>إدارة وتعديل العروض القديمة</h3>
-                <div id="offersManagementList" style="max-height: 220px; overflow-y: auto;">
-                    <div class="item-row">
-                        <span><strong>عرض العائلة المميز</strong></span>
-                        <div>
-                            <button onclick="editOffer(this)" style="background:#2196F3; color:white; border:none; padding:3px 6px; border-radius:4px; cursor:pointer;">تعديل</button>
-                            <button onclick="this.parentElement.parentElement.remove()" style="background:#d32f2f; color:white; border:none; padding:3px 6px; border-radius:4px; cursor:pointer;">حذف</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 4. إضافة حساب تاجر مع تحديد أيام الاشتراك -->
-            <div class="admin-card">
-                <h3>إضافة حساب تاجر واشتراك</h3>
+                <h3>3. إضافة حساب تاجر واشتراك</h3>
                 <input type="text" class="form-control" id="merName" placeholder="اسم المطعم">
+                <input type="text" class="form-control" id="merPhone" placeholder="رقم الهاتف">
                 <input type="text" class="form-control" id="merUser" placeholder="اسم المستخدم">
                 <input type="text" class="form-control" id="merPass" placeholder="كلمة المرور">
                 <input type="number" class="form-control" id="merDays" placeholder="عدد أيام الاشتراك">
                 <button class="btn-action btn-green" onclick="addMerchant()">حفظ حساب التاجر</button>
+                <div id="merchantsList" style="margin-top: 10px; max-height: 120px; overflow-y: auto;"></div>
             </div>
 
         </div>
@@ -114,53 +103,60 @@
                 document.getElementById('loginOverlay').style.display = 'none';
                 document.getElementById('adminPanel').style.display = 'block';
             } else {
-                alert('خطأ في البيانات! اسم المستخدم: Jonathan | كلمة المرور: 123');
+                alert('خطأ في بيانات الأدمن (Jonathan / 123)');
             }
         }
 
-        function publishNewOffer() {
-            let title = document.getElementById('newOfferTitle').value;
+        function addOffer() {
+            let title = document.getElementById('offerTitle').value;
             if(!title) { alert('الرجاء كتابة اسم العرض'); return; }
-
-            let list = document.getElementById('offersManagementList');
+            
+            let list = document.getElementById('offersList');
             list.innerHTML += `
                 <div class="item-row">
                     <span><strong>${title}</strong></span>
                     <div>
-                        <button onclick="editOffer(this)" style="background:#2196F3; color:white; border:none; padding:3px 6px; border-radius:4px; cursor:pointer;">تعديل</button>
-                        <button onclick="this.parentElement.parentElement.remove()" style="background:#d32f2f; color:white; border:none; padding:3px 6px; border-radius:4px; cursor:pointer;">حذف</button>
+                        <button onclick="alert('تعديل العرض')" style="background:#2196F3; color:white; border:none; padding:2px 5px; border-radius:3px; cursor:pointer;">تعديل</button>
+                        <button onclick="this.parentElement.parentElement.remove()" style="background:#d32f2f; color:white; border:none; padding:2px 5px; border-radius:3px; cursor:pointer;">حذف</button>
                     </div>
                 </div>
             `;
-            alert(`تم نشر العرض "${title}" بنجاح وسيظهر في قسم العروض بالصفحة الرئيسية!`);
-            document.getElementById('newOfferTitle').value = '';
-            document.getElementById('newOfferImg').value = '';
+            alert('تم نشر العرض بنجاح!');
+            document.getElementById('offerTitle').value = '';
+            document.getElementById('offerImg').value = '';
         }
 
-        function publishFoodCategory() {
-            let cat = document.getElementById('foodCategorySelect').value;
+        function addFoodCategory() {
+            let cat = document.getElementById('foodCategory').value;
             if(!cat) { alert('الرجاء اختيار القسم المبوب'); return; }
-            alert(`تم إضافة القسم "${cat}" بنجاح مع صورته إلى أقسام الطعام في الموقع!`);
-            document.getElementById('foodCategorySelect').value = '';
-            document.getElementById('foodCategoryImg').value = '';
-        }
 
-        function editOffer(btn) {
-            let row = btn.parentElement.parentElement;
-            let titleSpan = row.querySelector('strong');
-            let newTitle = prompt('تعديل عنوان العرض:', titleSpan.innerText);
-            if(newTitle) {
-                titleSpan.innerText = newTitle;
-                alert('تم تحديث العرض بنجاح!');
-            }
+            let list = document.getElementById('foodList');
+            list.innerHTML += `
+                <div class="item-row">
+                    <span><strong>قسم: ${cat}</strong></span>
+                    <button onclick="this.parentElement.remove()" style="background:#d32f2f; color:white; border:none; padding:2px 5px; border-radius:3px; cursor:pointer;">حذف</button>
+                </div>
+            `;
+            alert(`تم إضافة القسم "${cat}" بنجاح!`);
+            document.getElementById('foodCategory').value = '';
+            document.getElementById('foodImg').value = '';
         }
 
         function addMerchant() {
             let name = document.getElementById('merName').value;
             let days = document.getElementById('merDays').value;
-            if(!name || !days) { alert('الرجاء تعبئة بيانات التاجر وأيام الاشتراك'); return; }
-            alert(`تم إضافة حساب التاجر "${name}" بمدة اشتراك ${days} يوم بنجاح!`);
+            if(!name || !days) { alert('الرجاء كتابة اسم المطعم ومدة الاشتراك'); return; }
+
+            let list = document.getElementById('merchantsList');
+            list.innerHTML += `
+                <div class="item-row">
+                    <div><strong>${name}</strong><br><span style="color:#e65100;">متبقي: ${days} يوم</span></div>
+                    <button onclick="this.parentElement.parentElement.remove()" style="background:#d32f2f; color:white; border:none; padding:2px 5px; border-radius:3px; cursor:pointer;">حذف</button>
+                </div>
+            `;
+            alert(`تم إضافة حساب التاجر "${name}" بمدة ${days} يوم بنجاح!`);
             document.getElementById('merName').value = '';
+            document.getElementById('merPhone').value = '';
             document.getElementById('merUser').value = '';
             document.getElementById('merPass').value = '';
             document.getElementById('merDays').value = '';
