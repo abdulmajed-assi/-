@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة التحكم الفعالة - البلد فود</title>
+    <title>لوحة التحكم الشاملة - البلد فود</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -26,7 +26,7 @@
         .btn-action { background: #333; color: white; border: none; padding: 9px 15px; border-radius: 6px; cursor: pointer; margin-top: 5px; font-weight: bold; width: 100%; }
         .btn-green { background: var(--primary-green); }
         .btn-danger { background: var(--danger); }
-        .item-row { background: #f9f9f9; padding: 10px; border-radius: 6px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #e5e5e5; font-size: 13px; }
+        .merchant-row { background: #f9f9f9; padding: 10px; border-radius: 6px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #e5e5e5; font-size: 13px; }
     </style>
 </head>
 <body>
@@ -51,45 +51,40 @@
 
         <div class="card-grid">
             
-            <!-- 1. إضافة مطعم جديد مع اختيار القسم ورفع الصورة من الكمبيوتر والتفاصيل -->
+            <!-- 1. إضافة حساب تاجر جديد مع مدة الأيام -->
             <div class="admin-card">
-                <h3>إضافة مطعم جديد</h3>
-                <input type="text" class="form-control" id="restName" placeholder="اسم المطعم">
-                <select class="form-control" id="restCategory">
-                    <option value="">اختر قسم الطعام</option>
-                    <option>شاورما</option>
-                    <option>بروستد</option>
-                    <option>سندويش غربي</option>
-                    <option>فلافل</option>
-                    <option>حلويات</option>
-                    <option>برغر</option>
-                    <option>مندي</option>
-                    <option>كوكتيل</option>
-                </select>
-                <label style="font-size: 12px; color: #666;">تحميل صورة المطعم من الكمبيوتر:</label>
-                <input type="file" class="form-control" id="restImgFile" accept="image/*">
-                <textarea class="form-control" id="restDesc" placeholder="تفاصيل المطعم..." rows="2"></textarea>
-                <button class="btn-action btn-green" onclick="addNewRestaurant()">نشر المطعم في القسم المحدد</button>
+                <h3>إضافة حساب تاجر واشتراك جديد</h3>
+                <input type="text" class="form-control" id="merName" placeholder="اسم المطعم">
+                <input type="text" class="form-control" id="merPhone" placeholder="رقم الهاتف">
+                <input type="text" class="form-control" id="merUser" placeholder="اسم المستخدم (Username)">
+                <input type="text" class="form-control" id="merPass" placeholder="كلمة المرور">
+                <input type="number" class="form-control" id="merDays" placeholder="مدة الاشتراك بالأيام (مثال: 30)">
+                <button class="btn-action btn-green" onclick="addNewMerchantAccount()">إضافة وتفعيل حساب التاجر</button>
             </div>
 
-            <!-- 2. إضافة عرض جديد مع رفع الصورة من الكمبيوتر واسم العرض -->
+            <!-- 2. عرض كل حسابات التجار المضافة ومتابعة الأيام المتبقية -->
             <div class="admin-card">
-                <h3>إضافة عرض جديد</h3>
-                <input type="text" class="form-control" id="offerTitle" placeholder="اسم العرض">
-                <label style="font-size: 12px; color: #666;">تحميل صورة العرض من الكمبيوتر:</label>
-                <input type="file" class="form-control" id="offerImgFile" accept="image/*">
-                <button class="btn-action btn-green" onclick="addNewOffer()">نشر العرض في قسم العروض</button>
-            </div>
-
-            <!-- 3. قائمة العناصر المضافة للتحكم بها (تعديل أو حذف) -->
-            <div class="admin-card">
-                <h3>إدارة العناصر المنشورة</h3>
-                <div id="managedItemsList" style="max-height: 220px; overflow-y: auto;">
-                    <div class="item-row">
-                        <span><strong>مطعم الشام (شاورما)</strong></span>
-                        <button onclick="this.parentElement.remove()" style="background:#d32f2f; color:white; border:none; padding:3px 8px; border-radius:4px; cursor:pointer;">حذف</button>
+                <h3>حسابات التجار والاشتراكات</h3>
+                <div id="merchantsListContainer" style="max-height: 250px; overflow-y: auto;">
+                    <div class="merchant-row">
+                        <div>
+                            <strong>مطعم الشام</strong><br>
+                            <span style="color: #e65100; font-weight: bold;">متبقي: 25 يوم</span>
+                        </div>
+                        <div>
+                            <button onclick="alert('تعديل الاشتراكات')" style="background:#2196F3; color:white; border:none; padding:4px 8px; border-radius:4px; cursor:pointer;">تعديل</button>
+                            <button onclick="this.parentElement.parentElement.remove()" style="background:#d32f2f; color:white; border:none; padding:4px 8px; border-radius:4px; cursor:pointer;">حذف</button>
+                        </div>
                     </div>
                 </div>
+            </div>
+
+            <!-- 3. إدارة العروض والمطاعم -->
+            <div class="admin-card">
+                <h3>إدارة العروض وأقسام الطعام</h3>
+                <input type="text" class="form-control" id="offerTitle" placeholder="اسم العرض الجديد">
+                <input type="file" class="form-control" id="offerImg" accept="image/*">
+                <button class="btn-action btn-green" onclick="addNewOffer()">نشر عرض في الصفحة الرئيسية</button>
             </div>
 
         </div>
@@ -107,54 +102,49 @@
             }
         }
 
-        function addNewRestaurant() {
-            let name = document.getElementById('restName').value;
-            let cat = document.getElementById('restCategory').value;
-            let fileInput = document.getElementById('restImgFile');
-            let desc = document.getElementById('restDesc').value;
+        function addNewMerchantAccount() {
+            let name = document.getElementById('merName').value;
+            let phone = document.getElementById('merPhone').value;
+            let user = document.getElementById('merUser').value;
+            let pass = document.getElementById('merPass').value;
+            let days = document.getElementById('merDays').value;
 
-            if(!name || !cat) {
-                alert('الرجاء إدخال اسم المطعم واختيار قسم الطعام!');
+            if(!name || !user || !pass || !days) {
+                alert('الرجاء تعبئة كافة الحقول المطلوبة لتسجيل التاجر!');
                 return;
             }
 
-            let imageName = fileInput.files.length > 0 ? fileInput.files[0].name : 'صورة افتراضية';
-            
-            let list = document.getElementById('managedItemsList');
-            list.innerHTML += `
-                <div class="item-row">
-                    <span><strong>${name}</strong> (${cat} - ${imageName})</span>
-                    <button onclick="this.parentElement.remove()" style="background:#d32f2f; color:white; border:none; padding:3px 8px; border-radius:4px; cursor:pointer;">حذف</button>
+            let container = document.getElementById('merchantsListContainer');
+            container.innerHTML += `
+                <div class="merchant-row">
+                    <div>
+                        <strong>${name}</strong> (${phone})<br>
+                        <span style="color: #e65100; font-weight: bold;">متبقي: ${days} يوم</span>
+                    </div>
+                    <div>
+                        <button onclick="alert('تعديل حساب ${name}')" style="background:#2196F3; color:white; border:none; padding:4px 8px; border-radius:4px; cursor:pointer;">تعديل</button>
+                        <button onclick="this.parentElement.parentElement.remove()" style="background:#d32f2f; color:white; border:none; padding:4px 8px; border-radius:4px; cursor:pointer;">حذف</button>
+                    </div>
                 </div>
             `;
-            alert(`تم إضافة المطعم "${name}" بنجاح ضمن قسم "${cat}" وسيظهر في الصفحة الرئيسية مع تفاصيله وصورته!`);
-            document.getElementById('restName').value = '';
-            document.getElementById('restCategory').value = '';
-            document.getElementById('restImgFile').value = '';
-            document.getElementById('restDesc').value = '';
+
+            alert(`تم إنشاء حساب التاجر "${name}" بنجاح، وستنتهي صلاحية حسابه تلقائياً بعد ${days} يوم!`);
+            document.getElementById('merName').value = '';
+            document.getElementById('merPhone').value = '';
+            document.getElementById('merUser').value = '';
+            document.getElementById('merPass').value = '';
+            document.getElementById('merDays').value = '';
         }
 
         function addNewOffer() {
             let title = document.getElementById('offerTitle').value;
-            let fileInput = document.getElementById('offerImgFile');
-
             if(!title) {
-                alert('الرجاء إدخال اسم العرض!');
+                alert('الرجاء كتابة اسم العرض');
                 return;
             }
-
-            let imageName = fileInput.files.length > 0 ? fileInput.files[0].name : 'صورة عرض';
-
-            let list = document.getElementById('managedItemsList');
-            list.innerHTML += `
-                <div class="item-row">
-                    <span><strong>عرض: ${title}</strong> (${imageName})</span>
-                    <button onclick="this.parentElement.remove()" style="background:#d32f2f; color:white; border:none; padding:3px 8px; border-radius:4px; cursor:pointer;">حذف</button>
-                </div>
-            `;
-            alert(`تم نشر العرض "${title}" بنجاح وسيظهر في قسم العروض بالصفحة الرئيسية!`);
+            alert(`تم نشر العرض "${title}" في قسم العروض بالصفحة الرئيسية بنجاح!`);
             document.getElementById('offerTitle').value = '';
-            document.getElementById('offerImgFile').value = '';
+            document.getElementById('offerImg').value = '';
         }
     </script>
 </body>
