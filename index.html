@@ -16,145 +16,177 @@
             --text-secondary: #717171;
             --border-color: #e5e5e5;
             --white: #ffffff;
+            --banner-red: #d32f2f;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; }
         body { background-color: var(--bg-color); color: var(--text-main); }
 
+        /* الهيدر العلوي مطابق للصورة الأولى */
         header {
             background-color: var(--white); border-bottom: 1px solid var(--border-color);
             padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000;
         }
         .logo { font-size: 24px; font-weight: 700; color: var(--primary-green); }
-        .search-location-bar { display: flex; align-items: center; background: #f1f1f1; border-radius: 8px; padding: 8px 15px; width: 40%; }
+        .search-location-bar { display: flex; align-items: center; background: #f1f1f1; border-radius: 8px; padding: 8px 15px; width: 45%; }
         .search-location-bar input { border: none; background: transparent; outline: none; width: 100%; padding: 0 10px; font-size: 14px; }
-        
+        .location-btn { background: transparent; border: none; cursor: pointer; color: var(--text-main); font-weight: 600; display: flex; align-items: center; gap: 5px; }
+
         .auth-buttons { display: flex; gap: 10px; }
-        .auth-buttons button { padding: 8px 15px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 13px; }
+        .auth-buttons button { padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 14px; }
         .btn-login { background: transparent; border: 1px solid var(--border-color); color: var(--text-main); }
         .btn-register { background: var(--primary-green); border: none; color: var(--white); }
 
-        .top-banner { background: linear-gradient(135deg, #e53935, #b71c1c); color: var(--white); padding: 20px 5%; display: flex; justify-content: space-between; align-items: center; margin: 20px 5%; border-radius: 12px; }
+        /* البانر الإعلاني العرضي (عروض / Kampanyalar) مطابق للصورة الأولى */
+        .top-banner-container {
+            background: linear-gradient(135deg, #e53935, #b71c1c);
+            color: var(--white); padding: 20px 5%; margin: 20px 5%; border-radius: 12px;
+            display: flex; flex-direction: column; gap: 15px;
+        }
+        .banner-header-row { display: flex; justify-content: space-between; align-items: center; }
+        .banner-header-row h2 { font-size: 22px; font-weight: 700; }
+        .banner-slider { display: flex; gap: 15px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none; }
+        .banner-slider::-webkit-scrollbar { display: none; }
+        .banner-card { min-width: 240px; height: 130px; background: white; border-radius: 10px; overflow: hidden; position: relative; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+        .banner-card img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* تخطيط الصفحة */
         .container { display: flex; padding: 0 5%; gap: 30px; }
-        sidebar { width: 250px; background: var(--white); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color); height: fit-content; }
+        sidebar { width: 260px; background: var(--white); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color); height: fit-content; }
         .filter-group { margin-bottom: 20px; }
         .filter-group label { display: block; font-size: 14px; color: var(--text-secondary); margin-bottom: 8px; cursor: pointer; }
         main { flex: 1; }
         .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .mutfaklar-slider { display: flex; gap: 20px; overflow-x: auto; padding-bottom: 15px; margin-bottom: 30px; scrollbar-width: none; }
+        .section-header h2 { font-size: 20px; font-weight: 700; }
+
+        /* أقسام الطعام (Mutfaklar) الدائرية مع سهم جانبي مطابقة للصورة الثالثة */
+        .mutfaklar-wrapper { position: relative; display: flex; align-items: center; margin-bottom: 30px; }
+        .mutfaklar-slider { display: flex; gap: 20px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none; width: 100%; }
+        .mutfaklar-slider::-webkit-scrollbar { display: none; }
         .mutfak-item { text-align: center; min-width: 90px; cursor: pointer; }
-        .mutfak-item img { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 2px solid var(--border-color); }
+        .mutfak-item img { width: 85px; height: 85px; border-radius: 50%; object-fit: cover; border: 2px solid var(--border-color); transition: 0.3s; }
+        .mutfak-item img:hover { border-color: var(--primary-green); }
         .mutfak-item p { font-size: 13px; margin-top: 8px; font-weight: 600; }
-        .restoranlar-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
-        .restoran-card { background: var(--white); border-radius: 12px; overflow: hidden; border: 1px solid var(--border-color); }
+        .slider-arrow { background: white; border: 1px solid var(--border-color); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; position: absolute; left: -15px; z-index: 10; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+
+        /* شبكة كل المطاعم (Restoranlar) مطابقة للصورة الثالثة */
+        .restoranlar-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin-bottom: 40px; }
+        .restoran-card { background: var(--white); border-radius: 12px; overflow: hidden; border: 1px solid var(--border-color); cursor: pointer; transition: 0.3s; }
+        .restoran-card:hover { box-shadow: 0 5px 15px rgba(0,0,0,0.08); }
         .restoran-img-container { position: relative; height: 160px; }
         .restoran-img-container img { width: 100%; height: 100%; object-fit: cover; }
-        .badge-discount { position: absolute; bottom: 10px; right: 10px; background: #d32f2f; color: var(--white); padding: 4px 10px; font-size: 11px; border-radius: 4px; }
+        .badge-discount { position: absolute; bottom: 10px; right: 10px; background: #d32f2f; color: var(--white); padding: 4px 10px; font-size: 11px; border-radius: 4px; font-weight: bold; }
         .restoran-info { padding: 15px; }
         .restoran-title-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
         .restoran-name { font-weight: 700; font-size: 16px; }
-        .restoran-rating { background: #e8f5e9; color: var(--primary-green); padding: 3px 8px; border-radius: 6px; font-size: 12px; }
+        .restoran-rating { background: #e8f5e9; color: var(--primary-green); padding: 3px 8px; border-radius: 6px; font-size: 12px; font-weight: bold; }
+        .restoran-details { font-size: 12px; color: var(--text-secondary); display: flex; gap: 10px; }
 
-        /* النوافذ المنبثقة (Modals) للدخول على نفس الصفحة */
+        /* النوافذ المنبثقة (Modals) */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 3000; justify-content: center; align-items: center; }
-        .modal-box { background: white; padding: 30px; border-radius: 12px; width: 380px; text-align: center; position: relative; }
-        .modal-box input { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 6px; }
-        .btn-google { background: #4285F4; color: white; border: none; padding: 10px; border-radius: 6px; width: 100%; font-weight: bold; cursor: pointer; margin-top: 10px; }
-        .btn-submit { background: var(--primary-green); color: white; border: none; padding: 10px; border-radius: 6px; width: 100%; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        .modal-box { background: white; padding: 30px; border-radius: 12px; width: 400px; text-align: center; position: relative; max-height: 90vh; overflow-y: auto; }
+        .modal-box input, .modal-box select { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; }
+        .btn-main { background: var(--primary-green); color: white; border: none; padding: 10px; border-radius: 6px; width: 100%; font-weight: bold; cursor: pointer; margin-top: 10px; }
         .close-btn { position: absolute; top: 15px; left: 15px; background: none; border: none; font-size: 16px; cursor: pointer; color: #777; }
-        
-        .whatsapp-section { margin-top: 20px; border-top: 1px solid #eee; padding-top: 15px; font-size: 12px; color: #666; }
-        .whatsapp-link { display: inline-flex; align-items: center; gap: 6px; color: #25d366; font-weight: bold; text-decoration: none; margin-top: 5px; font-size: 14px; }
+
+        /* نافذة استعراض المطعم والـ 10 عروض (مطابق للصورة الرابعة 88.png) */
+        #restaurantProfileModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #f8f9fa; z-index: 4000; overflow-y: auto; }
+        .profile-header { background: white; padding: 20px 5%; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; }
+        .profile-content { padding: 30px 5%; max-width: 1100px; margin: 0 auto; }
+        .menu-items-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; margin-top: 20px; }
+        .menu-card { background: white; border: 1px solid var(--border-color); border-radius: 10px; padding: 15px; display: flex; gap: 15px; align-items: center; position: relative; }
+        .menu-card img { width: 110px; height: 90px; object-fit: cover; border-radius: 8px; }
+        .menu-card-info h4 { font-size: 15px; font-weight: 700; margin-bottom: 5px; }
+        .menu-card-info p { font-size: 12px; color: var(--text-secondary); margin-bottom: 8px; line-height: 1.4; }
+        .menu-card-price { color: var(--primary-green); font-weight: bold; font-size: 14px; }
+        .whatsapp-order-btn { display: inline-flex; align-items: center; gap: 5px; background: #25d366; color: white; padding: 6px 12px; border-radius: 6px; text-decoration: none; font-size: 12px; font-weight: bold; margin-top: 5px; }
     </style>
 </head>
 <body>
 
+    <!-- الهيدر العلوي -->
     <header>
         <div class="logo">البلد فود</div>
         <div class="search-location-bar">
             <i class="fa-solid fa-location-dot" style="color: var(--primary-orange);"></i>
-            <input type="text" placeholder="حدد موقعك تلقائياً (المدينة)...">
+            <button class="location-btn" onclick="openLocationModal()">حدد موقعك <i class="fa-solid fa-chevron-down" style="font-size: 10px;"></i></button>
+            <input type="text" placeholder="ابحث عن مطعم، أو وجبة...">
         </div>
         <div class="auth-buttons">
-            <button class="btn-login" onclick="openModal('googleModal')"><i class="fa-solid fa-user"></i> تسجيل الدخول (عادي)</button>
-            <button class="btn-register" onclick="openModal('merchantModal')"><i class="fa-solid fa-store"></i> حساب تاجر</button>
+            <button class="btn-login" onclick="openModal('loginModal')"><i class="fa-solid fa-user"></i> تسجيل الدخول</button>
+            <button class="btn-register" onclick="location.href='admin.html'"><i class="fa-solid fa-lock"></i> لوحة الأدمن</button>
         </div>
     </header>
 
-    <!-- نافذة تسجيل الدخول العادي (Google) -->
-    <div id="googleModal" class="modal-overlay">
-        <div class="modal-box">
-            <button class="close-btn" onclick="closeModal('googleModal')"><i class="fa-solid fa-xmark"></i></button>
-            <h3>تسجيل الدخول للحساب العادي</h3>
-            <p style="font-size: 13px; color: #666; margin: 10px 0;">سجل دخولك بضغطة واحدة باستخدام حساب Google الخاص بك.</p>
-            <button class="btn-google" onclick="alert('تم تسجيل الدخول بنجاح عبر حساب Google!')"><i class="fa-brands fa-google"></i> المتابعة بواسطة Google</button>
+    <!-- الشريط الإعلاني العرضي "عروض" مطابق للصورة الأولى -->
+    <div class="top-banner-container">
+        <div class="banner-header-row">
+            <h2>عروض وجبات اليوم الكبرى</h2>
+            <span style="font-size: 13px; cursor: pointer;">عرض الكل <i class="fa-solid fa-chevron-left"></i></span>
+        </div>
+        <div class="banner-slider" id="bannerSliderContainer">
+            <!-- يتم تعبئتها ديناميكياً من الأدمن -->
+            <div class="banner-card"><img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400"></div>
+            <div class="banner-card"><img src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=400"></div>
+            <div class="banner-card"><img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400"></div>
         </div>
     </div>
 
-    <!-- نافذة تسجيل الدخول لحساب التاجر -->
-    <div id="merchantModal" class="modal-overlay">
-        <div class="modal-box">
-            <button class="close-btn" onclick="closeModal('merchantModal')"><i class="fa-solid fa-xmark"></i></button>
-            <h3>تسجيل دخول حساب التاجر</h3>
-            <input type="text" placeholder="اسم المستخدم (Username)">
-            <input type="password" placeholder="كلمة المرور">
-            <button class="btn-submit" onclick="alert('جارِ التحقق من حساب التاجر...')">تسجيل الدخول</button>
-            
-            <div class="whatsapp-section">
-                <p>إذا لم يكن لديك حساب، تواصل مع الإدارة:</p>
-                <a href="https://wa.me/905052077638" target="_blank" class="whatsapp-link">
-                    <i class="fa-brands fa-whatsapp fa-xl"></i> 00905052077638
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <div class="top-banner">
-        <div>
-            <h2>عروض وجبات اليوم الكبرى في البلد فود!</h2>
-            <p>اطلب الآن واحصل على خصومات حصرية تصل إلى 50% من أفضل المطاعم القريبة منك.</p>
-        </div>
-        <i class="fa-solid fa-fire fa-3x" style="color: #ffeb3b;"></i>
-    </div>
-
+    <!-- المحتوى الرئيسي -->
     <div class="container">
+        <!-- الفلتر الجانبي -->
         <sidebar>
             <h3>فلتر و ترتيب</h3>
             <div class="filter-group">
-                <label><input type="checkbox" checked> كل المدن</label>
-                <label><input type="checkbox"> اسطنبول</label>
+                <label><strong>التقييم</strong></label>
+                <label><input type="checkbox"> ⭐⭐⭐⭐ ممتاز</label>
+                <label><input type="checkbox"> ⭐⭐⭐ جيد جداً</label>
             </div>
             <div class="filter-group">
-                <label><strong>أقسام الطعام</strong></label>
-                <label><input type="checkbox"> شاورما</label>
-                <label><input type="checkbox"> برجر</label>
-                <label><input type="checkbox"> بروستد</label>
+                <label><strong>المسافة</strong></label>
+                <label><input type="checkbox"> أقل من 1 كم</label>
+                <label><input type="checkbox"> 1 - 3 كم</label>
             </div>
         </sidebar>
 
         <main>
+            <!-- قسم أقسام الطعام (Mutfaklar) مع سهم جانبي مطابق للصورة الثالثة -->
             <div class="section-header">
-                <h2>وجبات الطعام (الأقسام)</h2>
+                <h2>أقسام الطعام</h2>
             </div>
-            <div class="mutfaklar-slider">
-                <div class="mutfak-item"><img src="https://images.unsplash.com/photo-1529042410759-befb1204b468?w=150"><p>شاورما</p></div>
-                <div class="mutfak-item"><img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=150"><p>برجر</p></div>
-                <div class="mutfak-item"><img src="https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?w=150"><p>بروستد</p></div>
-                <div class="mutfak-item"><img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=150"><p>فلافل</p></div>
+            <div class="mutfaklar-wrapper">
+                <div class="slider-arrow" onclick="scrollMutfak()"><i class="fa-solid fa-chevron-right"></i></div>
+                <div class="mutfaklar-slider" id="mutfaklarSlider">
+                    <div class="mutfak-item" onclick="filterByCategory('شاورما')"><img src="https://images.unsplash.com/photo-1529042410759-befb1204b468?w=150"><p>شاورما</p></div>
+                    <div class="mutfak-item" onclick="filterByCategory('بروستد')"><img src="https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?w=150"><p>بروستد</p></div>
+                    <div class="mutfak-item" onclick="filterByCategory('سندويش غربي')"><img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=150"><p>سندويش غربي</p></div>
+                    <div class="mutfak-item" onclick="filterByCategory('فلافل')"><img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=150"><p>فلافل</p></div>
+                    <div class="mutfak-item" onclick="filterByCategory('حلويات')"><img src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=150"><p>حلويات</p></div>
+                    <div class="mutfak-item" onclick="filterByCategory('مندي')"><img src="https://images.unsplash.com/photo-1633964913295-ceb43826e7c9?w=150"><p>مندي</p></div>
+                    <div class="mutfak-item" onclick="filterByCategory('برغر')"><img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=150"><p>برغر</p></div>
+                    <div class="mutfak-item" onclick="filterByCategory('بيتزا')"><img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=150"><p>بيتزا</p></div>
+                    <div class="mutfak-item" onclick="filterByCategory('كوكتيل')"><img src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=150"><p>كوكتيل</p></div>
+                </div>
             </div>
 
+            <!-- قسم كل المطاعم (كل المطاعم) مطابق للصورة الثالثة -->
             <div class="section-header">
-                <h2>المطاعم المتاحة</h2>
+                <h2>كل المطاعم (1519)</h2>
             </div>
-            <div class="restoranlar-grid">
-                <div class="restoran-card">
+            <div class="restoranlar-grid" id="restaurantsContainer">
+                <!-- مطعم وهمي 1 -->
+                <div class="restoran-card" onclick="openRestaurantProfile('مطعم الشام الأصيل', '+905052077638')">
                     <div class="restoran-img-container">
                         <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?w=400">
-                        <div class="badge-discount">خصم 20%</div>
+                        <div class="badge-discount">خصم 20% على أول طلب</div>
                     </div>
                     <div class="restoran-info">
                         <div class="restoran-title-row">
                             <span class="restoran-name">مطعم الشام الأصيل</span>
                             <span class="restoran-rating">4.8 ⭐</span>
+                        </div>
+                        <div class="restoran-details">
+                            <span><i class="fa-solid fa-utensils"></i> شاورما ومشاوي</span>
+                            <span><i class="fa-solid fa-location-dot"></i> اسطنبول - الفاتح</span>
                         </div>
                     </div>
                 </div>
@@ -162,9 +194,98 @@
         </main>
     </div>
 
+    <!-- نافذة تسجيل الدخول العادي (الاسم، الكنية، رقم الهاتف مع +963 أو عبر الجي ميل مع تفعيل التقييم) -->
+    <div id="loginModal" class="modal-overlay">
+        <div class="modal-box">
+            <button class="close-btn" onclick="closeModal('loginModal')"><i class="fa-solid fa-xmark"></i></button>
+            <h3>تسجيل الدخول / إنشاء حساب</h3>
+            <input type="text" id="firstName" placeholder="الاسم الأول">
+            <input type="text" id="lastName" placeholder="الكنية">
+            <div style="display: flex; gap: 5px;">
+                <select style="width: 90px;"><option>+963</option><option>+90</option></select>
+                <input type="text" placeholder="رقم الهاتف (9 أرقام)">
+            </div>
+            <button class="btn-main" onclick="executeLogin()">دخول وتفعيل التقييم</button>
+            <hr style="margin: 15px 0; border: 0; border-top: 1px solid #ddd;">
+            <button class="btn-main" style="background: #4285F4;" onclick="executeLogin()"><i class="fa-brands fa-google"></i> المتابعة بواسطة Google</button>
+        </div>
+    </div>
+
+    <!-- نافذة استعراض أقسام الطعام الكبيرة عند الضغط على تحديد موقعك -->
+    <div id="locationModal" class="modal-overlay">
+        <div class="modal-box" style="width: 600px;">
+            <button class="close-btn" onclick="closeModal('locationModal')"><i class="fa-solid fa-xmark"></i></button>
+            <h3>اختر قسم الطعام المفضل لديك</h3>
+            <div class="menu-items-grid" style="margin-top: 15px;">
+                <div class="mutfak-item" onclick="selectLocationCat('شاورما')"><img src="https://images.unsplash.com/photo-1529042410759-befb1204b468?w=150"><p>شاورما</p></div>
+                <div class="mutfak-item" onclick="selectLocationCat('بروستد')"><img src="https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?w=150"><p>بروستد</p></div>
+                <div class="mutfak-item" onclick="selectLocationCat('برغر')"><img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=150"><p>برغر</p></div>
+                <div class="mutfak-item" onclick="selectLocationCat('بيتزا')"><img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=150"><p>بيتزا</p></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة صفحة المطعم الفردية وعرض الـ 10 منتجات/عروض (مطابق للصورة الرابعة 88.png) -->
+    <div id="restaurantProfileModal">
+        <div class="profile-header">
+            <div>
+                <h2 id="profileRestName">اسم المطعم</h2>
+                <p style="font-size: 13px; color: var(--text-secondary);" id="profileRestPhone">رقم التواصل</p>
+            </div>
+            <button class="btn-main" style="width: auto; padding: 8px 20px;" onclick="closeRestaurantProfile()">العودة للرئيسية</button>
+        </div>
+        <div class="profile-content">
+            <h3 style="margin-bottom: 15px;">عروض ووجبات المطعم (حتى 10 عروض)</h3>
+            <div class="menu-items-grid" id="profileMenuItems">
+                <!-- يتم توليد الـ 10 عروض هنا ديناميكياً للتاجر -->
+            </div>
+        </div>
+    </div>
+
     <script>
-        function openModal(modalId) { document.getElementById(modalId).style.display = 'flex'; }
-        function closeModal(modalId) { document.getElementById(modalId).style.display = 'none'; }
+        function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+        function openLocationModal() { document.getElementById('locationModal').style.display = 'flex'; }
+        function selectLocationCat(cat) { closeModal('locationModal'); alert('تم اختيار القسم: ' + cat); }
+        function scrollMutfak() { document.getElementById('mutfaklarSlider').scrollBy({ left: 200, behavior: 'smooth' }); }
+
+        function executeLogin() {
+            closeModal('loginModal');
+            alert('تم تسجيل الدخول بنجاح! تم تفعيل خاصية تقييم المطاعم لك.');
+        }
+
+        function openRestaurantProfile(name, phone) {
+            document.getElementById('profileRestName').innerText = name;
+            document.getElementById('profileRestPhone').innerText = 'هاتف / واتساب: ' + phone;
+            
+            // تعبئة 10 عروض وهمية خاصة بالتاجر مطابقة للصورة الرابعة
+            let container = document.getElementById('profileMenuItems');
+            container.innerHTML = '';
+            for(let i=1; i<=10; i++) {
+                container.innerHTML += `
+                    <div class="menu-card">
+                        <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=200">
+                        <div class="menu-card-info">
+                            <h4>عرض مميز رقم ${i} من ${name}</h4>
+                            <p>تفاصيل العرض هنا (بحد أقصى 30 كلمة): وجبة شهية ومميزة محضرة بأجود المكونات الطازجة لتناسب طعمك الراقي.</p>
+                            <div class="menu-card-price">150 TL</div>
+                            <a href="https://wa.me/${phone}" target="_blank" class="whatsapp-order-btn">
+                                <i class="fa-brands fa-whatsapp"></i> اطلب عبر الواتساب
+                            </a>
+                        </div>
+                    </div>
+                `;
+            }
+            document.getElementById('restaurantProfileModal').style.display = 'block';
+        }
+
+        function closeRestaurantProfile() {
+            document.getElementById('restaurantProfileModal').style.display = 'none';
+        }
+
+        function filterByCategory(cat) {
+            alert('تم تصفية النتائج بناءً على قسم: ' + cat);
+        }
     </script>
 </body>
 </html>
