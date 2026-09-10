@@ -16,6 +16,7 @@
             --text-secondary: #717171;
             --border-color: #e5e5e5;
             --white: #ffffff;
+            --danger: #d32f2f;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; }
         body { background-color: var(--bg-color); color: var(--text-main); }
@@ -39,8 +40,6 @@
             display: flex; justify-content: center; align-items: center; position: relative; overflow: hidden;
         }
         .top-red-banner img { height: 140px; object-fit: contain; }
-        .banner-dynamic-images { position: absolute; left: 20px; display: flex; gap: 10px; }
-        .banner-dynamic-images img { width: 100px; height: 100px; border-radius: 8px; object-fit: cover; border: 2px solid white; }
 
         .container { display: flex; padding: 0 5%; gap: 30px; }
         sidebar { width: 280px; background: var(--white); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color); height: fit-content; }
@@ -51,32 +50,15 @@
         main { flex: 1; }
         .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
         .section-header h2 { font-size: 20px; font-weight: 700; }
-        .see-all { color: var(--primary-green); font-weight: 600; cursor: pointer; font-size: 14px; text-decoration: none; }
 
-        /* قسم العروض بدون أقواس */
-        .kampanyalar-slider { display: flex; gap: 20px; overflow-x: auto; padding-bottom: 15px; scrollbar-width: none; margin-bottom: 30px; }
-        .kampanyalar-slider::-webkit-scrollbar { display: none; }
-        .kampanya-card { min-width: 260px; height: 150px; background: white; border-radius: 12px; overflow: hidden; border: 1px solid var(--border-color); }
-        .kampanya-card img { width: 100%; height: 100%; object-fit: cover; }
-
-        /* أقسام الطعام الدائرية */
-        .mutfaklar-slider { display: flex; gap: 20px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none; margin-bottom: 30px; }
-        .mutfaklar-slider::-webkit-scrollbar { display: none; }
-        .mutfak-item { text-align: center; min-width: 90px; cursor: pointer; }
-        .mutfak-item img { width: 85px; height: 85px; border-radius: 50%; object-fit: cover; border: 2px solid var(--border-color); }
-        .mutfak-item p { font-size: 13px; margin-top: 8px; font-weight: 600; }
-
-        /* شبكة المطاعم */
-        .restoranlar-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin-bottom: 40px; }
-        .restoran-card { background: var(--white); border-radius: 12px; overflow: hidden; border: 1px solid var(--border-color); }
-        .restoran-img-container { position: relative; height: 160px; }
-        .restoran-img-container img { width: 100%; height: 100%; object-fit: cover; }
-        .restoran-info { padding: 15px; }
-        .restoran-title-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-        .restoran-name { font-weight: 700; font-size: 16px; }
-        .restoran-rating { background: #e8f5e9; color: var(--primary-green); padding: 3px 8px; border-radius: 6px; font-size: 12px; font-weight: bold; }
-        .restoran-details { font-size: 12px; color: var(--text-secondary); display: flex; flex-direction: column; gap: 4px; }
-
+        /* شبكة العروض وأقسام الطعام والمطاعم */
+        .grid-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .card-item { background: white; border-radius: 12px; overflow: hidden; border: 1px solid var(--border-color); position: relative; }
+        .card-item img { width: 100%; height: 150px; object-fit: cover; }
+        .card-body { padding: 15px; }
+        .card-title { font-weight: 700; font-size: 16px; margin-bottom: 5px; }
+        .card-desc { font-size: 12px; color: var(--text-secondary); margin-bottom: 10px; }
+        
         /* النوافذ المنبثقة */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 3000; justify-content: center; align-items: center; }
         .modal-box { background: white; padding: 30px; border-radius: 12px; width: 400px; text-align: center; position: relative; }
@@ -97,99 +79,61 @@
         <div class="auth-buttons">
             <button class="btn-visitor" onclick="openModal('visitorModal')"><i class="fa-solid fa-user"></i> حساب زائر</button>
             <button class="btn-merchant" onclick="openModal('merchantModal')"><i class="fa-solid fa-store"></i> حساب تاجر</button>
+            <button class="btn-merchant" style="background:#333;" onclick="location.href='admin.html'"><i class="fa-solid fa-lock"></i> لوحة الأدمن</button>
         </div>
     </header>
 
-    <!-- الشريط الأحمر وكوكا كولا -->
+    <!-- الشريط الأحمر العلوي -->
     <div class="top-red-banner">
         <img src="https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=300" alt="كوكا كولا">
-        <div class="banner-dynamic-images" id="adminBannerImages"></div>
     </div>
 
     <div class="container">
-        <!-- الفلتر المطور -->
+        <!-- الفلتر الجانبي -->
         <sidebar>
             <h3>فلتر و ترتيب</h3>
             <div class="filter-group">
                 <label><strong>المدينة</strong></label>
-                <select id="cityFilter">
+                <select>
                     <option value="">اختر المدينة</option>
-                    <option>دمشق</option>
-                    <option>ريف دمشق</option>
-                    <option>حمص</option>
-                    <option>اللاذقية</option>
-                    <option>حلب</option>
-                    <option>دير الزور</option>
+                    <option>دمشق</option><option>ريف دمشق</option><option>حمص</option>
+                    <option>اللاذقية</option><option>حلب</option><option>دير الزور</option>
                 </select>
-            </div>
-            <div class="filter-group">
-                <label><strong>المحفظة / المنطقة</strong></label>
-                <input type="text" class="filter-group" placeholder="أدخل المنطقة..." style="width:100%; padding:8px; border:1px solid #ccc; border-radius:6px; margin-bottom:0;">
             </div>
             <div class="filter-group">
                 <label><strong>قسم الطعام</strong></label>
-                <select id="catFilter">
-                    <option value="">جميع الأقسام</option>
-                    <option>شاورما</option><option>بروستد</option><option>سندويش غربي</option>
-                    <option>فلافل</option><option>حلويات</option><option>مندي</option>
-                    <option>برغر</option><option>بيتزا</option><option>كوكتيل</option>
-                </select>
-            </div>
-            <div class="filter-group">
-                <label><strong>السعر</strong></label>
                 <select>
-                    <option>من الأقل للأعلى</option>
-                    <option>من الأعلى للأقل</option>
+                    <option value="">جميع الأقسام</option>
+                    <option>شاورما</option><option>بروستد</option><option>برغر</option><option>بيتزا</option>
                 </select>
             </div>
         </sidebar>
 
         <main>
-            <!-- قسم العروض بدون أقواس -->
+            <!-- قسم العروض -->
             <div class="section-header">
                 <h2>العروض</h2>
-                <a href="#" class="see-all">عرض الكل</a>
             </div>
-            <div class="kampanyalar-slider">
-                <div class="kampanya-card"><img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400"></div>
-                <div class="kampanya-card"><img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400"></div>
-                <div class="kampanya-card"><img src="https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400"></div>
-            </div>
-
-            <!-- أقسام الطعام الدائرية -->
-            <div class="section-header">
-                <h2>أقسام الطعام</h2>
-            </div>
-            <div class="mutfaklar-slider">
-                <div class="mutfak-item"><img src="https://images.unsplash.com/photo-1529042410759-befb1204b468?w=150"><p>شاورما</p></div>
-                <div class="mutfak-item"><img src="https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?w=150"><p>بروستد</p></div>
-                <div class="mutfak-item"><img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=150"><p>سندويش غربي</p></div>
-                <div class="mutfak-item"><img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=150"><p>فلافل</p></div>
-                <div class="mutfak-item"><img src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=150"><p>حلويات</p></div>
-                <div class="mutfak-item"><img src="https://images.unsplash.com/photo-1633964913295-ceb43826e7c9?w=150"><p>مندي</p></div>
-                <div class="mutfak-item"><img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=150"><p>برغر</p></div>
-                <div class="mutfak-item"><img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=150"><p>بيتزا</p></div>
-                <div class="mutfak-item"><img src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=150"><p>كوكتيل</p></div>
+            <div class="grid-container" id="mainOffersContainer">
+                <div class="card-item">
+                    <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400">
+                    <div class="card-body">
+                        <div class="card-title">عرض العائلة المميز</div>
+                        <div class="card-desc">خصم 25% على الوجبات السريعة لفترة محدودة.</div>
+                    </div>
+                </div>
             </div>
 
-            <!-- كل المطاعم (بدون الرقم 1519) -->
+            <!-- قسم المطاعم -->
             <div class="section-header">
                 <h2>كل المطاعم</h2>
             </div>
-            <div class="restoranlar-grid" id="restaurantsContainer">
-                <div class="restoran-card">
-                    <div class="restoran-img-container">
-                        <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?w=400">
-                    </div>
-                    <div class="restoran-info">
-                        <div class="restoran-title-row">
-                            <span class="restoran-name">مطعم الشام الأصيل</span>
-                            <span class="restoran-rating">4.8 ⭐</span>
-                        </div>
-                        <div class="restoran-details">
-                            <span><i class="fa-solid fa-utensils"></i> شاورما ومشاوي</span>
-                            <span><i class="fa-solid fa-location-dot"></i> دمشق - المزة</span>
-                        </div>
+            <div class="grid-container" id="mainRestaurantsContainer">
+                <div class="card-item">
+                    <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?w=400">
+                    <div class="card-body">
+                        <div class="card-title">مطعم الشام الأصيل</div>
+                        <div class="card-desc">دمشق - المزة | أشهى وجبات الشاورما والمشاوي الطازجة.</div>
                     </div>
                 </div>
             </div>
@@ -208,8 +152,6 @@
                 <input type="text" placeholder="رقم الهاتف">
             </div>
             <button class="btn-main" onclick="closeModal('visitorModal'); alert('تم تسجيل الدخول بنجاح وتفعيل التقييم!');">تسجيل ودخول</button>
-            <hr style="margin: 15px 0; border: 0; border-top: 1px solid #ddd;">
-            <button class="btn-main" style="background: #4285F4;" onclick="closeModal('visitorModal'); alert('تم تسجيل الدخول عبر Google وتفعيل التقييم!');"><i class="fa-brands fa-google"></i> المتابعة بواسطة Google</button>
         </div>
     </div>
 
