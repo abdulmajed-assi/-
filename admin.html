@@ -19,15 +19,16 @@
 
         .admin-container { padding: 30px 5%; display: none; }
         .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
-        .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+        .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
         .admin-card { background: var(--white); padding: 20px; border-radius: 10px; border: 1px solid #e5e5e5; }
         .admin-card h3 { margin-bottom: 15px; color: var(--primary-green); }
-        .form-control { width: 100%; padding: 8px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 6px; }
-        .btn-action { background: #333; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; }
+        .form-control { width: 100%; padding: 8px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; }
+        .btn-action { background: #333; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; margin-top: 5px; }
     </style>
 </head>
 <body>
 
+    <!-- نافذة دخول الأدمن (Jonathan / 123) -->
     <div id="loginOverlay">
         <div class="login-box">
             <h2>تسجيل دخول الأدمن</h2>
@@ -39,32 +40,49 @@
         </div>
     </div>
 
+    <!-- اللوحة الرئيسية للأدمن -->
     <div class="admin-container" id="adminPanel">
         <div class="admin-header">
             <h2>لوحة تحكم الأدمن - البلد فود (Jonathan)</h2>
-            <button class="btn-action" onclick="location.href='index.html'">العودة للموقع</button>
+            <button class="btn-action" onclick="location.href='index.html'">العودة للموقع الرئيسي</button>
         </div>
 
         <div class="card-grid">
+            <!-- 1. إضافة مطعم مع اختيار كود الدولة ورقم الهاتف واسم المستخدم وكلمة السر مع إرسال عبر الواتس -->
             <div class="admin-card">
-                <h3>إضافة حساب تاجر جديد</h3>
-                <input type="text" class="form-control" placeholder="اسم المطعم">
-                <input type="text" class="form-control" placeholder="رقم الهاتف">
-                <label style="font-size: 12px; color: #666;">مدة ظهور الإعلان (بالأيام):</label>
-                <input type="number" class="form-control" value="30">
-                <button class="btn-action" onclick="alert('تم إضافة التاجر وتفعيل مؤقت الـ 30 يوم بنجاح!')">حفظ وإضافة التاجر</button>
+                <h3>إضافة تاجر/مطعم جديد</h3>
+                <input type="text" class="form-control" id="mName" placeholder="اسم المطعم">
+                <div style="display: flex; gap: 5px;">
+                    <select class="form-control" id="mCode" style="width: 100px;"><option>+963</option><option>+90</option></select>
+                    <input type="text" class="form-control" id="mPhone" placeholder="رقم الهاتف">
+                </div>
+                <input type="text" class="form-control" id="mUser" placeholder="اسم المستخدم (Username)">
+                <input type="password" class="form-control" id="mPass" placeholder="كلمة السر">
+                <button class="btn-action" style="background: var(--primary-green);" onclick="saveAndSendMerchant()">حفظ وإرسال الحساب عبر واتساب</button>
             </div>
 
+            <!-- 2. إدارة الشريط العرضي (الصور والكلام المضاف عليها) -->
             <div class="admin-card">
-                <h3>إدارة الشريط العرضي (Banner)</h3>
-                <input type="text" class="form-control" placeholder="نص الإعلان العلوي الجديد">
-                <button class="btn-action" onclick="alert('تم تحديث البانر بنجاح!')">تحديث البانر</button>
+                <h3>إدارة شريط العروض (Banner)</h3>
+                <input type="text" class="form-control" placeholder="اكتب النص على الصورة">
+                <input type="file" class="form-control">
+                <button class="btn-action" onclick="alert('تم تحديث شريط العروض وإضافة الصورة بنجاح!')">إضافة وتحديث البانر</button>
             </div>
 
+            <!-- 3. إضافة صورة في قسم العروض من قبل الأدمن وتظهر بنفس الحجم -->
             <div class="admin-card">
-                <h3>إدارة أو تجميد الحسابات</h3>
-                <input type="text" class="form-control" placeholder="ابحث عن تاجر للتجميد/الحذف">
-                <button class="btn-action" style="background: #d32f2f;" onclick="alert('تم تجميد الحساب بنجاح!')">تجميد / حذف</button>
+                <h3>إضافة عروض جديدة (أدمن)</h3>
+                <input type="text" class="form-control" placeholder="عنوان العرض الرئيسي">
+                <input type="file" class="form-control">
+                <button class="btn-action" onclick="alert('تم نشر العرض في الصفحة الرئيسية!')">نشر العرض الجديد</button>
+            </div>
+
+            <!-- 4. إدارة جميع الحسابات (تمديد الاشتراك أو الحذف أو التعديل) -->
+            <div class="admin-card">
+                <h3>إدارة حسابات المطاعم والمشتركين</h3>
+                <input type="text" class="form-control" placeholder="ابحث عن مطعم...">
+                <button class="btn-action" style="background: #2196F3;" onclick="alert('تم تمديد الاشتراك 30 يوماً إضافية!')">تمديد الاشتراك 30 يوم</button>
+                <button class="btn-action" style="background: #d32f2f;" onclick="alert('تم حذف المطعم وجميع عروضه بنجاح!')">حذف الحساب نهائياً</button>
             </div>
         </div>
     </div>
@@ -73,13 +91,31 @@
         function checkLogin() {
             const user = document.getElementById('adminUser').value;
             const pass = document.getElementById('adminPass').value;
-            
             if(user === 'Jonathan' && pass === '123') {
                 document.getElementById('loginOverlay').style.display = 'none';
                 document.getElementById('adminPanel').style.display = 'block';
             } else {
                 document.getElementById('errorMsg').innerText = 'خطأ! اسم المستخدم Jonathan وكلمة المرور 123';
             }
+        }
+
+        function saveAndSendMerchant() {
+            let name = document.getElementById('mName').value;
+            let code = document.getElementById('mCode').value;
+            let phone = document.getElementById('mPhone').value;
+            let username = document.getElementById('mUser').value;
+            let password = document.getElementById('mPass').value;
+
+            if(!name || !phone || !username) {
+                alert('الرجاء تعبئة الحقول الأساسية!');
+                return;
+            }
+
+            let fullPhone = code + phone;
+            let msg = `مرحباً بك في البلد فود يا ${name}، تم إنشاء حساب التاجر الخاص بك بنجاح.\nاسم المستخدم: ${username}\nكلمة المرور: ${password}\nيمكنك تسجيل الدخول لإضافة عروضك.`;
+            
+            let whatsappUrl = `https://wa.me/${fullPhone}?text=` + encodeURIComponent(msg);
+            window.open(whatsappUrl, '_blank');
         }
     </script>
 </body>
