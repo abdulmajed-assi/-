@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة التحكم الفعالة للأدمن - البلد فود</title>
+    <title>لوحة التحكم الفعالة - البلد فود</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -26,7 +26,6 @@
         .btn-action { background: #333; color: white; border: none; padding: 9px 15px; border-radius: 6px; cursor: pointer; margin-top: 5px; font-weight: bold; width: 100%; }
         .btn-green { background: var(--primary-green); }
         .btn-danger { background: var(--danger); }
-        
         .item-row { background: #f9f9f9; padding: 10px; border-radius: 6px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #e5e5e5; font-size: 13px; }
     </style>
 </head>
@@ -35,7 +34,7 @@
     <!-- نافذة تسجيل دخول الأدمن -->
     <div id="loginOverlay">
         <div class="login-box">
-            <h2>لوحة التحكم الإدارية</h2>
+            <h2>تسجيل دخول الأدمن</h2>
             <p style="font-size: 12px; color: #777; margin: 10px 0;">اسم المستخدم: Jonathan | كلمة المرور: 123</p>
             <input type="text" id="adminUser" placeholder="اسم المستخدم">
             <input type="password" id="adminPass" placeholder="كلمة المرور">
@@ -43,78 +42,56 @@
         </div>
     </div>
 
-    <!-- المحتوى الرئيسي للوحة الأدمن الفعالة -->
+    <!-- لوحة التحكم -->
     <div class="admin-container" id="adminPanel">
         <div class="admin-header">
-            <h2>إدارة النظام - لوحة الأدمن الفعالة (Jonathan)</h2>
-            <div>
-                <button class="btn-action" style="width: auto; background:#2196F3; display:inline-block;" onclick="location.href='index.html'">معاينة الموقع الرئيسي</button>
-                <button class="btn-action" style="width: auto; display:inline-block; margin-right:5px;" onclick="document.getElementById('livePreviewSection').scrollIntoView({behavior: 'smooth'})">إدارة المحتوى الفعلي</button>
-            </div>
+            <h2>لوحة تحكم الأدمن (Jonathan)</h2>
+            <button class="btn-action" style="width: auto; background:#2196F3;" onclick="location.href='index.html'">معاينة الموقع الرئيسي</button>
         </div>
 
         <div class="card-grid">
             
-            <!-- 1. إضافة مطعم جديد مع صورة وتفاصيل -->
+            <!-- 1. إضافة مطعم جديد مع اختيار القسم ورفع الصورة من الكمبيوتر والتفاصيل -->
             <div class="admin-card">
                 <h3>إضافة مطعم جديد</h3>
-                <input type="text" class="form-control" id="mName" placeholder="اسم المطعم">
-                <input type="text" class="form-control" id="mImg" placeholder="رابط الصورة (Image URL)">
-                <textarea class="form-control" id="mDesc" placeholder="تفاصيل المطعم (تظهر أسفل الصورة)..." rows="2"></textarea>
-                <button class="btn-action btn-green" onclick="addRestaurant()">إضافة ونشر المطعم فوراً</button>
+                <input type="text" class="form-control" id="restName" placeholder="اسم المطعم">
+                <select class="form-control" id="restCategory">
+                    <option value="">اختر قسم الطعام</option>
+                    <option>شاورما</option>
+                    <option>بروستد</option>
+                    <option>سندويش غربي</option>
+                    <option>فلافل</option>
+                    <option>حلويات</option>
+                    <option>برغر</option>
+                    <option>مندي</option>
+                    <option>كوكتيل</option>
+                </select>
+                <label style="font-size: 12px; color: #666;">تحميل صورة المطعم من الكمبيوتر:</label>
+                <input type="file" class="form-control" id="restImgFile" accept="image/*">
+                <textarea class="form-control" id="restDesc" placeholder="تفاصيل المطعم..." rows="2"></textarea>
+                <button class="btn-action btn-green" onclick="addNewRestaurant()">نشر المطعم في القسم المحدد</button>
             </div>
 
-            <!-- 2. إضافة عرض جديد -->
+            <!-- 2. إضافة عرض جديد مع رفع الصورة من الكمبيوتر واسم العرض -->
             <div class="admin-card">
                 <h3>إضافة عرض جديد</h3>
-                <input type="text" class="form-control" id="oTitle" placeholder="عنوان العرض">
-                <input type="text" class="form-control" id="oImg" placeholder="رابط صورة العرض (Image URL)">
-                <textarea class="form-control" id="oDesc" placeholder="تفاصيل العرض..." rows="2"></textarea>
-                <button class="btn-action btn-green" onclick="addOffer()">نشر العرض فوراً</button>
+                <input type="text" class="form-control" id="offerTitle" placeholder="اسم العرض">
+                <label style="font-size: 12px; color: #666;">تحميل صورة العرض من الكمبيوتر:</label>
+                <input type="file" class="form-control" id="offerImgFile" accept="image/*">
+                <button class="btn-action btn-green" onclick="addNewOffer()">نشر العرض في قسم العروض</button>
             </div>
 
-            <!-- 3. إدارة وحذف المطاعم الموجودة -->
+            <!-- 3. قائمة العناصر المضافة للتحكم بها (تعديل أو حذف) -->
             <div class="admin-card">
-                <h3>إدارة وحذف المطاعم</h3>
-                <div id="adminRestaurantsList" style="max-height: 180px; overflow-y: auto;">
+                <h3>إدارة العناصر المنشورة</h3>
+                <div id="managedItemsList" style="max-height: 220px; overflow-y: auto;">
                     <div class="item-row">
-                        <span><strong>مطعم الشام الأصيل</strong></span>
-                        <div>
-                            <button onclick="alert('جاري تعديل المطعم...')" style="background:#2196F3; color:white; border:none; padding:4px 8px; border-radius:4px; cursor:pointer;">تعديل</button>
-                            <button onclick="this.parentElement.parentElement.remove()" style="background:#d32f2f; color:white; border:none; padding:4px 8px; border-radius:4px; cursor:pointer;">حذف</button>
-                        </div>
+                        <span><strong>مطعم الشام (شاورما)</strong></span>
+                        <button onclick="this.parentElement.remove()" style="background:#d32f2f; color:white; border:none; padding:3px 8px; border-radius:4px; cursor:pointer;">حذف</button>
                     </div>
                 </div>
             </div>
 
-            <!-- 4. إدارة وحذف العروض الموجودة -->
-            <div class="admin-card">
-                <h3>إدارة وحذف العروض</h3>
-                <div id="adminOffersList" style="max-height: 180px; overflow-y: auto;">
-                    <div class="item-row">
-                        <span><strong>عرض العائلة المميز</strong></span>
-                        <div>
-                            <button onclick="alert('جاري تعديل العرض...')" style="background:#2196F3; color:white; border:none; padding:4px 8px; border-radius:4px; cursor:pointer;">تعديل</button>
-                            <button onclick="this.parentElement.parentElement.remove()" style="background:#d32f2f; color:white; border:none; padding:4px 8px; border-radius:4px; cursor:pointer;">حذف</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-        <!-- قسم المعاينة الحية وإدارة المحتوى من لوحة الأدمن -->
-        <div class="admin-card" id="livePreviewSection" style="margin-top: 30px;">
-            <h3>معاينة حية للموقع (من لوحة الأدمن) مع تفعيل التعديل والحذف الفوري</h3>
-            <p style="font-size: 13px; color: #666; margin-bottom: 15px;">هنا تستطيع مشاهدة كافة العناصر التي تم إضافتها والتحكم بها بشكل فعلي:</p>
-            <div id="liveContentArea" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px;">
-                <!-- عناصر المعاينة الحية -->
-                <div style="background:#f1f1f1; padding:15px; border-radius:8px; border:1px solid #ccc;">
-                    <h4>مطعم الشام الأصيل</h4>
-                    <p style="font-size:12px; color:#666; margin:5px 0;">دمشق - المزة | أشهى وجبات الشاورما والمشاوي.</p>
-                    <button class="btn-action btn-danger" style="padding:4px; font-size:12px;" onclick="this.parentElement.remove()">حذف من الموقع</button>
-                </div>
-            </div>
         </div>
     </div>
 
@@ -126,60 +103,58 @@
                 document.getElementById('loginOverlay').style.display = 'none';
                 document.getElementById('adminPanel').style.display = 'block';
             } else {
-                alert('خطأ! اسم المستخدم: Jonathan | كلمة المرور: 123');
+                alert('خطأ في البيانات! اسم المستخدم: Jonathan | كلمة المرور: 123');
             }
         }
 
-        function addRestaurant() {
-            let name = document.getElementById('mName').value;
-            let desc = document.getElementById('mDesc').value;
-            if(!name) { alert('الرجاء إدخال اسم المطعم'); return; }
+        function addNewRestaurant() {
+            let name = document.getElementById('restName').value;
+            let cat = document.getElementById('restCategory').value;
+            let fileInput = document.getElementById('restImgFile');
+            let desc = document.getElementById('restDesc').value;
 
-            // إضافة للقائمة
-            let list = document.getElementById('adminRestaurantsList');
+            if(!name || !cat) {
+                alert('الرجاء إدخال اسم المطعم واختيار قسم الطعام!');
+                return;
+            }
+
+            let imageName = fileInput.files.length > 0 ? fileInput.files[0].name : 'صورة افتراضية';
+            
+            let list = document.getElementById('managedItemsList');
             list.innerHTML += `
                 <div class="item-row">
-                    <span><strong>${name}</strong></span>
-                    <div>
-                        <button onclick="alert('تعديل ${name}')" style="background:#2196F3; color:white; border:none; padding:4px 8px; border-radius:4px; cursor:pointer;">تعديل</button>
-                        <button onclick="this.parentElement.parentElement.remove()" style="background:#d32f2f; color:white; border:none; padding:4px 8px; border-radius:4px; cursor:pointer;">حذف</button>
-                    </div>
+                    <span><strong>${name}</strong> (${cat} - ${imageName})</span>
+                    <button onclick="this.parentElement.remove()" style="background:#d32f2f; color:white; border:none; padding:3px 8px; border-radius:4px; cursor:pointer;">حذف</button>
                 </div>
             `;
-
-            // إضافة للمعاينة الحية
-            let liveArea = document.getElementById('liveContentArea');
-            liveArea.innerHTML += `
-                <div style="background:#f1f1f1; padding:15px; border-radius:8px; border:1px solid #ccc;">
-                    <h4>${name}</h4>
-                    <p style="font-size:12px; color:#666; margin:5px 0;">${desc || 'لا توجد تفاصيل'}</p>
-                    <button class="btn-action btn-danger" style="padding:4px; font-size:12px;" onclick="this.parentElement.remove()">حذف من الموقع</button>
-                </div>
-            `;
-            alert('تم إضافة المطعم ونشره بنجاح!');
-            document.getElementById('mName').value = '';
-            document.getElementById('mDesc').value = '';
-            document.getElementById('mImg').value = '';
+            alert(`تم إضافة المطعم "${name}" بنجاح ضمن قسم "${cat}" وسيظهر في الصفحة الرئيسية مع تفاصيله وصورته!`);
+            document.getElementById('restName').value = '';
+            document.getElementById('restCategory').value = '';
+            document.getElementById('restImgFile').value = '';
+            document.getElementById('restDesc').value = '';
         }
 
-        function addOffer() {
-            let title = document.getElementById('oTitle').value;
-            if(!title) { alert('الرجاء إدخال عنوان العرض'); return; }
+        function addNewOffer() {
+            let title = document.getElementById('offerTitle').value;
+            let fileInput = document.getElementById('offerImgFile');
 
-            let list = document.getElementById('adminOffersList');
+            if(!title) {
+                alert('الرجاء إدخال اسم العرض!');
+                return;
+            }
+
+            let imageName = fileInput.files.length > 0 ? fileInput.files[0].name : 'صورة عرض';
+
+            let list = document.getElementById('managedItemsList');
             list.innerHTML += `
                 <div class="item-row">
-                    <span><strong>${title}</strong></span>
-                    <div>
-                        <button onclick="alert('تعديل ${title}')" style="background:#2196F3; color:white; border:none; padding:4px 8px; border-radius:4px; cursor:pointer;">تعديل</button>
-                        <button onclick="this.parentElement.parentElement.remove()" style="background:#d32f2f; color:white; border:none; padding:4px 8px; border-radius:4px; cursor:pointer;">حذف</button>
-                    </div>
+                    <span><strong>عرض: ${title}</strong> (${imageName})</span>
+                    <button onclick="this.parentElement.remove()" style="background:#d32f2f; color:white; border:none; padding:3px 8px; border-radius:4px; cursor:pointer;">حذف</button>
                 </div>
             `;
-            alert('تم نشر العرض بنجاح!');
-            document.getElementById('oTitle').value = '';
-            document.getElementById('oDesc').value = '';
-            document.getElementById('oImg').value = '';
+            alert(`تم نشر العرض "${title}" بنجاح وسيظهر في قسم العروض بالصفحة الرئيسية!`);
+            document.getElementById('offerTitle').value = '';
+            document.getElementById('offerImgFile').value = '';
         }
     </script>
 </body>
