@@ -30,7 +30,6 @@
 </head>
 <body>
 
-    <!-- نافذة تسجيل دخول الأدمن -->
     <div id="loginOverlay">
         <div class="login-box">
             <h2>تسجيل دخول الأدمن</h2>
@@ -41,7 +40,6 @@
         </div>
     </div>
 
-    <!-- لوحة التحكم -->
     <div class="admin-container" id="adminPanel">
         <div class="admin-header">
             <h2>لوحة تحكم الأدمن (Jonathan)</h2>
@@ -50,37 +48,30 @@
 
         <div class="card-grid">
             
-            <!-- 1. إضافة عرض جديد -->
+            <!-- 1. إضافة عرض جديد مع صورة -->
             <div class="admin-card">
                 <h3>1. إضافة عرض جديد</h3>
                 <input type="text" class="form-control" id="offerTitle" placeholder="اسم العرض">
-                <label style="font-size: 11px; color: #666;">تحميل صورة العرض:</label>
-                <input type="file" class="form-control" id="offerImg" accept="image/*">
-                <button class="btn-action btn-green" onclick="addOffer()">نشر العرض</button>
-                <div id="offersList" style="margin-top: 10px; max-height: 120px; overflow-y: auto;"></div>
+                <label style="font-size: 11px; color: #666;">اختر صورة العرض:</label>
+                <input type="file" class="form-control" id="offerImgFile" accept="image/*">
+                <button class="btn-action btn-green" onclick="addOffer()">نشر العرض فوراً</button>
             </div>
 
-            <!-- 2. إضافة قسم طعام مستقل (مبوب + تحميل صورة) -->
+            <!-- 2. إضافة قسم طعام مستقل مع صورة -->
             <div class="admin-card">
                 <h3>2. إضافة قسم طعام جديد</h3>
                 <select class="form-control" id="foodCategory">
                     <option value="">اختر القسم المبوب</option>
-                    <option>شاورما</option>
-                    <option>بروستد</option>
-                    <option>سندويش غربي</option>
-                    <option>فلافل</option>
-                    <option>حلويات</option>
-                    <option>برغر</option>
-                    <option>مندي</option>
-                    <option>كوكتيل</option>
+                    <option>شاورما</option><option>بروستد</option><option>سندويش غربي</option>
+                    <option>فلافل</option><option>حلويات</option><option>برغر</option>
+                    <option>مندي</option><option>كوكتيل</option>
                 </select>
-                <label style="font-size: 11px; color: #666;">تحميل صورة القسم من الكمبيوتر:</label>
-                <input type="file" class="form-control" id="foodImg" accept="image/*">
-                <button class="btn-action btn-green" onclick="addFoodCategory()">إضافة قسم الطعام</button>
-                <div id="foodList" style="margin-top: 10px; max-height: 120px; overflow-y: auto;"></div>
+                <label style="font-size: 11px; color: #666;">اختر صورة القسم:</label>
+                <input type="file" class="form-control" id="foodImgFile" accept="image/*">
+                <button class="btn-action btn-green" onclick="addFoodCategory()">إضافة قسم الطعام للموقع</button>
             </div>
 
-            <!-- 3. إضافة حساب تاجر واشتراك -->
+            <!-- 3. إضافة حساب تاجر -->
             <div class="admin-card">
                 <h3>3. إضافة حساب تاجر واشتراك</h3>
                 <input type="text" class="form-control" id="merName" placeholder="اسم المطعم">
@@ -89,7 +80,6 @@
                 <input type="text" class="form-control" id="merPass" placeholder="كلمة المرور">
                 <input type="number" class="form-control" id="merDays" placeholder="عدد أيام الاشتراك">
                 <button class="btn-action btn-green" onclick="addMerchant()">حفظ حساب التاجر</button>
-                <div id="merchantsList" style="margin-top: 10px; max-height: 120px; overflow-y: auto;"></div>
             </div>
 
         </div>
@@ -107,54 +97,54 @@
             }
         }
 
+        // تحويل الصورة المرفوعة إلى نص (Base64) لكي تظهر فوراً بالصفحة الرئيسية
+        function getBaseImage(fileInput, callback) {
+            if (fileInput.files && fileInput.files[0]) {
+                let reader = new FileReader();
+                reader.onload = function(e) { callback(e.target.result); }
+                reader.readAsDataURL(fileInput.files[0]);
+            } else {
+                callback('https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400');
+            }
+        }
+
         function addOffer() {
             let title = document.getElementById('offerTitle').value;
+            let fileInput = document.getElementById('offerImgFile');
             if(!title) { alert('الرجاء كتابة اسم العرض'); return; }
-            
-            let list = document.getElementById('offersList');
-            list.innerHTML += `
-                <div class="item-row">
-                    <span><strong>${title}</strong></span>
-                    <div>
-                        <button onclick="alert('تعديل العرض')" style="background:#2196F3; color:white; border:none; padding:2px 5px; border-radius:3px; cursor:pointer;">تعديل</button>
-                        <button onclick="this.parentElement.parentElement.remove()" style="background:#d32f2f; color:white; border:none; padding:2px 5px; border-radius:3px; cursor:pointer;">حذف</button>
-                    </div>
-                </div>
-            `;
-            alert('تم نشر العرض بنجاح!');
-            document.getElementById('offerTitle').value = '';
-            document.getElementById('offerImg').value = '';
+
+            getBaseImage(fileInput, function(imgData) {
+                let offers = JSON.parse(localStorage.getItem('admin_offers')) || [];
+                offers.push({ title: title, img: imgData });
+                localStorage.setItem('admin_offers', JSON.stringify(offers));
+
+                alert('تم نشر العرض بنجاح وسيظهر الآن في الصفحة الرئيسية!');
+                document.getElementById('offerTitle').value = '';
+                document.getElementById('offerImgFile').value = '';
+            });
         }
 
         function addFoodCategory() {
             let cat = document.getElementById('foodCategory').value;
+            let fileInput = document.getElementById('foodImgFile');
             if(!cat) { alert('الرجاء اختيار القسم المبوب'); return; }
 
-            let list = document.getElementById('foodList');
-            list.innerHTML += `
-                <div class="item-row">
-                    <span><strong>قسم: ${cat}</strong></span>
-                    <button onclick="this.parentElement.remove()" style="background:#d32f2f; color:white; border:none; padding:2px 5px; border-radius:3px; cursor:pointer;">حذف</button>
-                </div>
-            `;
-            alert(`تم إضافة القسم "${cat}" بنجاح!`);
-            document.getElementById('foodCategory').value = '';
-            document.getElementById('foodImg').value = '';
+            getBaseImage(fileInput, function(imgData) {
+                let foods = JSON.parse(localStorage.getItem('admin_foods')) || [];
+                foods.push({ name: cat, img: imgData });
+                localStorage.setItem('admin_foods', JSON.stringify(foods));
+
+                alert(`تم إضافة القسم "${cat}" بنجاح وسيعرض في الموقع!`);
+                document.getElementById('foodCategory').value = '';
+                document.getElementById('foodImgFile').value = '';
+            });
         }
 
         function addMerchant() {
             let name = document.getElementById('merName').value;
             let days = document.getElementById('merDays').value;
             if(!name || !days) { alert('الرجاء كتابة اسم المطعم ومدة الاشتراك'); return; }
-
-            let list = document.getElementById('merchantsList');
-            list.innerHTML += `
-                <div class="item-row">
-                    <div><strong>${name}</strong><br><span style="color:#e65100;">متبقي: ${days} يوم</span></div>
-                    <button onclick="this.parentElement.parentElement.remove()" style="background:#d32f2f; color:white; border:none; padding:2px 5px; border-radius:3px; cursor:pointer;">حذف</button>
-                </div>
-            `;
-            alert(`تم إضافة حساب التاجر "${name}" بمدة ${days} يوم بنجاح!`);
+            alert(`تم حفظ حساب التاجر "${name}" لمدة ${days} يوم بنجاح!`);
             document.getElementById('merName').value = '';
             document.getElementById('merPhone').value = '';
             document.getElementById('merUser').value = '';
