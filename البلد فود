@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>البلد فود - Albald Food</title>
-    <!-- استيراد خط عربي أنيق -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
-    <!-- مكتبة الأيقونات FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
@@ -19,413 +17,123 @@
             --border-color: #e5e5e5;
             --white: #ffffff;
         }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-main); }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Cairo', sans-serif;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-        }
-
-        /* الهيدر العلوي */
         header {
-            background-color: var(--white);
-            border-bottom: 1px solid var(--border-color);
-            padding: 15px 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+            background-color: var(--white); border-bottom: 1px solid var(--border-color);
+            padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000;
         }
+        .logo { font-size: 24px; font-weight: 700; color: var(--primary-green); }
+        .search-location-bar { display: flex; align-items: center; background: #f1f1f1; border-radius: 8px; padding: 8px 15px; width: 40%; }
+        .search-location-bar input { border: none; background: transparent; outline: none; width: 100%; padding: 0 10px; font-size: 14px; }
+        
+        .auth-buttons { display: flex; gap: 10px; }
+        .auth-buttons button { padding: 8px 15px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 13px; }
+        .btn-login { background: transparent; border: 1px solid var(--border-color); color: var(--text-main); }
+        .btn-register { background: var(--primary-green); border: none; color: var(--white); }
+        .btn-admin { background: #333; border: none; color: var(--white); }
 
-        .logo {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--primary-green);
-        }
+        .top-banner { background: linear-gradient(135deg, #e53935, #b71c1c); color: var(--white); padding: 20px 5%; display: flex; justify-content: space-between; align-items: center; margin: 20px 5%; border-radius: 12px; }
+        .container { display: flex; padding: 0 5%; gap: 30px; }
+        sidebar { width: 250px; background: var(--white); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color); height: fit-content; }
+        .filter-group { margin-bottom: 20px; }
+        .filter-group label { display: block; font-size: 14px; color: var(--text-secondary); margin-bottom: 8px; cursor: pointer; }
+        main { flex: 1; }
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .mutfaklar-slider { display: flex; gap: 20px; overflow-x: auto; padding-bottom: 15px; margin-bottom: 30px; scrollbar-width: none; }
+        .mutfak-item { text-align: center; min-width: 90px; cursor: pointer; }
+        .mutfak-item img { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 2px solid var(--border-color); }
+        .mutfak-item p { font-size: 13px; margin-top: 8px; font-weight: 600; }
+        .restoranlar-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+        .restoran-card { background: var(--white); border-radius: 12px; overflow: hidden; border: 1px solid var(--border-color); }
+        .restoran-img-container { position: relative; height: 160px; }
+        .restoran-img-container img { width: 100%; height: 100%; object-fit: cover; }
+        .badge-discount { position: absolute; bottom: 10px; right: 10px; background: #d32f2f; color: var(--white); padding: 4px 10px; font-size: 11px; border-radius: 4px; }
+        .restoran-info { padding: 15px; }
+        .restoran-title-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        .restoran-name { font-weight: 700; font-size: 16px; }
+        .restoran-rating { background: #e8f5e9; color: var(--primary-green); padding: 3px 8px; border-radius: 6px; font-size: 12px; }
 
-        .search-location-bar {
-            display: flex;
-            align-items: center;
-            background: #f1f1f1;
-            border-radius: 8px;
-            padding: 8px 15px;
-            width: 50%;
-        }
-
-        .search-location-bar input {
-            border: none;
-            background: transparent;
-            outline: none;
-            width: 100%;
-            padding: 0 10px;
-            font-size: 14px;
-        }
-
-        .auth-buttons button {
-            padding: 8px 20px;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            margin-left: 10px;
-        }
-
-        .btn-login {
-            background: transparent;
-            border: 1px solid var(--border-color);
-            color: var(--text-main);
-        }
-
-        .btn-register {
-            background: var(--primary-green);
-            border: none;
-            color: var(--white);
-        }
-
-        /* الشريط الإعلاني العرضي */
-        .top-banner {
-            background: linear-gradient(135deg, #e53935, #b71c1c);
-            color: var(--white);
-            padding: 20px 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin: 20px 5%;
-            border-radius: 12px;
-        }
-
-        .container {
-            display: flex;
-            padding: 0 5%;
-            gap: 30px;
-        }
-
-        /* الفلتر الجانبي */
-        sidebar {
-            width: 250px;
-            background: var(--white);
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-            height: fit-content;
-        }
-
-        sidebar h3 {
-            font-size: 16px;
-            margin-bottom: 15px;
-            color: var(--text-main);
-        }
-
-        .filter-group {
-            margin-bottom: 20px;
-        }
-
-        .filter-group label {
-            display: block;
-            font-size: 14px;
-            color: var(--text-secondary);
-            margin-bottom: 8px;
-            cursor: pointer;
-        }
-
-        /* المحتوى الرئيسي */
-        main {
-            flex: 1;
-        }
-
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .section-header h2 {
-            font-size: 20px;
-        }
-
-        .section-header a {
-            color: var(--primary-green);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 14px;
-        }
-
-        /* قسم المطبخ (Mutfaklar) - دوائر متجاورة */
-        .mutfaklar-slider {
-            display: flex;
-            gap: 20px;
-            overflow-x: auto;
-            padding-bottom: 15px;
-            margin-bottom: 30px;
-            scrollbar-width: none;
-        }
-
-        .mutfaklar-slider::-webkit-scrollbar {
-            display: none;
-        }
-
-        .mutfak-item {
-            text-align: center;
-            min-width: 90px;
-            cursor: pointer;
-        }
-
-        .mutfak-item img {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid var(--border-color);
-            transition: 0.3s;
-        }
-
-        .mutfak-item img:hover {
-            border-color: var(--primary-green);
-        }
-
-        .mutfak-item p {
-            font-size: 13px;
-            margin-top: 8px;
-            font-weight: 600;
-        }
-
-        /* قسم المطاعم (Restoranlar) */
-        .restoranlar-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
-        }
-
-        .restoran-card {
-            background: var(--white);
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid var(--border-color);
-            transition: 0.3s;
-            cursor: pointer;
-        }
-
-        .restoran-card:hover {
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-        }
-
-        .restoran-img-container {
-            position: relative;
-            height: 160px;
-        }
-
-        .restoran-img-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .badge-discount {
-            position: absolute;
-            bottom: 10px;
-            right: 10px;
-            background: #d32f2f;
-            color: var(--white);
-            padding: 4px 10px;
-            font-size: 11px;
-            border-radius: 4px;
-            font-weight: 600;
-        }
-
-        .restoran-info {
-            padding: 15px;
-        }
-
-        .restoran-title-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 8px;
-        }
-
-        .restoran-name {
-            font-weight: 700;
-            font-size: 16px;
-        }
-
-        .restoran-rating {
-            background: #e8f5e9;
-            color: var(--primary-green);
-            padding: 3px 8px;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 700;
-        }
-
-        .restoran-details {
-            font-size: 12px;
-            color: var(--text-secondary);
-            display: flex;
-            gap: 10px;
-        }
-
-        /* الشريط الجانبي السريع للهبوط */
-        .quick-sidebar {
-            position: fixed;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            z-index: 999;
-        }
-
-        .quick-sidebar a {
-            background: var(--white);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            color: var(--text-main);
-            text-decoration: none;
-            transition: 0.3s;
-        }
-
-        .quick-sidebar a:hover {
-            background: var(--primary-green);
-            color: var(--white);
-        }
+        /* نافذة منبثقة لتسجيل الدخول العادي عبر جوجل */
+        #googleModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 3000; justify-content: center; align-items: center; }
+        .modal-content { background: white; padding: 30px; border-radius: 12px; width: 350px; text-align: center; }
+        .btn-google { background: #4285F4; color: white; border: none; padding: 10px 20px; border-radius: 6px; width: 100%; font-weight: bold; cursor: pointer; margin-top: 15px; }
     </style>
 </head>
 <body>
 
-    <!-- الهيدر العلوي -->
     <header>
         <div class="logo">البلد فود</div>
         <div class="search-location-bar">
             <i class="fa-solid fa-location-dot" style="color: var(--primary-orange);"></i>
-            <input type="text" placeholder="حدد موقعك (المدينة / المنطقة)..." id="locationInput">
-            <i class="fa-solid fa-search" style="color: var(--text-secondary);"></i>
-            <input type="text" placeholder="ابحث عن مطعم، مطبخ أو وجبة..." style="border-right: 1px solid var(--border-color); margin-right: 10px;">
+            <input type="text" placeholder="حدد موقعك تلقائياً (المدينة)...">
         </div>
         <div class="auth-buttons">
-            <button class="btn-login"><i class="fa-solid fa-user"></i> تسجيل الدخول</button>
-            <button class="btn-register" onclick="window.open('https://wa.me/your-number', '_blank')">حساب تاجر (واتساب)</button>
+            <button class="btn-login" onclick="openGoogleModal()"><i class="fa-solid fa-user"></i> تسجيل الدخول</button>
+            <button class="btn-register" onclick="location.href='merchant-login.html'"><i class="fa-solid fa-store"></i> حساب تاجر</button>
+            <button class="btn-admin" onclick="location.href='admin.html'"><i class="fa-solid fa-lock"></i> لوحة الأدمن</button>
         </div>
     </header>
 
-    <!-- الشريط الإعلاني العرضي العلوي (تحكم الأدمن) -->
+    <!-- نافذة تسجيل الدخول العادي (Google) -->
+    <div id="googleModal">
+        <div class="modal-content">
+            <h3>تسجيل الدخول للحساب العادي</h3>
+            <p style="font-size: 13px; color: #666; margin: 10px 0;">سجل دخولك بضغطة واحدة باستخدام حساب جوجل الخاص بك للتقييم والتصفح.</p>
+            <button class="btn-google" onclick="alert('تم تسجيل الدخول بنجاح عبر حساب Google!')"><i class="fa-brands fa-google"></i> المتابعة بواسطة Google</button>
+            <br><br>
+            <button onclick="closeGoogleModal()" style="background: none; border: none; color: #999; cursor: pointer;">إلغاء</button>
+        </div>
+    </div>
+
     <div class="top-banner">
         <div>
             <h2>عروض وجبات اليوم الكبرى في البلد فود!</h2>
-            <p>اطلب الآن واحصل على خصومات حصرية تصل إلى 50% من أفضل المطاعم القريبة منك.</p>
+            <p>اطلب الآن واحصل على خصومات حصرية تصل إلى 50% من أفضل المطاعم.</p>
         </div>
         <i class="fa-solid fa-fire fa-3x" style="color: #ffeb3b;"></i>
     </div>
 
-    <!-- المحتوى الرئيسي مع الفلتر الجانبي -->
     <div class="container">
-        <!-- الفلتر الجانبي -->
         <sidebar>
             <h3>فلتر و ترتيب</h3>
             <div class="filter-group">
-                <label><strong>المدينة / المنطقة</strong></label>
-                <label><input type="checkbox" checked> الكل</label>
-                <label><input type="checkbox"> اسطنبول - الفاتح</label>
-                <label><input type="checkbox"> اسطنبول - اسنلر</label>
+                <label><input type="checkbox" checked> كل المدن</label>
+                <label><input type="checkbox"> اسطنبول</label>
             </div>
             <div class="filter-group">
                 <label><strong>أقسام الطعام</strong></label>
                 <label><input type="checkbox"> شاورما</label>
                 <label><input type="checkbox"> برجر</label>
                 <label><input type="checkbox"> بروستد</label>
-                <label><input type="checkbox"> مندي</label>
-            </div>
-            <div class="filter-group">
-                <label><strong>التقييم</strong></label>
-                <label><input type="checkbox"> ⭐⭐⭐⭐ ممتاز</label>
-                <label><input type="checkbox"> ⭐⭐⭐ جيد جداً</label>
-                <label><input type="checkbox"> ⭐ أقل</label>
             </div>
         </sidebar>
 
-        <!-- الأقسام والمطاعم -->
         <main>
-            <!-- قسم وجبات الطعام (Mutfaklar) الدائرية -->
             <div class="section-header">
                 <h2>وجبات الطعام (الأقسام)</h2>
-                <a href="#">عرض الكل <i class="fa-solid fa-chevron-left"></i></a>
             </div>
             <div class="mutfaklar-slider">
-                <div class="mutfak-item">
-                    <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=150" alt="برجر">
-                    <p>برجر</p>
-                </div>
-                <div class="mutfak-item">
-                    <img src="https://images.unsplash.com/photo-1529042410759-befb1204b468?w=150" alt="شاورما">
-                    <p>شاورما</p>
-                </div>
-                <div class="mutfak-item">
-                    <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=150" alt="بيتزا">
-                    <p>بيتزا</p>
-                </div>
-                <div class="mutfak-item">
-                    <img src="https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?w=150" alt="بروستد">
-                    <p>بروستد</p>
-                </div>
-                <div class="mutfak-item">
-                    <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=150" alt="فلافل">
-                    <p>فلافل</p>
-                </div>
-                <div class="mutfak-item">
-                    <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=150" alt="طبخ بيت">
-                    <p>طبخ بيت</p>
-                </div>
-                <div class="mutfak-item">
-                    <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?w=150" alt="معجنات">
-                    <p>معجنات</p>
-                </div>
-                <div class="mutfak-item">
-                    <img src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=150" alt="حلويات">
-                    <p>حلويات</p>
-                </div>
-                <div class="mutfak-item">
-                    <img src="https://images.unsplash.com/photo-1633964913295-ceb43826e7c9?w=150" alt="مندي">
-                    <p>مندي</p>
-                </div>
-                <div class="mutfak-item">
-                    <img src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=150" alt="كوكتيل">
-                    <p>كوكتيل</p>
-                </div>
+                <div class="mutfak-item"><img src="https://images.unsplash.com/photo-1529042410759-befb1204b468?w=150"><p>شاورما</p></div>
+                <div class="mutfak-item"><img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=150"><p>برجر</p></div>
+                <div class="mutfak-item"><img src="https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?w=150"><p>بروستد</p></div>
+                <div class="mutfak-item"><img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=150"><p>فلافل</p></div>
             </div>
 
-            <!-- قسم كل المطاعم (Restoranlar) -->
             <div class="section-header">
-                <h2>المطاعم المتاحة في مدينتك</h2>
-                <a href="#">عرض الكل <i class="fa-solid fa-chevron-left"></i></a>
+                <h2>المطاعم المتاحة</h2>
             </div>
-            <div class="restoranlar-grid" id="restaurantsContainer">
-                <!-- المطاعم ستُعرض هنا تلقائياً من قاعدة بيانات Firebase -->
+            <div class="restoranlar-grid">
                 <div class="restoran-card">
                     <div class="restoran-img-container">
-                        <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?w=400" alt="مطعم">
-                        <div class="badge-discount">خصم 20% على أول طلب</div>
+                        <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?w=400">
+                        <div class="badge-discount">خصم 20%</div>
                     </div>
                     <div class="restoran-info">
                         <div class="restoran-title-row">
                             <span class="restoran-name">مطعم الشام الأصيل</span>
                             <span class="restoran-rating">4.8 ⭐</span>
-                        </div>
-                        <div class="restoran-details">
-                            <span><i class="fa-solid fa-utensils"></i> شاورما ومشاوي</span>
-                            <span><i class="fa-solid fa-clock"></i> 20-30 دقيقة</span>
                         </div>
                     </div>
                 </div>
@@ -433,36 +141,9 @@
         </main>
     </div>
 
-    <!-- الشريط الجانبي السريع للهبوط -->
-    <div class="quick-sidebar">
-        <a href="#" title="الاعلى"><i class="fa-solid fa-arrow-up"></i></a>
-        <a href="https://wa.me/" title="تواصل واتساب" target="_blank"><i class="fa-brands fa-whatsapp" style="color: #25d366;"></i></a>
-        <a href="#" title="الاسفل"><i class="fa-solid fa-arrow-down"></i></a>
-    </div>
-
-    <!-- ربط خدمات Firebase -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-        import { getStorage } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
-
-        // إعدادات مشروعك على Firebase التي أرسلتها
-        const firebaseConfig = {
-            apiKey: "AIzaSyDRrHrWvynGEezRsJQR6fz1oMJSlj8v58M",
-            authDomain: "albalad-food.firebaseapp.com",
-            projectId: "albalad-food",
-            storageBucket: "albalad-food.firebasestorage.app",
-            messagingSenderId: "933902087450",
-            appId: "1:933902087450:web:a9e7a10d4dc393c6bb28a3",
-            measurementId: "G-B7ZVM072XK"
-        };
-
-        // تهيئة الفايربيس
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        const storage = getStorage(app);
-
-        console.log("تم اتصال موقع البلد فود بقاعدة البيانات بنجاح! 🚀");
+    <script>
+        function openGoogleModal() { document.getElementById('googleModal').style.display = 'flex'; }
+        function closeGoogleModal() { document.getElementById('googleModal').style.display = 'none'; }
     </script>
 </body>
 </html>
