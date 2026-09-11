@@ -110,6 +110,13 @@ footer li{margin-bottom:7px}
 .panel,dialog{padding:19px}
 .top-inner{gap:12px}
 }
+
+.photo-preview{display:grid;grid-template-columns:repeat(auto-fit,minmax(115px,1fr));gap:10px;margin-top:14px}
+.photo-preview figure{margin:0;border:1px solid var(--line);border-radius:12px;padding:8px}
+.photo-preview img{width:100%;height:110px;object-fit:cover;border-radius:8px}
+.menu-gallery>img,.menu-gallery>.image-fallback{width:100%;height:215px;object-fit:cover}
+.menu-gallery .btn{margin:10px}
+.gallery-pages img{width:100%;height:auto;margin:12px 0;border-radius:12px}
 </style>
 </head>
 <body>
@@ -300,7 +307,7 @@ footer li{margin-bottom:7px}
 
   <form id="menuForm" hidden>
     <h3 id="menuFormTitle">طلب إضافة وجبة</h3>
-    <p id="editHint" class="muted" hidden>اترك الصورة فارغة للاحتفاظ بالصورة الحالية. التعديل يحتاج موافقة الإدارة.</p>
+    <p id="editHint" class="muted" hidden>صور الوجبة الحالية محفوظة أدناه. يمكنك حذفها أو إضافة صور جديدة. التعديل يحتاج موافقة الإدارة.</p>
     <label for="menuName">اسم الوجبة</label>
     <input id="menuName" maxlength="120" required>
     <label for="menuDescription">الوصف والمكونات ومسببات الحساسية إن وجدت</label>
@@ -321,9 +328,10 @@ footer li{margin-bottom:7px}
         </select>
       </div>
     </div>
-    <label for="menuPhoto">صورة حقيقية للوجبة</label>
-    <input id="menuPhoto" type="file" accept="image/jpeg,image/png,image/webp" required>
-    <p class="muted">استخدم صورة تملك حق نشرها. الحد الأقصى 5 ميغابايت.</p>
+    <label for="menuPhoto">صور الوجبة أو صفحات القائمة — حتى 5 صور</label>
+    <input id="menuPhoto" type="file" accept="image/jpeg,image/png,image/webp" multiple>
+    <div id="menuPhotoPreview" class="photo-preview" aria-live="polite"></div>
+    <p class="muted">يمكنك إضافة الصور على دفعات وحذف أي صورة قبل الإرسال. الحد الأقصى 5 ميغابايت لكل صورة. استخدم صورًا تملك حق نشرها.</p>
     <button id="menuSubmit" class="btn primary full" type="submit">إرسال إلى الإدارة للمراجعة</button>
   </form>
 
@@ -383,6 +391,7 @@ let merchantRows = [];
 let requestRows = [];
 let pendingRows = [];
 let editingItem = null;
+let photoDraft = [];
 let merchantTab = "new";
 let publicErrors = new Set();
 
@@ -756,7 +765,7 @@ function renderPublic(){
     );
     if (p.description) body.append(el("p",p.description,"review-description"));
     body.append(el("p",money(p),"price"));
-    card.append(photo(p.img,p.name),body);
+    card.append(menuGallery(p,p.name),body);
     $("menuList").append(card);
   });
 }
@@ -926,10 +935,92 @@ function renderHistory(){
   });
 }
 
+function menuPhotos(payload){
+  return [payload?.img,...(Array.isArray(payload?.images)?payload.images:[])].filter(src=>safePhoto(src)).slice(0,5);
+}
+
+function showMenuPhotos(payload,title){
+  let dialog = $("menuPhotosDialog");
+  if (!dialog){
+    dialog = document.createElement("dialog");
+    dialog.id = "menuPhotosDialog";
+    dialog.className = "wide";
+    dialog.setAttribute("aria-labelledby","menuPhotosTitle");
+    document.body.append(dialog);
+  }
+  const heading = el("h2",title);
+  heading.id = "menuPhotosTitle";
+  const head = el("div",undefined,"dialog-head");
+  head.append(heading,button("إغلاق ✕",()=>dialog.close()));
+  const pages = el("div",undefined,"gallery-pages");
+  menuPhotos(payload).forEach((src,i)=>pages.append(photo(src,title+" — "+(i+1))));
+  dialog.replaceChildren(head,pages);
+  if (!dialog.open) dialog.showModal();
+  dialog.scrollTop = 0;
+}
+
+function menuGallery(payload,title){
+  const gallery = el("div",undefined,"menu-gallery");
+  const photos = menuPhotos(payload);
+  gallery.append(photo(photos[0],title));
+  const open = button("عرض الصور والقائمة ("+photos.length+")",()=>showMenuPhotos(payload,title));
+  // Cloned category cards use delegated clicks below.
+  open.dataset.menuGallery = JSON.stringify({title,photos});
+  gallery.append(open);
+  return gallery;
+}
+
+document.addEventListener("click",event=>{
+  const control = event.target.closest("#categoryResultsDialog [data-menu-gallery]");
+  if (!control) return;
+  const data = JSON.parse(control.dataset.menuGallery);
+  showMenuPhotos({img:data.photos[0],images:data.photos.slice(1)},data.title);
+});
+
+function clearPhotoDraft(){
+  photoDraft.forEach(item=>{if(item.file) URL.revokeObjectURL(item.src);});
+  photoDraft = [];
+  $("menuPhoto").value = "";
+  renderPhotoDraft();
+}
+
+function renderPhotoDraft(){
+  const box = $("menuPhotoPreview");
+  box.replaceChildren();
+  photoDraft.forEach((item,i)=>{
+    const figure = el("figure");
+    const img = document.createElement("img");
+    img.src = item.src;
+    img.alt = "صورة "+(i+1);
+    figure.append(img,el("figcaption",i===0?"الصورة الرئيسية":"صورة "+(i+1)));
+    figure.append(button("حذف الصورة",()=>{
+      if ($("menuForm").dataset.busy) return;
+      if(item.file) URL.revokeObjectURL(item.src);
+      photoDraft.splice(i,1);
+      renderPhotoDraft();
+    }));
+    box.append(figure);
+  });
+}
+
+$("menuPhoto").addEventListener("change",()=>{
+  const files = [...$("menuPhoto").files];
+  $("menuPhoto").value = "";
+  if (!files.length) return;
+  if (photoDraft.length+files.length>5)
+    return tell("يمكن إضافة 5 صور فقط. احذف صورة أو اختر عددًا أقل.",true,"menuMessage");
+  if(files.some(file=>!["image/jpeg","image/png","image/webp"].includes(file.type)||file.size>5*1024*1024))
+    return tell("اختر صور JPG أو PNG أو WebP بحجم لا يتجاوز 5 ميغابايت للصورة.",true,"menuMessage");
+  photoDraft.push(...files.map(file=>({file,src:URL.createObjectURL(file)})));
+  tell("",false,"menuMessage");
+  renderPhotoDraft();
+});
+
 function resetMenuEditor(){
   editingItem = null;
   $("menuForm").reset();
-  $("menuPhoto").required = true;
+  $("menuPhoto").required = false;
+  clearPhotoDraft();
   $("menuFormTitle").textContent = "طلب إضافة وجبة";
   $("editHint").hidden = true;
 }
@@ -975,6 +1066,8 @@ function renderMyMenu(){
       $("menuPrice").value = item.payload.price;
       $("menuCurrency").value = item.payload.currency;
       $("menuPhoto").required = false;
+      photoDraft = menuPhotos(item.payload).map(src=>({src}));
+      renderPhotoDraft();
       $("menuFormTitle").textContent = "طلب تعديل: "+item.payload.name;
       $("editHint").hidden = false;
       tell("",false,"menuMessage");
@@ -1005,7 +1098,7 @@ $("menuForm").addEventListener("submit",event=>{
     price:Number($("menuPrice").value),
     currency:$("menuCurrency").value
   };
-  const file = $("menuPhoto").files[0];
+  const draft = [...photoDraft];
   const edit = editingItem ? {...editingItem} : null;
 
   run($("menuForm"),async()=>{
@@ -1013,8 +1106,11 @@ $("menuForm").addEventListener("submit",event=>{
     if (!payload.name) throw friendly("أدخل اسم الوجبة.");
     if (!Number.isFinite(payload.price) || payload.price < 0 || payload.price > 1000000000)
       throw friendly("أدخل سعرًا صحيحًا.");
-    payload.img = file ? await compressImage(file) : edit?.img;
-    if (!payload.img) throw friendly("اختر صورة للوجبة.");
+    if (!draft.length || draft.length>5) throw friendly("أضف من صورة واحدة إلى 5 صور.");
+    const pictures = [];
+    for (const item of draft) pictures.push(item.file ? await compressImage(item.file) : item.src);
+    payload.img = pictures[0];
+    payload.images = pictures.slice(1);
     if (auth.currentUser?.uid !== uid) throw friendly("تغيّر الحساب. أعد تسجيل الدخول.");
 
     await DB.addDoc(DB.collection(db,"menuRequests"),{
@@ -1081,7 +1177,7 @@ function renderPending(rows){
     const restaurant = state.restaurants.find(x=>x.id === row.merchantId);
     const item = el("article",undefined,"admin-item");
     item.append(
-      photo(p.img,p.name || "وجبة","review-photo"),
+      menuGallery(p,p.name || "وجبة"),
       el("h3",(row.targetItemId ? "طلب تعديل: " : "طلب إضافة: ")+(p.name || "وجبة")),
       el("p",restaurant?.name || "التاجر: "+row.merchantId,"muted"),
       el("p",p.description || "لا يوجد وصف","review-description"),
@@ -1321,6 +1417,7 @@ function watchPublic(name,reference){
 }
 
 function handleAuth(user){
+  if (user && currentUser?.uid === user.uid) return;
   const version = ++authVersion;
   privateStops.forEach(stop=>stop());
   privateStops = [];
