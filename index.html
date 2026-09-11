@@ -117,6 +117,46 @@ footer li{margin-bottom:7px}
 .menu-gallery>img,.menu-gallery>.image-fallback{width:100%;height:215px;object-fit:cover}
 .menu-gallery .btn{margin:10px}
 .gallery-pages img{width:100%;height:auto;margin:12px 0;border-radius:12px}
+
+.directory,.restaurant-detail{font-family:Tahoma,Arial,sans-serif;font-size:14px;line-height:1.6}
+.directory{background:#f4f4f4;border-radius:12px;padding:24px}
+.directory-heading{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.directory-heading h2{font:700 24px Tahoma,Arial,sans-serif;margin:0}.directory-heading span{color:#626262;font-size:13px}
+.directory-layout,.detail-menu-layout{display:grid;grid-template-columns:220px minmax(0,1fr);gap:24px;align-items:start}
+.directory-sidebar{background:white;border-radius:14px;padding:20px;min-width:0}
+.directory-sidebar h3{font-size:18px;margin-bottom:18px}.directory-sidebar h4{font-size:15px;margin:22px 0 10px}
+.directory-sidebar input,.directory-sidebar select{font-size:13px;padding:10px;border-color:#d9d9d9}
+.filter-check{display:flex;gap:9px;align-items:center;font-size:13px;font-weight:400;margin:12px 0;cursor:pointer}
+.filter-check input{width:16px;height:16px;accent-color:var(--green);padding:0}
+.directory-sidebar .btn{margin-top:14px}.directory-results{min-width:0}
+.cuisine-strip{display:flex;gap:12px;overflow-x:auto;padding-bottom:16px;margin-bottom:8px;scrollbar-width:thin}
+.cuisine-tile{flex:0 0 82px;background:white;border:1px solid transparent;border-radius:12px;padding:6px;color:#222;font-size:11px;line-height:1.4}
+.cuisine-tile img{width:68px;height:60px;object-fit:cover;border-radius:9px;margin:0 auto 5px}.cuisine-tile[aria-pressed="true"]{border-color:var(--green);background:#eaf3ee}
+.restaurant-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
+.restaurant-card{background:white;border-radius:9px;overflow:hidden;min-width:0;border:1px solid #efefef;transition:box-shadow .18s,transform .18s}
+.restaurant-card:hover{box-shadow:0 6px 20px #00000012;transform:translateY(-2px)}
+.restaurant-cover{display:block;position:relative;text-decoration:none;background:#eee;aspect-ratio:2.65;overflow:hidden}
+.restaurant-cover>img,.restaurant-cover>.image-fallback{width:100%;height:100%;min-height:0;object-fit:cover}
+.restaurant-offer-tags{position:absolute;top:8px;inset-inline:8px;display:flex;align-items:flex-start;flex-direction:column;gap:4px;pointer-events:none}
+.restaurant-offer-tag{max-width:95%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:#d91521;color:#fff;border-radius:4px;padding:2px 6px;font-size:11px;font-weight:700}
+.restaurant-card-body{padding:11px 12px 14px}.restaurant-name-row{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.restaurant-name-row h3{font-size:15px;line-height:1.5;margin:0;overflow-wrap:anywhere}.restaurant-name-row a{text-decoration:none;color:#202020}
+.rating-badge{font-size:11px;white-space:nowrap;background:#e7f2e8;color:#22633e;border-radius:4px;padding:2px 5px;font-weight:700}
+.restaurant-card-body p{font-size:12px;color:#626262;margin:5px 0 0}.restaurant-blurb{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.restaurant-detail{padding-top:25px}.restaurant-detail .btn{font-family:inherit;font-size:13px;padding:7px 12px}
+.restaurant-profile{display:grid;grid-template-columns:190px 1fr;gap:24px;align-items:center;margin:28px 0}
+.restaurant-profile>img,.restaurant-profile>.image-fallback{width:190px;height:165px;object-fit:cover;border-radius:14px}
+.restaurant-profile h1{font-size:25px;line-height:1.4;margin-bottom:8px}.restaurant-profile p{font-size:14px;margin:7px 0;color:#565656}.restaurant-profile .row{margin-top:12px}
+.restaurant-detail h2{font-size:20px}.restaurant-detail h3{font-size:16px}
+.detail-offer-list{display:flex;gap:12px;overflow-x:auto;padding-bottom:10px}.detail-offer{background:#f3f3f3;padding:16px;border-radius:10px;flex:0 0 240px;font-size:13px}.detail-offer h3{font-size:14px;margin:0 0 6px}.detail-offer p{white-space:pre-wrap;font-size:12px}
+.detail-menu-layout{background:#f4f4f4;padding:24px;border-radius:12px;margin-top:32px!important}.detail-menu-main{min-width:0}.detail-menu-main>input{border-radius:24px;margin-bottom:22px;font-size:14px}
+.detail-category{display:block;width:100%;border:0;background:transparent;text-align:start;padding:12px 8px;border-radius:8px;color:#333;font-size:13px}.detail-category[aria-pressed="true"]{background:#e8f1ea;color:var(--green);font-weight:700}
+.detail-meal-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.detail-meal{display:grid;grid-template-columns:94px minmax(0,1fr);gap:12px;background:#fff;border-radius:12px;padding:14px;align-items:start;min-width:0}
+.detail-meal-photo{border:0;background:#fff;padding:0;border-radius:8px;overflow:hidden}.detail-meal-photo img,.detail-meal-photo .image-fallback{width:94px;height:100px;min-height:0;object-fit:contain}.detail-meal h3{font-size:14px;line-height:1.45;margin:0 0 5px;overflow-wrap:anywhere}.detail-meal p{font-size:12px;line-height:1.5;color:#606060;margin:0 0 8px;white-space:pre-wrap;overflow-wrap:anywhere}.detail-meal .price{font-size:15px;color:#202020;font-weight:700}.detail-meal .btn{font-size:11px;padding:5px 8px;border-radius:20px}.detail-meal span.muted{font-size:11px}.detail-meal-actions{display:flex;gap:6px;flex-wrap:wrap;align-items:center}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+@media(max-width:1000px){.directory-layout,.detail-menu-layout{grid-template-columns:185px minmax(0,1fr);gap:16px}.directory,.detail-menu-layout{padding:18px}.detail-meal-grid{grid-template-columns:1fr}}
+@media(max-width:700px){.directory-layout,.detail-menu-layout{grid-template-columns:1fr}.directory{padding:14px}.directory-sidebar{padding:14px}.directory-sidebar h3{margin-bottom:10px}#restaurantFilters{display:flex;flex-wrap:wrap;gap:0 16px}.filter-check{margin:6px 0}.restaurant-grid{gap:14px}.restaurant-cover{aspect-ratio:2.25}.restaurant-name-row h3{font-size:14px}.restaurant-profile{grid-template-columns:100px minmax(0,1fr);gap:15px}.restaurant-profile>img,.restaurant-profile>.image-fallback{width:100px;height:100px}.restaurant-profile h1{font-size:21px}.detail-menu-layout{padding:14px}#detailCategories{display:flex;overflow-x:auto;gap:6px}.detail-category{white-space:nowrap;width:auto}.detail-meal-grid{grid-template-columns:1fr}}
+@media(max-width:470px){.restaurant-grid{grid-template-columns:1fr}.restaurant-cover{aspect-ratio:2.65}.directory-heading h2{font-size:22px}.restaurant-profile{align-items:start}}
 </style>
 </head>
 <body>
@@ -175,18 +215,27 @@ footer li{margin-bottom:7px}
     <div id="offers" class="grid"><p class="empty">جارٍ تحميل العروض…</p></div>
   </section>
 
-  <section aria-labelledby="menuTitle">
-    <div class="section-head">
-      <div><h2 id="menuTitle">من قوائم المطاعم</h2><p class="subtitle">وجبات أضافها التجار واعتمدتها الإدارة</p></div>
+  <section id="restaurantDirectory" class="directory" aria-labelledby="restaurantTitle">
+    <div class="directory-heading"><h2 id="restaurantTitle">المطاعم</h2><span id="resultCount" role="status"></span></div>
+    <div class="directory-layout">
+      <aside class="directory-sidebar" aria-label="تصفية المطاعم">
+        <h3>فلترة وترتيب</h3>
+        <label for="restaurantSearch">ابحث عن مطعم</label><input id="restaurantSearch" type="search" placeholder="اسم المطعم أو الوجبة">
+        <label for="restaurantSort">ترتيب المطاعم</label><select id="restaurantSort"><option value="recommended">الترتيب المقترح</option><option value="name">حسب الاسم</option><option value="rating">الأعلى تقييمًا</option></select>
+        <h4>أقسام الطعام</h4><div id="restaurantFilters"></div>
+        <button class="btn small" id="clearRestaurantFilters" type="button">مسح فلاتر المطاعم</button>
+      </aside>
+      <div class="directory-results"><div id="restaurantCuisines" class="cuisine-strip" aria-label="أقسام طعام المطاعم"></div><div id="restaurants" class="restaurant-grid"><p class="empty">جارٍ تحميل المطاعم…</p></div></div>
     </div>
-    <div id="menuList" class="grid"><p class="empty">جارٍ تحميل القائمة…</p></div>
   </section>
-
-  <section aria-labelledby="restaurantTitle">
-    <div class="section-head">
-      <div><h2 id="restaurantTitle">مطاعم تستحق التجربة</h2><p id="resultCount" class="subtitle" role="status"></p></div>
-    </div>
-    <div id="restaurants" class="grid"><p class="empty">جارٍ تحميل المطاعم…</p></div>
+</main>
+<main id="restaurantDetail" class="restaurant-detail wrap" hidden aria-labelledby="detailName">
+  <button id="backToRestaurants" class="btn small" type="button">← العودة إلى المطاعم</button>
+  <div id="restaurantDetailInfo"></div>
+  <section id="restaurantDetailOffers" aria-label="عروض المطعم"></section>
+  <section class="detail-menu-layout" aria-label="قائمة المطعم">
+    <aside class="directory-sidebar"><h3>أقسام القائمة</h3><div id="detailCategories"></div></aside>
+    <div class="detail-menu-main"><label class="sr-only" for="detailSearch">البحث داخل قائمة المطعم</label><input id="detailSearch" type="search" placeholder="ابحث في قائمة هذا المطعم"><h2 id="detailMenuTitle">الوجبات والقائمة</h2><div id="detailMeals" class="detail-meal-grid"></div></div>
   </section>
 </main>
 
@@ -231,6 +280,7 @@ footer li{margin-bottom:7px}
       <label for="merchantUsername">اسم المستخدم لصاحب المطعم</label>
       <input id="merchantUsername" dir="ltr" pattern="[A-Za-z0-9_]{3,30}" minlength="3" maxlength="30" required autocomplete="off">
       <p class="muted">حروف إنجليزية وأرقام وشرطة سفلية، دون مسافات. استعادة كلمة المرور لهذه الحسابات عبر الإدارة.</p>
+      <label for="merchantDescription">وصف مختصر للمطعم</label><textarea id="merchantDescription" maxlength="300" placeholder="نبذة عن المطعم وأبرز أطباقه"></textarea>
       <label for="merchantEmail">بريد التواصل — للإدارة فقط</label>
       <input id="merchantEmail" type="email" autocomplete="off" dir="ltr" required>
       <label for="merchantPassword">كلمة مرور أولية — 10 أحرف على الأقل</label>
@@ -620,43 +670,19 @@ function renderCategories(){
     document.body.append(popup);
 
     const sync = ()=>{
-      if (!popup.open) return;
-
-      title.textContent = "مطاعم ووجبات " + selectedFood;
-
-      for (const [source,destination] of [
-        ["restaurants",restaurantsBox],
-        ["menuList",mealsBox]
-      ]){
-        destination.replaceChildren(
-          ...Array.from(
-            $(source).children,
-            item=>item.cloneNode(true)
-          )
-        );
-
-        destination.querySelectorAll("img").forEach(img=>{
-          img.addEventListener("error",()=>{
-            img.replaceWith(
-              el("div","الصورة غير متاحة","image-fallback")
-            );
-          },{once:true});
-        });
-      }
+      if(!popup.open)return;
+      title.textContent="مطاعم ووجبات "+selectedFood;
+      restaurantsBox.className="restaurant-grid";mealsBox.className="detail-meal-grid";
+      restaurantsBox.replaceChildren();mealsBox.replaceChildren();
+      const rows=state.restaurants.filter(r=>matchesRestaurant(r,selectedFood,normalize($("search").value),$("city").value));
+      rows.sort(displayOrder).forEach(r=>restaurantsBox.append(restaurantCard(r)));
+      const ids=new Set(rows.map(r=>r.id));
+      state.menuItems.filter(m=>m.status==="approved" && ids.has(m.merchantId) && m.payload?.category===selectedFood).sort(displayOrder).forEach(m=>mealsBox.append(detailMealCard(m,state.restaurants.find(r=>r.id===m.merchantId))));
+      if(!rows.length)empty(restaurantsBox,"لا توجد مطاعم مطابقة حاليًا.");
+      if(!mealsBox.children.length)empty(mealsBox,"لا توجد وجبات معتمدة لهذا القسم حاليًا.");
     };
-
-    const observer = new MutationObserver(sync);
-
-    observer.observe($("restaurants"),{
-      childList:true,
-      subtree:true
-    });
-
-    observer.observe($("menuList"),{
-      childList:true,
-      subtree:true
-    });
-
+    const observer=new MutationObserver(sync);
+    observer.observe($("restaurants"),{childList:true});
     popup.addEventListener("categoryrefresh",sync);
   }
 
@@ -769,78 +795,98 @@ function restaurantHasCategory(restaurant,category){
       item.payload?.category === category);
 }
 
-function renderPublic(){
-  const query = normalize($("search").value);
-  const city = $("city").value;
-  $("clear").hidden = !query && !city && !selectedFood;
-  $("restaurantTitle").textContent = selectedFood ? "مطاعم "+selectedFood : "مطاعم تستحق التجربة";
-  $("menuTitle").textContent = selectedFood ? "وجبات "+selectedFood : "من قوائم المطاعم";
-
-  if (ready.restaurants){
-    if (failed.restaurants){
-      empty($("restaurants"),"تعذّر تحميل المطاعم. حاول تحديث الصفحة.");
-      $("resultCount").textContent = "";
-    }else{
-      const rows = state.restaurants.filter(row=>{
-        const categories = Array.isArray(row.categories) ? row.categories : [];
-        const names = state.menuItems
-          .filter(item=>item.merchantId === row.id && item.status === "approved")
-          .map(item=>item.payload?.name || "");
-        return row.active !== false &&
-          (!city || row.city === city) &&
-          (!selectedFood || restaurantHasCategory(row,selectedFood)) &&
-          (!query || normalize([row.name,row.city,...categories,...names].join(" ")).includes(query));
-      });
-      $("resultCount").textContent = rows.length+" مطعم";
-      $("restaurants").replaceChildren();
-      if (!rows.length) empty($("restaurants"),"لا توجد مطاعم مطابقة حاليًا.");
-      rows.sort(displayOrder).forEach(row=>{
-        const categories = Array.isArray(row.categories) ? row.categories : [];
-        const ownPhoto = safePhoto(row.img);
-        const card = el("article",undefined,"card");
-        const body = el("div",undefined,"card-body");
-        body.append(el("h3",row.name || "مطعم"),el("p",row.city || "","muted"));
-        categories.forEach(name=>body.append(el("span",name,"chip")));
-        body.append(whatsappLink(row,"قائمة المطعم"),ratingControl(row));
-        if (!ownPhoto) body.append(el("p","صورة الصنف توضيحية","muted"));
-        card.append(photo(ownPhoto || categoryPhoto(categories[0]),row.name || "مطعم"),body);
-        $("restaurants").append(card);
-      });
-    }
-  }
-
-  if (!ready.menuItems || !ready.restaurants) return;
-  if (failed.menuItems || failed.restaurants)
-    return empty($("menuList"),"تعذّر تحميل قائمة الوجبات. تحقق من الاتصال وقواعد Firestore.");
-
-  const restaurantMap = new Map(state.restaurants.map(row=>[row.id,row]));
-  const rows = state.menuItems.filter(row=>{
-    const restaurant = restaurantMap.get(row.merchantId);
-    const p = row.payload;
-    return row.status === "approved" && p && restaurant && restaurant.active !== false &&
-      (!city || restaurant.city === city) &&
-      (!selectedFood || p.category === selectedFood) &&
-      (!query || normalize([p.name,p.description,p.category,restaurant.name,restaurant.city].join(" ")).includes(query));
-  }).sort(displayOrder);
-
-  $("menuList").replaceChildren();
-  if (!rows.length) return empty($("menuList"),"لا توجد وجبات معتمدة مطابقة حاليًا.");
-  rows.forEach(row=>{
-    const p = row.payload;
-    const restaurant = restaurantMap.get(row.merchantId);
-    const card = el("article",undefined,"card");
-    const body = el("div",undefined,"card-body");
-    body.append(
-      el("span",p.category,"chip"),
-      el("h3",p.name),
-      el("p",[restaurant.name,restaurant.city].filter(Boolean).join(" · "),"muted")
-    );
-    if (p.description) body.append(el("p",p.description,"review-description"));
-    body.append(el("p",money(p),"price"),whatsappLink(restaurant,"الوجبة: "+p.name+" — "+money(p)));
-    card.append(menuGallery(p,p.name),body);
-    $("menuList").append(card);
+let directoryCuisines=new Set(),detailId="",detailCuisine="";
+function restaurantCategories(row){return [...new Set([...(Array.isArray(row.categories)?row.categories:[]),...state.menuItems.filter(m=>m.merchantId===row.id && m.status==="approved").map(m=>m.payload?.category).filter(Boolean)])];}
+function restaurantDescription(row){return row.description || restaurantCategories(row).join(" · ") || "تعرّف على المطعم وتصفّح وجباته وقائمته.";}
+function restaurantRating(id){const rows=state.ratings.filter(r=>r.restaurantId===id);return {count:rows.length,average:rows.length?rows.reduce((n,r)=>n+r.score,0)/rows.length:0};}
+function matchesRestaurant(row,category,query,city){
+  const names=state.menuItems.filter(m=>m.merchantId===row.id && m.status==="approved").map(m=>m.payload?.name || "");
+  return row.active!==false && (!city || row.city===city) && (!category || restaurantHasCategory(row,category)) && (!query || normalize([row.name,row.description,row.city,...restaurantCategories(row),...names].join(" ")).includes(query));
+}
+function restaurantHref(id){const url=new URL(location.href);url.search="";url.hash="";url.searchParams.set("restaurant",id);return url.pathname+url.search;}
+function restaurantCard(row){
+  const card=el("article",undefined,"restaurant-card");
+  const cover=el("a",undefined,"restaurant-cover");cover.href=restaurantHref(row.id);cover.dataset.openRestaurant=row.id;cover.setAttribute("aria-label","عرض مطعم "+row.name+" وقائمته");
+  const own=safePhoto(row.img);cover.append(photo(own || categoryPhoto(restaurantCategories(row)[0]),row.name+(own?"":" — صورة توضيحية")));
+  const offers=state.offers.filter(o=>o.active!==false && o.restaurantId===row.id);
+  if(offers.length){const tags=el("div",undefined,"restaurant-offer-tags");offers.slice(0,2).forEach(o=>tags.append(el("span",o.title,"restaurant-offer-tag")));cover.append(tags);}
+  const body=el("div",undefined,"restaurant-card-body"),line=el("div",undefined,"restaurant-name-row"),name=el("h3"),link=el("a",row.name || "مطعم");link.href=cover.href;link.dataset.openRestaurant=row.id;name.append(link);line.append(name);
+  const rating=restaurantRating(row.id);if(rating.count)line.append(el("span","★ "+rating.average.toFixed(1)+" ("+rating.count+")","rating-badge"));
+  body.append(line,el("p",restaurantDescription(row),"restaurant-blurb"),el("p",[row.city,...restaurantCategories(row)].filter(Boolean).join(" · ")));
+  card.append(cover,body);return card;
+}
+function detailMealCard(row,restaurant){
+  const p=row.payload,card=el("article",undefined,"detail-meal"),imageButton=button("",()=>showMenuPhotos(p,p.name),"detail-meal-photo");
+  imageButton.setAttribute("aria-label","عرض صور "+p.name);imageButton.append(photo(p.img,p.name));
+  const body=el("div"),actions=el("div",undefined,"detail-meal-actions");
+  body.append(el("h3",p.name));if(p.description)body.append(el("p",p.description));body.append(el("p",money(p),"price"));
+  actions.append(whatsappLink(restaurant,"الوجبة: "+p.name+" — "+money(p)));
+  const photos=menuPhotos(p);if(photos.length>1)actions.append(button("الصور ("+photos.length+")",()=>showMenuPhotos(p,p.name),"btn small"));
+  body.append(actions);card.append(imageButton,body);return card;
+}
+function renderDirectoryFilters(){
+  $("restaurantFilters").replaceChildren();$("restaurantCuisines").replaceChildren();
+  const allLabel=el("label",undefined,"filter-check"),all=el("input");all.type="checkbox";all.checked=!directoryCuisines.size;all.addEventListener("change",()=>{directoryCuisines.clear();renderDirectoryFilters();renderPublic();});allLabel.append(all,document.createTextNode("جميع الأقسام"));$("restaurantFilters").append(allLabel);
+  FOOD_NAMES.forEach(name=>{
+    const toggle=()=>{directoryCuisines.has(name)?directoryCuisines.delete(name):directoryCuisines.add(name);renderDirectoryFilters();renderPublic();};
+    const label=el("label",undefined,"filter-check"),input=el("input");input.type="checkbox";input.checked=directoryCuisines.has(name);input.addEventListener("change",toggle);label.append(input,document.createTextNode(name));$("restaurantFilters").append(label);
+    const tile=button("",toggle,"cuisine-tile");tile.setAttribute("aria-pressed",String(directoryCuisines.has(name)));tile.append(photo(categoryPhoto(name),name+" — صورة توضيحية"),el("span",name));$("restaurantCuisines").append(tile);
   });
 }
+function renderPublic(){
+  const query=normalize($("search").value),city=$("city").value;
+  $("clear").hidden=!query && !city && !selectedFood;
+  $("restaurants").replaceChildren();
+  if(!ready.restaurants)empty($("restaurants"),"جارٍ تحميل المطاعم…");
+  else if(failed.restaurants)empty($("restaurants"),"تعذّر تحميل المطاعم. حاول تحديث الصفحة.");
+  else{
+    const localQuery=normalize($("restaurantSearch").value);
+    const rows=state.restaurants.filter(r=>matchesRestaurant(r,"",query,city) && matchesRestaurant(r,"",localQuery,"") && (!directoryCuisines.size || [...directoryCuisines].some(c=>restaurantHasCategory(r,c))));
+    const sort=$("restaurantSort").value;
+    rows.sort(sort==="name"?(a,b)=>String(a.name).localeCompare(String(b.name),"ar"):sort==="rating"?(a,b)=>restaurantRating(b.id).average-restaurantRating(a.id).average || displayOrder(a,b):displayOrder);
+    $("resultCount").textContent=rows.length+" مطعم"+(city?" · "+city:"");
+    rows.forEach(r=>$("restaurants").append(restaurantCard(r)));if(!rows.length)empty($("restaurants"),"لا توجد مطاعم مطابقة. جرّب قسمًا أو مدينة أخرى.");
+  }
+  if(detailId)renderRestaurantDetail();
+}
+function openRestaurant(id,push=true){
+  const popup=$("categoryResultsDialog");if(popup?.open)popup.close();
+  detailId=id;detailCuisine="";$("detailSearch").value="";
+  $("publicPage").hidden=true;$("adminPage").hidden=true;$("restaurantDetail").hidden=false;
+  if(push)history.pushState({restaurant:id},"",restaurantHref(id));
+  renderRestaurantDetail();window.scrollTo({top:0,behavior:"instant"});
+}
+function renderRestaurantDetail(){
+  if(!detailId)return;
+  const row=state.restaurants.find(r=>r.id===detailId && r.active!==false),info=$("restaurantDetailInfo");info.replaceChildren();
+  if(!ready.restaurants){empty(info,"جارٍ تحميل المطعم…");return;}
+  if(!row){empty(info,failed.restaurants?"تعذّر تحميل المطعم. حدّث الصفحة للمحاولة مجددًا.":"هذا المطعم غير متاح حاليًا.");$("restaurantDetailOffers").replaceChildren();$("detailMeals").replaceChildren();$("detailCategories").replaceChildren();return;}
+  const profile=el("div",undefined,"restaurant-profile"),body=el("div"),name=el("h1",row.name);name.id="detailName";
+  profile.append(photo(safePhoto(row.img)||categoryPhoto(restaurantCategories(row)[0]),row.name));body.append(name,el("p",[row.city,...restaurantCategories(row)].filter(Boolean).join(" · ")),el("p",restaurantDescription(row)));
+  const actions=el("div",undefined,"row");actions.append(ratingControl(row),whatsappLink(row,"قائمة المطعم"));body.append(actions);profile.append(body);info.append(profile);
+  const offers=state.offers.filter(o=>o.active!==false && o.restaurantId===row.id),offerBox=$("restaurantDetailOffers");offerBox.replaceChildren();offerBox.hidden=!offers.length;
+  if(offers.length){offerBox.append(el("h2","العروض ("+offers.length+")"));const list=el("div",undefined,"detail-offer-list");offers.forEach(o=>{const card=el("article",undefined,"detail-offer");card.append(el("h3",o.title));if(o.details)card.append(el("p",o.details));card.append(whatsappLink(row,"عرض: "+o.title));list.append(card);});offerBox.append(list);}
+  renderDetailMeals();
+}
+function renderDetailMeals(){
+  const row=state.restaurants.find(r=>r.id===detailId && r.active!==false);if(!row)return;
+  const meals=state.menuItems.filter(m=>m.merchantId===detailId && m.status==="approved").sort(displayOrder),categories=[...new Set(meals.map(m=>m.payload.category))];
+  if(detailCuisine && !categories.includes(detailCuisine))detailCuisine="";
+  $("detailCategories").replaceChildren();["",...categories].forEach(c=>{const b=button(c || "جميع الوجبات",()=>{detailCuisine=c;renderDetailMeals();},"detail-category");b.setAttribute("aria-pressed",String(detailCuisine===c));$("detailCategories").append(b);});
+  const query=normalize($("detailSearch").value),filtered=meals.filter(m=>(!detailCuisine || m.payload.category===detailCuisine) && (!query || normalize(m.payload.name+" "+m.payload.description).includes(query)));
+  $("detailMenuTitle").textContent=(detailCuisine || "الوجبات والقائمة")+" ("+filtered.length+")";$("detailMeals").replaceChildren();
+  if(!ready.menuItems)empty($("detailMeals"),"جارٍ تحميل قائمة المطعم…");
+  else if(failed.menuItems)empty($("detailMeals"),"تعذّر تحميل الوجبات. حاول تحديث الصفحة.");
+  else if(!filtered.length)empty($("detailMeals"),meals.length?"لا توجد وجبات مطابقة للبحث.":"لم ينشر المطعم وجبات معتمدة بعد.");
+  else filtered.forEach(m=>$("detailMeals").append(detailMealCard(m,row)));
+}
+document.addEventListener("click",event=>{const a=event.target.closest("a[data-open-restaurant]");if(!a || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey)return;event.preventDefault();openRestaurant(a.dataset.openRestaurant);});
+$("backToRestaurants").addEventListener("click",()=>{showPublic();$("restaurantDirectory").scrollIntoView({block:"start"});});
+$("restaurantSearch").addEventListener("input",renderPublic);$("restaurantSort").addEventListener("change",renderPublic);
+$("clearRestaurantFilters").addEventListener("click",()=>{directoryCuisines.clear();$("restaurantSearch").value="";$("restaurantSort").value="recommended";renderDirectoryFilters();renderPublic();});
+$("detailSearch").addEventListener("input",renderDetailMeals);
+window.addEventListener("popstate",()=>{const id=new URLSearchParams(location.search).get("restaurant");if(id)openRestaurant(id,false);else{detailId="";$("restaurantDetail").hidden=true;$("publicPage").hidden=false;$("adminPage").hidden=true;}});
+renderDirectoryFilters();
 
 $("search").addEventListener("input",renderPublic);
 $("city").addEventListener("change",renderPublic);
@@ -857,12 +903,14 @@ $("offerToggle").addEventListener("click",()=>{
 });
 
 function showPublic(){
+  detailId="";$("restaurantDetail").hidden=true;
   $("publicPage").hidden = false;
   $("adminPage").hidden = true;
   history.replaceState(null,"",location.pathname);
 }
 function showAdmin(){
   if (currentUser?.uid !== ADMIN_UID) return openLogin("admin");
+  detailId="";$("restaurantDetail").hidden=true;
   $("publicPage").hidden = true;
   $("adminPage").hidden = false;
   history.replaceState(null,"",location.pathname+"?admin=1");
@@ -1326,6 +1374,11 @@ function renderAdminLists(){
         })));
       }
       if(collectionName==="restaurants"){
+        const description=el("textarea");description.maxLength=300;description.value=row.description || "";description.setAttribute("aria-label","وصف مختصر للمطعم");
+        item.append(el("p","وصف مختصر للمطعم"),description,button("حفظ الوصف",()=>run(item,async()=>{
+          await DB.updateDoc(DB.doc(db,"restaurants",row.id),{description:description.value.trim()});tell("تم حفظ وصف المطعم.");
+        })));
+
         const phone=el("input");phone.type="tel";phone.dir="ltr";phone.value=row.whatsapp || "+963";phone.setAttribute("aria-label","WhatsApp للمطعم — يظهر للعملاء");
         item.append(el("p","WhatsApp للمطعم — يظهر للعملاء"),phone,button("حفظ WhatsApp",()=>run(item,async()=>{
           await DB.updateDoc(DB.doc(db,"restaurants",row.id),{whatsapp:normalizeWhatsapp(phone.value)});tell("تم حفظ رقم WhatsApp.");
@@ -1399,6 +1452,7 @@ $("merchantForm").addEventListener("submit",event=>{
   event.preventDefault();
   const values = {
     name:$("merchantName").value.trim(),
+    description:$("merchantDescription").value.trim(),
     email:$("merchantEmail").value.trim(),
     username:$("merchantUsername").value.trim().toLowerCase(),
     whatsapp:$("merchantWhatsapp").value.trim(),
@@ -1440,6 +1494,7 @@ $("merchantForm").addEventListener("submit",event=>{
         name:values.name,
         city:values.city,
         categories:[values.category],
+        description:values.description,
         whatsapp:values.whatsapp,
         img,
         active:true,
@@ -1519,7 +1574,7 @@ function watchPublic(name,reference){
     publicErrors.delete(name);
     if (!publicErrors.size && $("status").classList.contains("error"))
       tell("تم استعادة الاتصال.");
-    if (name === "foods") renderCategories();
+    if (name === "foods"){renderCategories();renderDirectoryFilters();}
     renderOffers();
     renderPublic();
     renderMyMenu();
@@ -1623,6 +1678,8 @@ function handleAuth(user){
 }
 
 renderCategories();
+const initialRestaurant=new URLSearchParams(location.search).get("restaurant");
+if(initialRestaurant)openRestaurant(initialRestaurant,false);
 
 async function boot(){
   try{
@@ -1645,7 +1702,7 @@ async function boot(){
     tell("");
   }catch{
     tell("تعذّر تحميل Firebase. تحقق من الإنترنت ثم حدّث الصفحة.",true);
-    ["offers","menuList","restaurants"].forEach(id=>empty($(id),"تعذّر الاتصال بالخدمة."));
+    ["offers","restaurants"].forEach(id=>empty($(id),"تعذّر الاتصال بالخدمة."));
   }
 }
 
