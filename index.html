@@ -157,6 +157,13 @@ footer li{margin-bottom:7px}
 @media(max-width:1000px){.directory-layout,.detail-menu-layout{grid-template-columns:185px minmax(0,1fr);gap:16px}.directory,.detail-menu-layout{padding:18px}.detail-meal-grid{grid-template-columns:1fr}}
 @media(max-width:700px){.directory-layout,.detail-menu-layout{grid-template-columns:1fr}.directory{padding:14px}.directory-sidebar{padding:14px}.directory-sidebar h3{margin-bottom:10px}#restaurantFilters{display:flex;flex-wrap:wrap;gap:0 16px}.filter-check{margin:6px 0}.restaurant-grid{gap:14px}.restaurant-cover{aspect-ratio:2.25}.restaurant-name-row h3{font-size:14px}.restaurant-profile{grid-template-columns:100px minmax(0,1fr);gap:15px}.restaurant-profile>img,.restaurant-profile>.image-fallback{width:100px;height:100px}.restaurant-profile h1{font-size:21px}.detail-menu-layout{padding:14px}#detailCategories{display:flex;overflow-x:auto;gap:6px}.detail-category{white-space:nowrap;width:auto}.detail-meal-grid{grid-template-columns:1fr}}
 @media(max-width:470px){.restaurant-grid{grid-template-columns:1fr}.restaurant-cover{aspect-ratio:2.65}.directory-heading h2{font-size:22px}.restaurant-profile{align-items:start}}
+
+.offer-image-button{display:block;width:100%;padding:0;border:0;background:#f2f2f2;cursor:zoom-in}
+.offer-image-button>img,.offer-image-button>.image-fallback{width:100%;height:215px;object-fit:cover}
+#offerDialog{width:min(900px,96vw)}
+.offer-full-image{width:100%;height:auto;max-height:none;object-fit:contain;border-radius:12px;margin-block:16px}
+.offer-contact-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}.offer-contact-actions a{text-decoration:none}
+.detail-offer .offer-image-button{border-radius:8px;margin-bottom:10px}.detail-offer .offer-image-button>img{height:120px;object-fit:cover}
 </style>
 </head>
 <body>
@@ -216,7 +223,6 @@ footer li{margin-bottom:7px}
   </section>
 
   <section id="restaurantDirectory" class="directory" aria-labelledby="restaurantTitle">
-    <div class="directory-heading"><h2 id="restaurantTitle">المطاعم</h2><span id="resultCount" role="status"></span></div>
     <div class="directory-layout">
       <aside class="directory-sidebar" aria-label="تصفية المطاعم">
         <h3>فلترة وترتيب</h3>
@@ -225,7 +231,12 @@ footer li{margin-bottom:7px}
         <h4>أقسام الطعام</h4><div id="restaurantFilters"></div>
         <button class="btn small" id="clearRestaurantFilters" type="button">مسح فلاتر المطاعم</button>
       </aside>
-      <div class="directory-results"><div id="restaurantCuisines" class="cuisine-strip" aria-label="أقسام طعام المطاعم"></div><div id="restaurants" class="restaurant-grid"><p class="empty">جارٍ تحميل المطاعم…</p></div></div>
+      <div class="directory-results">
+        <div class="directory-heading"><h2 id="restaurantCuisineTitle">أقسام الطعام</h2></div>
+        <div id="restaurantCuisines" class="cuisine-strip" aria-labelledby="restaurantCuisineTitle"></div>
+        <div class="directory-heading"><h2 id="restaurantTitle">المطاعم</h2><span id="resultCount" role="status"></span></div>
+        <div id="restaurants" class="restaurant-grid"><p class="empty">جارٍ تحميل المطاعم…</p></div>
+      </div>
     </div>
   </section>
 </main>
@@ -259,6 +270,9 @@ footer li{margin-bottom:7px}
       <input id="offerTitle" maxlength="150" required>
       <label for="offerDetails">تفاصيل العرض</label><textarea id="offerDetails" maxlength="1500"></textarea>
       <label for="offerRestaurant">المطعم</label><select id="offerRestaurant"><option value="">اختر المطعم — اختياري</option></select>
+      <label for="offerContactName">اسم المطعم صاحب العرض — إذا لم تختر مطعمًا</label><input id="offerContactName" maxlength="150">
+      <label for="offerWhatsapp">رقم التواصل للعرض — اختياري، يظهر للعملاء</label><input id="offerWhatsapp" type="tel" dir="ltr" placeholder="+963…" maxlength="20">
+      <p class="muted">اترك الرقم فارغًا لاستخدام رقم WhatsApp المحفوظ للمطعم. الرقم المضاف يفعّل واتساب والاتصال المباشر.</p>
       <label for="offerPic">صورة العرض</label>
       <input id="offerPic" type="file" accept="image/jpeg,image/png,image/webp" required>
       <button class="btn primary full" type="submit">نشر العرض</button>
@@ -319,6 +333,10 @@ footer li{margin-bottom:7px}
   </div>
 </section>
 
+<dialog id="offerDialog" aria-labelledby="offerDialogTitle">
+  <div class="dialog-head"><h2 id="offerDialogTitle">تفاصيل العرض</h2><button class="btn small" data-close="offerDialog" aria-label="إغلاق العرض">✕</button></div>
+  <div id="offerDialogContent"></div>
+</dialog>
 <dialog id="loginDialog" aria-labelledby="loginTitle">
   <div class="dialog-head">
     <h2 id="loginTitle">تسجيل الدخول</h2>
@@ -766,6 +784,37 @@ $("ratingForm").addEventListener("submit",event=>{
     $("ratingDialog").close();tell("تم حفظ تقييمك. يمكنك تحديثه لاحقًا.");
   });
 });
+function getOfferContact(offer){
+  const restaurant=state.restaurants.find(r=>r.id===offer.restaurantId);
+  const name=restaurant?.name || offer.contactName || "المطعم";
+  if(restaurant?.active===false)return {name,number:""};
+  const raw=offer.whatsapp || restaurant?.whatsapp;
+  if(!raw)return {name,number:""};
+  try{return {name,number:normalizeWhatsapp(raw)};}catch{return {name,number:""};}
+}
+function offerContactActions(offer){
+  const contact=getOfferContact(offer),box=el("div",undefined,"offer-contact-actions");
+  if(!contact.number)return box;
+  const whatsapp=whatsappLink({name:contact.name,whatsapp:contact.number},"العرض: "+offer.title);
+  const call=el("a","اتصال بالمطعم","btn");call.href="tel:"+contact.number;call.setAttribute("aria-label","اتصال بـ "+contact.name);
+  box.append(whatsapp,call);return box;
+}
+function offerImageButton(offer){
+  const b=button("",()=>openOffer(offer.id),"offer-image-button");
+  b.setAttribute("aria-label","تكبير صورة العرض: "+(offer.title || "عرض"));b.append(photo(offer.img,offer.title || "عرض"));return b;
+}
+function openOffer(id){
+  const offer=state.offers.find(o=>o.id===id && o.active!==false);if(!offer)return;
+  $("offerDialogTitle").textContent=offer.title || "تفاصيل العرض";
+  const content=$("offerDialogContent");content.replaceChildren();
+  const image=photo(offer.img,offer.title || "صورة العرض");image.classList.add("offer-full-image");content.append(image);
+  const contact=getOfferContact(offer);
+  if(offer.restaurantId || offer.contactName)content.append(el("h3",contact.name));
+  if(offer.details)content.append(el("p",offer.details,"review-description"));
+  if(contact.number){content.append(offerContactActions(offer));const number=el("p",contact.number,"muted");number.dir="ltr";content.append(number);}
+  else content.append(el("p","لم يُضف رقم تواصل لهذا العرض بعد.","muted"));
+  showDialog("offerDialog");
+}
 function renderOffers(){
   if (!ready.offers) return;
   if (failed.offers) return empty($("offers"),"تعذّر تحميل العروض. حاول تحديث الصفحة.");
@@ -781,8 +830,8 @@ function renderOffers(){
     const body = el("div",undefined,"card-body");
     body.append(el("h3",row.title || "عرض"));
     if(row.details)body.append(el("p",row.details,"review-description"));
-    if(row.restaurantId)body.append(whatsappLink(state.restaurants.find(r=>r.id===row.restaurantId),"عرض: "+row.title));
-    card.append(photo(row.img,row.title || "عرض"),body);
+    body.append(offerContactActions(row));
+    card.append(offerImageButton(row),body);
     $("offers").append(card);
   });
 }
@@ -865,7 +914,7 @@ function renderRestaurantDetail(){
   profile.append(photo(safePhoto(row.img)||categoryPhoto(restaurantCategories(row)[0]),row.name));body.append(name,el("p",[row.city,...restaurantCategories(row)].filter(Boolean).join(" · ")),el("p",restaurantDescription(row)));
   const actions=el("div",undefined,"row");actions.append(ratingControl(row),whatsappLink(row,"قائمة المطعم"));body.append(actions);profile.append(body);info.append(profile);
   const offers=state.offers.filter(o=>o.active!==false && o.restaurantId===row.id),offerBox=$("restaurantDetailOffers");offerBox.replaceChildren();offerBox.hidden=!offers.length;
-  if(offers.length){offerBox.append(el("h2","العروض ("+offers.length+")"));const list=el("div",undefined,"detail-offer-list");offers.forEach(o=>{const card=el("article",undefined,"detail-offer");card.append(el("h3",o.title));if(o.details)card.append(el("p",o.details));card.append(whatsappLink(row,"عرض: "+o.title));list.append(card);});offerBox.append(list);}
+  if(offers.length){offerBox.append(el("h2","العروض ("+offers.length+")"));const list=el("div",undefined,"detail-offer-list");offers.forEach(o=>{const card=el("article",undefined,"detail-offer");card.append(offerImageButton(o),el("h3",o.title));if(o.details)card.append(el("p",o.details));card.append(offerContactActions(o));list.append(card);});offerBox.append(list);}
   renderDetailMeals();
 }
 function renderDetailMeals(){
@@ -1366,6 +1415,19 @@ function renderAdminLists(){
         await DB.updateDoc(DB.doc(db,collectionName,row.id),{active:row.active === false});
         tell("تم تحديث حالة النشر.");
       })));
+      if(collectionName==="offers"){
+        const restaurant=el("select");restaurant.setAttribute("aria-label","المطعم صاحب العرض");restaurant.append(new Option("اختر مطعمًا — اختياري",""));
+        state.restaurants.forEach(r=>restaurant.append(new Option(r.name,r.id)));
+        if(row.restaurantId && !state.restaurants.some(r=>r.id===row.restaurantId))restaurant.append(new Option("المطعم المرتبط غير متاح",row.restaurantId));
+        restaurant.value=row.restaurantId || "";
+        const name=el("input");name.maxLength=150;name.value=row.contactName || "";name.setAttribute("aria-label","اسم المطعم صاحب العرض عند عدم الربط");
+        const phone=el("input");phone.type="tel";phone.dir="ltr";phone.placeholder="+963…";phone.value=row.whatsapp || "";phone.setAttribute("aria-label","رقم التواصل للعرض — يظهر للعملاء");
+        item.append(el("p","المطعم صاحب العرض"),restaurant,el("p","اسم المطعم إذا لم تختر مطعمًا"),name,el("p","رقم التواصل — اتركه فارغًا لاستخدام رقم المطعم"),phone,button("حفظ بيانات التواصل",()=>run(item,async()=>{
+          const whatsapp=phone.value.trim()?normalizeWhatsapp(phone.value):"";
+          if(whatsapp && !restaurant.value && !name.value.trim())throw friendly("اختر المطعم أو أدخل اسمه مع رقم التواصل.");
+          await DB.updateDoc(DB.doc(db,"offers",row.id),{restaurantId:restaurant.value,contactName:name.value.trim(),whatsapp});tell("تم حفظ التواصل عبر واتساب والاتصال للعرض.");
+        })));
+      }
       if(collectionName!=="offers"){
         const order=el("input");order.type="number";order.min="0";order.max="999999";order.step="1";order.value=String(row.sortOrder ?? 1000);order.setAttribute("aria-label","ترتيب العرض — الرقم الأصغر أولًا");
         item.append(el("p","ترتيب العرض — الرقم الأصغر أولًا"),order,button("حفظ الترتيب",()=>run(item,async()=>{
@@ -1423,11 +1485,14 @@ $("offerForm").addEventListener("submit",event=>{
   const title = $("offerTitle").value.trim();
   const file = $("offerPic").files[0];
   const details=$("offerDetails").value.trim(),restaurantId=$("offerRestaurant").value;
+  const contactName=$("offerContactName").value.trim(),rawWhatsapp=$("offerWhatsapp").value.trim();
   run($("offerForm"),async()=>{
     if (!title) throw friendly("أدخل عنوان العرض.");
+    const whatsapp=rawWhatsapp?normalizeWhatsapp(rawWhatsapp):"";
+    if(whatsapp && !restaurantId && !contactName)throw friendly("اختر المطعم أو أدخل اسمه مع رقم التواصل.");
     const img = await compressImage(file);
     await DB.addDoc(DB.collection(db,"offers"),{
-      title,details,restaurantId,img,active:true,createdAt:DB.serverTimestamp()
+      title,details,restaurantId,contactName,whatsapp,img,active:true,createdAt:DB.serverTimestamp()
     });
     $("offerForm").reset();
     tell("تم نشر العرض.");
