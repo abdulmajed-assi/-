@@ -1,927 +1,1377 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#153f35">
-<meta name="description" content="اكتشف المطاعم والعروض وأقسام الطعام على البلد فود.">
-<title>البلد فود | اكتشف مطاعم مدينتك</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#153f35">
+  <meta name="description" content="اكتشف المطاعم والعروض وقوائم الطعام في مدينتك مع البلد فود.">
+  <title>البلد فود | اكتشف طعم مدينتك</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-<style>
-:root{
-  --green:#153f35;--green2:#22634f;--cream:#f8f6f0;
-  --ink:#202c27;--muted:#647169;--line:#e2e7df;
-  --white:#fff;--accent:#f2c66d;--radius:20px
-}
-*{box-sizing:border-box}
-body{margin:0;background:var(--cream);color:var(--ink);font-family:Cairo,sans-serif}
-button,input,select{font:inherit}
-button,a,input,select{-webkit-tap-highlight-color:transparent}
-button{cursor:pointer}
-button:disabled{opacity:.55;cursor:wait}
-a{color:var(--green)}
-[hidden]{display:none!important}
-:focus-visible{outline:3px solid #c88d21;outline-offset:4px}
-.wrap{width:min(1180px,92%);margin:auto}
-.top{background:#fff;border-bottom:1px solid var(--line)}
-.top-inner{min-height:88px;display:flex;align-items:center;justify-content:space-between;gap:20px}
-.brand{text-decoration:none;color:var(--green);display:flex;align-items:center;gap:12px}
-.brand-mark{width:44px;height:44px;background:var(--green);border-radius:14px;color:#fff;display:grid;place-items:center;font-weight:800;font-size:23px}
-.brand strong{display:block;font-size:23px;line-height:1.3}
-.brand small{display:block;font-size:11px;letter-spacing:2px;color:var(--muted)}
-.actions{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
-.btn{border:1px solid var(--line);background:#fff;color:var(--green);padding:10px 17px;border-radius:12px;font-weight:700}
-.btn.primary{background:var(--green);color:#fff;border-color:var(--green)}
-.btn.soft{background:#edf3ed;border-color:#edf3ed}
-.btn.small{font-size:12px;padding:7px 11px}
-.btn.full{width:100%}
-button:hover:not(:disabled){filter:brightness(.97)}
-.notice{padding:13px 16px;background:#fff3d6;border:1px solid #e6cc92;border-radius:12px;overflow-wrap:anywhere}
-#status{margin-top:16px;margin-bottom:16px}
-.hero{margin:28px 0 34px;border-radius:28px;background:var(--green);color:#fff;display:grid;grid-template-columns:1.35fr .65fr;overflow:hidden;min-height:290px}
-.hero-copy{padding:34px}
-.eyebrow{font-size:12px;color:#e9cc91;margin:0 0 10px}
-h1{font-size:clamp(30px,4.2vw,48px);line-height:1.4;margin:0 0 10px;font-weight:800}
-.hero-copy>p:not(.eyebrow){color:#d5e3da;margin:0 0 24px;font-size:14px}
-.hero-photo{width:100%;height:100%;object-fit:cover;min-height:260px}
-.filters{display:grid;grid-template-columns:1fr 155px;gap:10px;background:#fff;padding:9px;border-radius:16px}
-.filters input,.filters select{border:0;background:#f3f5f1;color:var(--ink);border-radius:10px;min-width:0;width:100%;padding:12px;font-size:13px}
-.section{margin:0 0 34px}
-.section-head{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:17px}
-h2{font-size:23px;margin:0}
-.subtitle{font-size:12px;color:var(--muted);margin:4px 0 0}
-.categories{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:13px}
-.category{border:1px solid var(--line);border-radius:17px;background:#fff;padding:7px 7px 11px;min-width:0;transition:transform .16s,border-color .16s}
-.category:hover{transform:translateY(-3px)}
-.category[aria-pressed=true]{border:2px solid var(--green);background:#eaf1e8;padding:6px 6px 10px}
-.category img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:11px;display:block;background:#eee}
-.category span{display:block;margin-top:8px;font-weight:700;font-size:12px;color:var(--ink)}
-.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:19px}
-.card{border:1px solid var(--line);border-radius:var(--radius);background:#fff;overflow:hidden;min-width:0}
-.card-photo{height:190px;width:100%;object-fit:cover;display:block;background:#eef1e9}
-.card-body{padding:18px}
-.card h3{font-size:18px;margin:0 0 8px;overflow-wrap:anywhere}
-.card p{font-size:13px;color:var(--muted);margin:5px 0;overflow-wrap:anywhere}
-.chip{display:inline-block;font-size:11px;background:#edf3eb;color:var(--green);padding:4px 9px;border-radius:8px;margin:5px 0 0 5px}
-.empty{grid-column:1/-1;border:1px dashed #cad4c8;background:#ffffff80;padding:28px;border-radius:18px;color:var(--muted);text-align:center}
-footer{border-top:1px solid var(--line);padding:26px 0 36px;margin-top:35px;color:var(--muted);font-size:12px}
-.footer-top{display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap}
-details{margin-top:15px}
-summary{cursor:pointer;color:var(--green);font-weight:700}
-#credits p{margin:8px 0}
-dialog{border:1px solid var(--line);border-radius:24px;padding:26px;width:min(440px,calc(100% - 24px));max-height:90dvh;overflow:auto;color:var(--ink)}
-dialog::backdrop{background:#0b211c99;backdrop-filter:blur(3px)}
-.dialog-head{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:17px}
-.dialog-head h2{font-size:22px}
-.close{border:0;border-radius:9px;background:#eff2ec;width:34px;height:34px;font-size:20px}
-form label{display:block;font-size:13px;font-weight:700;margin:13px 0 6px}
-form input,form select{width:100%;padding:11px 12px;border:1px solid #d7dfd3;border-radius:11px;background:#fff;color:var(--ink);min-width:0}
-form input[type=file]{font-size:12px;padding:9px}
-form .btn{margin-top:16px}
-.tabs{display:flex;gap:8px;margin-bottom:8px}
-.tabs .btn{flex:1}
-.separator{display:flex;align-items:center;gap:12px;color:var(--muted);font-size:12px;margin:18px 0}
-.separator:before,.separator:after{content:"";height:1px;background:var(--line);flex:1}
-.text-btn{border:0;background:none;color:var(--green);padding:8px 0;font-size:12px;text-decoration:underline}
-.account-mail{direction:ltr;text-align:right;overflow-wrap:anywhere}
-.admin-title{margin:30px 0 22px;display:flex;justify-content:space-between;gap:15px;align-items:center}
-.admin-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;align-items:start}
-.panel{background:#fff;border:1px solid var(--line);padding:22px;border-radius:20px;min-width:0}
-.panel h3{font-size:18px;margin:0 0 10px}
-.admin-block{margin:20px 0}
-.row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid var(--line)}
-.row p{margin:0;font-size:13px;overflow-wrap:anywhere}
-.row:last-child{border-bottom:0}
-.sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-@media(max-width:950px){
-  .categories{grid-template-columns:repeat(4,minmax(0,1fr))}
-  .hero{grid-template-columns:1.3fr .7fr}
-  .hero-copy{padding:26px}
-  .admin-grid{grid-template-columns:1fr 1fr}
-}
-@media(max-width:650px){
-  .top-inner{min-height:80px;gap:12px;flex-wrap:wrap;padding:15px 0}
-  .brand strong{font-size:20px}
-  .actions{gap:6px}
-  .actions .btn{padding:8px 10px;font-size:12px}
-  .hero{display:block;margin:20px 0 26px;position:relative}
-  .hero-copy{padding:25px;position:relative;z-index:1}
-  .hero-photo{height:150px;min-height:0;object-position:center 55%}
-  .filters{grid-template-columns:1fr}
-  .filters input,.filters select{font-size:16px}
-  .categories{gap:9px}
-  .category span{font-size:11px}
-  .grid,.admin-grid{grid-template-columns:1fr}
-  .card-photo{height:210px}
-  h2{font-size:21px}
-  .panel{padding:18px}
-}
-@media(prefers-reduced-motion:reduce){
-  *,*:before,*:after{transition:none!important;scroll-behavior:auto!important}
-}
-</style>
+  <style>
+    :root {
+      --green:#153f35;
+      --green2:#22634f;
+      --cream:#f8f6f0;
+      --ink:#202c27;
+      --muted:#647169;
+      --line:#e2e7df;
+      --accent:#f2c66d;
+      --radius:20px;
+    }
+    * { box-sizing:border-box }
+    [hidden] { display:none !important }
+    body {
+      margin:0;
+      background:var(--cream);
+      color:var(--ink);
+      font-family:"Cairo",sans-serif;
+      line-height:1.8;
+    }
+    button,input,select,textarea { font:inherit }
+    button,a,input,select,textarea { -webkit-tap-highlight-color:transparent }
+    button { cursor:pointer }
+    button:disabled { cursor:wait; opacity:.55 }
+    a { color:var(--green) }
+    img { display:block; max-width:100% }
+    h1,h2,h3,p { margin-top:0 }
+    h2 { font-size:1.55rem; margin-bottom:4px }
+    h3 { margin-bottom:8px }
+    :focus-visible { outline:3px solid #d99927; outline-offset:3px }
+    .wrap { width:min(1180px,92%); margin-inline:auto }
+    .top { background:#fff; border-bottom:1px solid var(--line) }
+    .top-inner {
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      flex-wrap:wrap;
+      gap:16px;
+      padding-block:18px;
+    }
+    .brand {
+      display:flex;
+      align-items:center;
+      gap:12px;
+      text-decoration:none;
+      color:var(--green);
+    }
+    .brand-icon {
+      display:grid;
+      place-items:center;
+      width:50px;
+      height:50px;
+      border-radius:16px;
+      background:var(--green);
+      color:var(--accent);
+      font-weight:800;
+      font-size:30px;
+    }
+    .brand strong { display:block; font-size:22px; line-height:1.4 }
+    .brand small { display:block; font-size:10px; letter-spacing:3px }
+    .actions,.row,.section-head {
+      display:flex;
+      align-items:center;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+    .section-head { justify-content:space-between; margin-bottom:20px }
+    .btn {
+      border:1px solid var(--line);
+      border-radius:12px;
+      padding:10px 17px;
+      background:#fff;
+      color:var(--green);
+      font-weight:700;
+    }
+    .btn:hover { background:#edf3ee }
+    .btn.primary { background:var(--green); color:#fff; border-color:var(--green) }
+    .btn.primary:hover { background:var(--green2) }
+    .btn.danger { color:#a12c2c; border-color:#efc5c5 }
+    .btn.small { padding:7px 12px; font-size:13px }
+    .notice {
+      padding:12px 16px;
+      border-radius:12px;
+      background:#eaf1eb;
+      overflow-wrap:anywhere;
+      margin-block:16px;
+    }
+    .notice.error { background:#fff0ee; color:#963b30 }
+    .muted,.subtitle { color:var(--muted); font-size:14px }
+    .hero {
+      margin-block:26px 36px;
+      background:var(--green);
+      color:white;
+      border-radius:28px;
+      overflow:hidden;
+      display:grid;
+      grid-template-columns:1.15fr 1fr;
+      min-height:350px;
+    }
+    .hero-copy { padding:40px }
+    .eyebrow { color:var(--accent); font-weight:700; font-size:14px }
+    .hero h1 { font-size:clamp(32px,4vw,52px); line-height:1.4; margin-block:10px }
+    .hero p { color:#dce8df }
+    .hero-photo { width:100%; height:100%; min-height:350px; object-fit:cover }
+    .searchbox {
+      display:grid;
+      grid-template-columns:1fr 150px;
+      gap:8px;
+      padding:8px;
+      background:#fff;
+      border-radius:16px;
+      margin-top:26px;
+    }
+    .searchbox input,.searchbox select { min-width:0; background:#f4f6f1 }
+    input,select,textarea {
+      width:100%;
+      border:1px solid var(--line);
+      border-radius:10px;
+      padding:11px 12px;
+      background:#fff;
+      color:var(--ink);
+    }
+    textarea { resize:vertical; min-height:95px }
+    label { display:block; font-size:14px; font-weight:700; margin-block:12px 5px }
+    main section { margin-block:38px }
+    .categories { display:grid; grid-template-columns:repeat(8,1fr); gap:14px }
+    .category {
+      border:1px solid transparent;
+      background:transparent;
+      border-radius:16px;
+      padding:8px;
+      color:var(--ink);
+    }
+    .category img {
+      width:100%;
+      aspect-ratio:1;
+      object-fit:cover;
+      border-radius:50%;
+      margin-bottom:10px;
+      box-shadow:0 5px 15px #153f3510;
+    }
+    .category span { font-weight:700; font-size:13px }
+    .category[aria-pressed="true"] { border-color:var(--green); background:#e8efe6 }
+    .grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:20px }
+    .card {
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      overflow:hidden;
+    }
+    .card>img { width:100%; height:215px; object-fit:cover }
+    .card-body { padding:20px }
+    .card-body p:last-child { margin-bottom:0 }
+    .card-body h3 { line-height:1.6 }
+    .chip {
+      display:inline-block;
+      background:#edf3ea;
+      color:var(--green);
+      border-radius:30px;
+      padding:3px 12px;
+      margin:3px;
+      font-size:12px;
+      font-weight:700;
+    }
+    .price { color:var(--green); font-size:20px; font-weight:800 }
+    .empty {
+      grid-column:1/-1;
+      background:#fff;
+      border:1px dashed #cdd8cd;
+      border-radius:16px;
+      padding:30px;
+      text-align:center;
+      color:var(--muted);
+    }
+    .image-fallback {
+      display:grid;
+      place-items:center;
+      min-height:140px;
+      background:#eaf0e5;
+      color:var(--green);
+      text-align:center;
+      padding:15px;
+    }
+    .panel {
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      padding:24px;
+    }
+    .admin-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px }
+    .admin-block { margin-block:20px }
+    .admin-item { padding-block:18px; border-bottom:1px solid var(--line); overflow-wrap:anywhere }
+    .admin-item:last-child { border-bottom:0 }
+    .review-photo { width:160px; height:110px; object-fit:cover; border-radius:12px }
+    .review-description { white-space:pre-wrap; overflow-wrap:anywhere }
+    .status-pending { color:#8d650e; background:#fff4d5 }
+    .status-approved { color:#23633d; background:#e7f4e9 }
+    .status-rejected { color:#a33434; background:#fce9e9 }
+    dialog {
+      width:min(560px,94vw);
+      max-height:90dvh;
+      border:0;
+      border-radius:22px;
+      padding:26px;
+      color:var(--ink);
+      overflow:auto;
+    }
+    dialog::backdrop { background:#10241cd0 }
+    dialog.wide { width:min(720px,94vw) }
+    .dialog-head { display:flex; justify-content:space-between; align-items:center; gap:15px }
+    .dialog-head h2 { font-size:22px }
+    .tabs { display:flex; gap:8px; margin-block:15px }
+    .tabs button { flex:1 }
+    .full { width:100%; margin-top:15px }
+    .two { display:grid; grid-template-columns:1fr 1fr; gap:12px }
+    footer { border-top:1px solid var(--line); padding-block:25px; margin-top:50px }
+    footer p,footer details { color:var(--muted); font-size:12px }
+    footer li { margin-bottom:7px }
+    @media(max-width:950px) {
+      .categories { grid-template-columns:repeat(4,1fr) }
+      .hero-copy { padding:28px }
+      .grid { grid-template-columns:repeat(2,minmax(0,1fr)) }
+    }
+    @media(max-width:650px) {
+      .hero { grid-template-columns:1fr }
+      .hero-photo { height:210px; min-height:0 }
+      .hero-copy { padding:26px 22px }
+      .searchbox { grid-template-columns:1fr }
+      .grid,.admin-grid,.two { grid-template-columns:1fr }
+      .actions { gap:6px }
+      .actions .btn { font-size:12px; padding:8px 10px }
+      .categories { gap:5px }
+      .category { padding:5px }
+      .category span { font-size:11px }
+      .panel,dialog { padding:19px }
+      .top-inner { gap:12px }
+    }
+  </style>
 </head>
-
 <body>
-<header class="top">
-  <div class="wrap top-inner">
-    <a class="brand" href="./index.html">
-      <span class="brand-mark" aria-hidden="true">ب</span>
-      <span><strong>البلد فود</strong><small>ALBALAD FOOD</small></span>
-    </a>
-    <nav class="actions" aria-label="الحساب">
-      <button id="accountBtn" class="btn" disabled>تسجيل الدخول</button>
-      <button id="merchantBtn" class="btn primary" disabled>حساب تاجر</button>
-      <button id="adminBtn" class="btn soft" hidden>الإدارة</button>
-      <button id="logoutBtn" class="btn small" hidden>خروج</button>
-    </nav>
-  </div>
-</header>
+  <header class="top">
+    <div class="wrap top-inner">
+      <a class="brand" href="./index.html" aria-label="البلد فود، الصفحة الرئيسية">
+        <span class="brand-icon" aria-hidden="true">ب</span>
+        <span><strong>البلد فود</strong><small>ALBALAD FOOD</small></span>
+      </a>
+      <nav class="actions" aria-label="الحساب">
+        <button class="btn" id="accountBtn" disabled>تسجيل الدخول</button>
+        <button class="btn primary" id="merchantBtn" disabled>دخول التاجر</button>
+        <button class="btn" id="adminBtn" hidden>لوحة الإدارة</button>
+        <button class="btn" id="pendingBtn" hidden aria-live="polite">طلبات القائمة (0)</button>
+        <button class="btn" id="logoutBtn" hidden>خروج</button>
+      </nav>
+    </div>
+  </header>
 
-<p id="status" class="wrap notice" role="status">جارٍ الاتصال بخدمات الموقع…</p>
-<noscript><p class="wrap notice">يرجى تفعيل JavaScript لاستخدام الموقع.</p></noscript>
+  <p id="status" class="wrap notice" role="status">جارٍ الاتصال بالخدمة…</p>
 
-<main id="publicPage" class="wrap">
-  <section class="hero" aria-labelledby="heroTitle">
-    <div class="hero-copy">
-      <p class="eyebrow">اكتشف مطاعم مدينتك</p>
-      <h1 id="heroTitle">شو مشتهي اليوم؟</h1>
-      <p>اختَر مدينتك، واستكشف المطاعم والعروض حسب ذوقك.</p>
-      <div class="filters" role="search">
-        <label class="sr" for="search">البحث عن مطعم أو نوع طعام</label>
-        <input id="search" type="search" placeholder="ابحث عن مطعم أو نوع طعام…" autocomplete="off">
-        <label class="sr" for="city">المدينة</label>
-        <select id="city"><option value="">جميع المدن</option></select>
+  <main id="publicPage" class="wrap">
+    <div class="hero">
+      <div class="hero-copy">
+        <span class="eyebrow">اكتشف مطاعم مدينتك</span>
+        <h1>شو مشتهي اليوم؟</h1>
+        <p>اختَر مدينتك، واستكشف المطاعم والعروض وقوائم الطعام المعتمدة.</p>
+        <div class="searchbox">
+          <input id="search" type="search" placeholder="ابحث عن مطعم أو وجبة…" aria-label="البحث عن مطعم أو وجبة">
+          <select id="city" aria-label="اختر المدينة">
+            <option value="">كل المدن</option>
+          </select>
+        </div>
+      </div>
+      <img class="hero-photo"
+        src="https://upload.wikimedia.org/wikipedia/commons/5/5f/Shawarma-sandwich-01.jpg"
+        alt="ساندويش شاورما — صورة توضيحية"
+        width="799" height="533" fetchpriority="high">
+    </div>
+
+    <section aria-labelledby="categoryTitle">
+      <div class="section-head">
+        <div><h2 id="categoryTitle">على ذوقك</h2><p class="subtitle">اختر صنفك المفضل</p></div>
+        <button class="btn small" id="clear" hidden>مسح الفلاتر</button>
+      </div>
+      <div id="foods" class="categories"></div>
+    </section>
+
+    <section aria-labelledby="offersTitle">
+      <div class="section-head">
+        <div><h2 id="offersTitle">العروض</h2><p class="subtitle">آخر العروض المنشورة من الإدارة</p></div>
+        <button class="btn small" id="offerToggle" hidden aria-expanded="false">عرض الكل</button>
+      </div>
+      <div id="offers" class="grid"><p class="empty">جارٍ تحميل العروض…</p></div>
+    </section>
+
+    <section aria-labelledby="menuTitle">
+      <div class="section-head">
+        <div><h2 id="menuTitle">من قوائم المطاعم</h2><p class="subtitle">وجبات أضافها التجار واعتمدتها الإدارة</p></div>
+      </div>
+      <div id="menuList" class="grid"><p class="empty">جارٍ تحميل القائمة…</p></div>
+    </section>
+
+    <section aria-labelledby="restaurantTitle">
+      <div class="section-head">
+        <div><h2 id="restaurantTitle">مطاعم تستحق التجربة</h2><p id="resultCount" class="subtitle" role="status"></p></div>
+      </div>
+      <div id="restaurants" class="grid"><p class="empty">جارٍ تحميل المطاعم…</p></div>
+    </section>
+  </main>
+
+  <section id="adminPage" class="wrap" hidden aria-labelledby="adminTitle">
+    <div class="section-head" style="margin-top:30px">
+      <div><h1 id="adminTitle">لوحة الإدارة</h1><p class="subtitle">إدارة المحتوى والتجار وطلبات إضافة الوجبات</p></div>
+      <button class="btn" id="backToSite">عرض الموقع</button>
+    </div>
+
+    <div id="approvals" class="panel admin-block">
+      <h2>طلبات إضافة الوجبات</h2>
+      <p class="subtitle">لا تظهر الوجبة للزوار قبل الموافقة عليها.</p>
+      <p id="approvalState" role="status"></p>
+      <div id="pendingList"></div>
+    </div>
+
+    <div class="admin-grid">
+      <form id="offerForm" class="panel">
+        <h3>إضافة عرض</h3>
+        <label for="offerTitle">عنوان العرض وتفاصيله</label>
+        <input id="offerTitle" maxlength="150" required>
+        <label for="offerPic">صورة العرض</label>
+        <input id="offerPic" type="file" accept="image/jpeg,image/png,image/webp" required>
+        <button class="btn primary full" type="submit">نشر العرض</button>
+      </form>
+
+      <form id="foodForm" class="panel">
+        <h3>تغيير صورة الصنف</h3>
+        <label for="foodSelect">الصنف</label>
+        <select id="foodSelect" required></select>
+        <label for="foodPic">الصورة</label>
+        <input id="foodPic" type="file" accept="image/jpeg,image/png,image/webp" required>
+        <button class="btn primary full" type="submit">حفظ الصورة</button>
+      </form>
+
+      <form id="merchantForm" class="panel">
+        <h3>إنشاء حساب تاجر ومطعم</h3>
+        <label for="merchantName">اسم المطعم</label>
+        <input id="merchantName" maxlength="150" required>
+        <label for="merchantEmail">البريد الإلكتروني</label>
+        <input id="merchantEmail" type="email" autocomplete="off" dir="ltr" required>
+        <label for="merchantPassword">كلمة مرور أولية — 10 أحرف على الأقل</label>
+        <input id="merchantPassword" type="password" minlength="10" autocomplete="new-password" required>
+        <label for="merchantPhone">رقم التواصل — للإدارة فقط</label>
+        <input id="merchantPhone" type="tel" maxlength="30" dir="ltr">
+        <div class="two">
+          <div>
+            <label for="merchantCity">المدينة</label>
+            <select id="merchantCity" required></select>
+          </div>
+          <div>
+            <label for="merchantFood">الصنف الرئيسي</label>
+            <select id="merchantFood" required></select>
+          </div>
+        </div>
+        <label for="merchantDays">مدة الاشتراك بالأيام</label>
+        <input id="merchantDays" type="number" min="1" max="3650" step="1" value="30" required>
+        <label for="merchantPic">صورة المطعم — اختيارية</label>
+        <input id="merchantPic" type="file" accept="image/jpeg,image/png,image/webp">
+        <button class="btn primary full" type="submit">إنشاء التاجر والمطعم</button>
+      </form>
+
+      <div class="panel">
+        <h3>كيف تعمل مراجعة القوائم؟</h3>
+        <p>يسجّل التاجر الدخول بالحساب المخصص له، ويضيف صورة الوجبة واسمها وسعرها وتصنيفها.</p>
+        <p>يصل الطلب إلى هذه اللوحة ويظهر في عدّاد الطلبات. بعد الموافقة تُنشر الوجبة في الصفحة الرئيسية. وعند الرفض يظهر السبب للتاجر.</p>
+        <p class="muted">التنبيهات داخل لوحة الإدارة. لا تُرسل رسائل بريد أو إشعارات هاتف تلقائيًا.</p>
       </div>
     </div>
-    <img class="hero-photo"
-      src="https://upload.wikimedia.org/wikipedia/commons/5/5f/Shawarma-sandwich-01.jpg"
-      alt="صورة توضيحية لشاورما" width="799" height="533"
-      fetchpriority="high" decoding="async">
-  </section>
 
-  <section class="section" aria-labelledby="categoryTitle">
-    <div class="section-head">
-      <div><h2 id="categoryTitle">على ذوقك</h2><p class="subtitle">اختر نوع الطعام لتصفية المطاعم</p></div>
-      <button id="clear" class="btn small" hidden>مسح التصفية</button>
+    <div class="panel admin-block"><h3>العروض المنشورة</h3><div id="adminOffers"></div></div>
+    <div class="panel admin-block"><h3>المطاعم</h3><div id="adminRestaurants"></div></div>
+    <div class="panel admin-block"><h3>اشتراكات التجار</h3><div id="adminMerchants"></div></div>
+
+    <div class="panel admin-block">
+      <h3>استيراد البيانات القديمة</h3>
+      <p class="muted">يستورد العروض وصور الأصناف القديمة المحفوظة في هذا المتصفح إلى Firebase. لا يحذف النسخة المحلية.</p>
+      <button class="btn" id="migrateBtn">استيراد البيانات القديمة</button>
     </div>
-    <div id="foods" class="categories"></div>
   </section>
 
-  <section class="section" aria-labelledby="offersTitle">
-    <div class="section-head">
-      <div><h2 id="offersTitle">العروض</h2><p class="subtitle">العروض التي تنشرها إدارة الموقع</p></div>
-      <button id="offerToggle" class="btn small" hidden aria-expanded="false">عرض الكل</button>
+  <dialog id="loginDialog" aria-labelledby="loginTitle">
+    <div class="dialog-head">
+      <h2 id="loginTitle">تسجيل الدخول</h2>
+      <button class="btn small" data-close="loginDialog" aria-label="إغلاق">✕</button>
     </div>
-    <div id="offers" class="grid"><p class="empty">جارٍ تحميل العروض…</p></div>
-  </section>
-
-  <section class="section" aria-labelledby="restaurantTitle">
-    <div class="section-head">
-      <div><h2 id="restaurantTitle">استكشف المطاعم</h2><p id="resultCount" class="subtitle" role="status"></p></div>
+    <div class="tabs" id="loginTabs">
+      <button class="btn primary" id="loginTab" type="button">دخول</button>
+      <button class="btn" id="signupTab" type="button">حساب زائر جديد</button>
     </div>
-    <div id="restaurants" class="grid"><p class="empty">جارٍ تحميل المطاعم…</p></div>
-  </section>
-</main>
+    <form id="loginForm">
+      <label for="email">البريد الإلكتروني</label>
+      <input id="email" type="email" autocomplete="email" dir="ltr" required>
+      <label for="password">كلمة المرور</label>
+      <input id="password" type="password" autocomplete="current-password" required>
+      <button class="btn small" id="showPassword" type="button" aria-pressed="false">إظهار كلمة المرور</button>
+      <button class="btn primary full" id="loginSubmit" type="submit">تسجيل الدخول</button>
+    </form>
+    <button class="btn full" id="googleBtn" type="button">المتابعة باستخدام Google</button>
+    <button class="btn full" id="resetPassword" type="button">نسيت كلمة المرور</button>
+    <p id="loginMessage" class="notice" role="status" hidden></p>
+  </dialog>
 
-<section id="adminPage" class="wrap" hidden aria-labelledby="adminTitle">
-  <div class="admin-title">
-    <div><h2 id="adminTitle">إدارة البلد فود</h2><p class="subtitle">المحتوى والحسابات والاشتراكات</p></div>
-    <button id="backToSite" class="btn">معاينة الموقع</button>
-  </div>
+  <dialog id="accountDialog" aria-labelledby="accountTitle">
+    <div class="dialog-head">
+      <h2 id="accountTitle">حسابي</h2>
+      <button class="btn small" data-close="accountDialog" aria-label="إغلاق">✕</button>
+    </div>
+    <p id="accountEmail" dir="ltr"></p>
+    <p id="accountInfo"></p>
+    <button class="btn full" id="accountLogout">تسجيل الخروج</button>
+  </dialog>
 
-  <div class="admin-grid">
-    <form id="offerForm" class="panel">
-      <h3>إضافة عرض</h3>
-      <label for="offerTitle">اسم العرض</label>
-      <input id="offerTitle" maxlength="150" required>
-      <label for="offerPic">صورة العرض</label>
-      <input id="offerPic" type="file" accept="image/jpeg,image/png,image/webp" required>
-      <button class="btn primary full" type="submit">نشر العرض</button>
+  <dialog id="merchantDialog" class="wide" aria-labelledby="merchantTitle">
+    <div class="dialog-head">
+      <h2 id="merchantTitle">إدارة قائمتي</h2>
+      <button class="btn small" data-close="merchantDialog" aria-label="إغلاق">✕</button>
+    </div>
+    <p id="membershipInfo" class="notice"></p>
+
+    <form id="menuForm" hidden>
+      <label for="menuName">اسم الوجبة</label>
+      <input id="menuName" maxlength="120" required>
+      <label for="menuDescription">الوصف والمكونات ومسببات الحساسية إن وجدت</label>
+      <textarea id="menuDescription" maxlength="1000"></textarea>
+      <label for="menuCategory">الصنف</label>
+      <select id="menuCategory" required></select>
+      <div class="two">
+        <div>
+          <label for="menuPrice">السعر</label>
+          <input id="menuPrice" type="number" min="0" max="1000000000" step="0.01" required>
+        </div>
+        <div>
+          <label for="menuCurrency">العملة</label>
+          <select id="menuCurrency">
+            <option value="SYP">ليرة سورية</option>
+            <option value="TRY">ليرة تركية</option>
+            <option value="USD">دولار أمريكي</option>
+          </select>
+        </div>
+      </div>
+      <label for="menuPhoto">صورة حقيقية للوجبة</label>
+      <input id="menuPhoto" type="file" accept="image/jpeg,image/png,image/webp" required>
+      <p class="muted">استخدم صورة تملك حق نشرها. الحد الأقصى للملف 5 ميغابايت.</p>
+      <button class="btn primary full" type="submit">إرسال إلى الإدارة للمراجعة</button>
     </form>
 
-    <form id="foodForm" class="panel">
-      <h3>صورة قسم الطعام</h3>
-      <label for="foodSelect">القسم</label>
-      <select id="foodSelect" required><option value="">اختر القسم</option></select>
-      <label for="foodPic">الصورة الجديدة</label>
-      <input id="foodPic" type="file" accept="image/jpeg,image/png,image/webp" required>
-      <button class="btn primary full" type="submit">حفظ الصورة</button>
-    </form>
+    <p id="menuMessage" class="notice" role="status" hidden></p>
+    <h3 style="margin-top:25px">طلباتي</h3>
+    <div id="menuHistory"></div>
+  </dialog>
 
-    <form id="merchantForm" class="panel">
-      <h3>إضافة تاجر ومطعم</h3>
-      <label for="merchantName">اسم المطعم</label>
-      <input id="merchantName" maxlength="150" required>
-      <label for="merchantEmail">البريد الإلكتروني للتاجر</label>
-      <input id="merchantEmail" type="email" autocomplete="off" required>
-      <label for="merchantPassword">كلمة مرور أولية</label>
-      <input id="merchantPassword" type="password" minlength="10" autocomplete="new-password" required>
-      <label for="merchantPhone">هاتف التاجر — غير منشور للزوار</label>
-      <input id="merchantPhone" type="tel" maxlength="30">
-      <label for="merchantCity">المدينة</label>
-      <select id="merchantCity" required><option value="">اختر المدينة</option></select>
-      <label for="merchantFood">نوع الطعام</label>
-      <select id="merchantFood" required><option value="">اختر النوع</option></select>
-      <label for="merchantDays">مدة الاشتراك بالأيام</label>
-      <input id="merchantDays" type="number" min="1" max="3650" step="1" value="30" required>
-      <label for="merchantPic">صورة المطعم أو وجبة منه — اختياري</label>
-      <input id="merchantPic" type="file" accept="image/jpeg,image/png,image/webp">
-      <button class="btn primary full" type="submit">إنشاء الحساب والمطعم</button>
-    </form>
-  </div>
-
-  <section class="panel admin-block">
-    <h3>إدارة العروض</h3>
-    <div id="adminOffers"></div>
-  </section>
-
-  <section class="panel admin-block">
-    <h3>ظهور المطاعم</h3>
-    <div id="adminRestaurants"></div>
-  </section>
-
-  <section class="panel admin-block">
-    <h3>اشتراكات التجار</h3>
-    <div id="adminMerchants"></div>
-  </section>
-
-  <section class="panel admin-block" id="migrationPanel">
-    <h3>نقل الإضافات القديمة</h3>
-    <p class="subtitle">افتح هذه الصفحة من المتصفح الذي أضفت منه المحتوى سابقاً. سيتم نشر الإضافات لجميع الزوار دون حذف النسخة المحلية.</p>
-    <button id="migrateBtn" class="btn" type="button">نقل إضافات localStorage</button>
-  </section>
-</section>
-
-<footer>
-  <div class="wrap">
-    <div class="footer-top">
-      <strong>البلد فود · Albalad Food</strong>
-      <span>صور أقسام الطعام توضيحية، وقد تختلف عن وجبات المطاعم.</span>
-    </div>
+  <footer class="wrap">
+    <strong>البلد فود</strong>
+    <p>اكتشف المطاعم وقوائم الطعام في مدينتك. صور الأصناف والصورة الرئيسية توضيحية؛ صور الوجبات يرفعها التجار.</p>
     <details>
-      <summary>مصادر صور الطعام</summary>
-      <p>تُعرض الصور مصغّرة ومقتصّة لتناسب البطاقات. تبقى حقوق الصور وتراخيصها لأصحابها.</p>
-      <div id="credits"></div>
+      <summary>مصادر الصور التوضيحية وحقوقها</summary>
+      <ul id="credits"></ul>
     </details>
-  </div>
-</footer>
+  </footer>
 
-<dialog id="loginDialog" aria-labelledby="loginTitle">
-  <div class="dialog-head">
-    <h2 id="loginTitle">أهلاً بك</h2>
-    <button type="button" class="close" data-close="loginDialog" aria-label="إغلاق">×</button>
-  </div>
-  <div id="loginTabs" class="tabs">
-    <button id="loginTab" class="btn primary" type="button">دخول</button>
-    <button id="signupTab" class="btn" type="button">حساب جديد</button>
-  </div>
-  <form id="loginForm">
-    <label for="email">البريد الإلكتروني</label>
-    <input id="email" type="email" autocomplete="email" required>
-    <label for="password">كلمة المرور</label>
-    <input id="password" type="password" autocomplete="current-password" required>
-    <button id="showPassword" type="button" class="text-btn" aria-pressed="false">إظهار كلمة المرور</button>
-    <button id="loginSubmit" class="btn primary full" type="submit">تسجيل الدخول</button>
-  </form>
-  <button id="resetPassword" type="button" class="text-btn">نسيت كلمة المرور؟</button>
-  <div class="separator">أو</div>
-  <button id="googleBtn" class="btn full" type="button">المتابعة باستخدام Google</button>
-  <p id="loginMessage" class="notice" role="status" hidden></p>
-</dialog>
-
-<dialog id="accountDialog" aria-labelledby="accountTitle">
-  <div class="dialog-head">
-    <h2 id="accountTitle">حسابي</h2>
-    <button type="button" class="close" data-close="accountDialog" aria-label="إغلاق">×</button>
-  </div>
-  <p id="accountEmail" class="account-mail"></p>
-  <p id="accountInfo" class="notice"></p>
-  <button id="accountLogout" class="btn full" type="button">تسجيل الخروج</button>
-</dialog>
-
-<script type="module">
-const $ = id => document.getElementById(id);
-const ADMIN_UID = "diJ1B4OuMIbmpBt26ZCL1ghnvHj1";
-const CONFIG = {
-  apiKey: "AIzaSyDRrHrWvynGEezRsJQR6fz1oMJSlj8v58M",
-  authDomain: "albalad-food.firebaseapp.com",
-  projectId: "albalad-food",
-  storageBucket: "albalad-food.firebasestorage.app",
-  messagingSenderId: "933902087450",
-  appId: "1:933902087450:web:a9e7a10d4dc393c6bb28a3"
-};
-
-const CITIES = ["دمشق","ريف دمشق","حمص","اللاذقية","حلب","دير الزور"];
-const COMMONS = "https://commons.wikimedia.org/wiki/";
-const cc = version => "https://creativecommons.org/licenses/" + version + "/";
-const filePhoto = name => COMMONS + "Special:FilePath/" + encodeURIComponent(name) + "?width=330";
-
-const PHOTOS = [
-  {name:"شاورما",file:"Shawarma-sandwich-01.jpg",author:"Vera Yu and David Li",license:"CC BY 2.0",licenseUrl:cc("by/2.0")},
-  {name:"بروستد",file:"Fried-Chicken-Set.jpg",author:"Evan-Amos",license:"CC0",licenseUrl:"https://creativecommons.org/publicdomain/zero/1.0/"},
-  {name:"سندويش غربي",file:"Club_sandwich.jpg",author:"Jessica / WordRidden",license:"CC BY 2.0",licenseUrl:cc("by/2.0")},
-  {name:"فلافل",file:"Bowl_of_falafel.jpg",author:"EvanProdromou",license:"CC BY-SA 4.0",licenseUrl:cc("by-sa/4.0")},
-  {name:"مندي",file:"Mandi_chicken.jpg",author:"ReshmaNazeerhussain",license:"CC0",licenseUrl:"https://creativecommons.org/publicdomain/zero/1.0/"},
-  {name:"برغر",file:"Cheeseburger.png",author:"Renee Comet / NCI; Download",license:"Public domain",licenseUrl:"https://creativecommons.org/publicdomain/mark/1.0/"},
-  {name:"كوكتيل",file:"Fruit_smoothie.jpg",author:"Tiia Monto",license:"CC BY-SA 3.0",licenseUrl:cc("by-sa/3.0")},
-  {name:"حلويات",file:"Baklava.jpg",author:"Randy Oostdyk; Rainer Zenz",license:"CC BY-SA 3.0",licenseUrl:cc("by-sa/3.0")}
-];
-const FOOD_NAMES = PHOTOS.map(item => item.name);
-
-function node(tag,text,className){
-  const result=document.createElement(tag);
-  if(text!==undefined) result.textContent=text;
-  if(className) result.className=className;
-  return result;
-}
-function link(text,href){
-  const result=node("a",text);
-  result.href=href;
-  result.target="_blank";
-  result.rel="noopener noreferrer";
-  return result;
-}
-function normal(value){
-  return String(value||"").normalize("NFKC")
-    .replace(/[\u064B-\u065F\u0670\u0640]/g,"")
-    .replace(/[أإآٱ]/g,"ا").replace(/ى/g,"ي").toLowerCase().trim();
-}
-function safePhoto(value){
-  if(typeof value!=="string"||value.length>260000) return "";
-  if(/^data:image\/(?:jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/.test(value)) return value;
-  try{
-    const url=new URL(value);
-    return url.protocol==="https:"&&!url.username&&!url.password?url.href:"";
-  }catch{return "";}
-}
-function image(src,alt,className){
-  const img=node("img",undefined,className);
-  img.src=safePhoto(src);
-  img.alt=alt;
-  img.loading="lazy";
-  img.decoding="async";
-  img.referrerPolicy="no-referrer";
-  img.addEventListener("error",()=>{
-    const placeholder=node("div",alt,"empty");
-    img.replaceWith(placeholder);
-  },{once:true});
-  return img;
-}
-function empty(container,text){
-  container.replaceChildren(node("p",text,"empty"));
-}
-function say(text){
-  const target=$("loginDialog").open?$("loginMessage"):$("status");
-  target.textContent=text;
-  target.hidden=false;
-}
-function userError(message){
-  const error=new Error(message);
-  error.friendly=true;
-  throw error;
-}
-function errorText(error){
-  const map={
-    "auth/invalid-credential":"البريد الإلكتروني أو كلمة المرور غير صحيحة.",
-    "auth/invalid-email":"أدخل بريداً إلكترونياً صالحاً.",
-    "auth/email-already-in-use":"البريد مسجل بالفعل. استخدم تسجيل الدخول.",
-    "auth/weak-password":"اختر كلمة مرور أقوى.",
-    "auth/password-does-not-meet-requirements":"كلمة المرور لا تستوفي شروط الأمان.",
-    "auth/operation-not-allowed":"طريقة الدخول غير مفعّلة في Firebase.",
-    "auth/unauthorized-domain":"نطاق الموقع غير مضاف إلى Authorized domains في Firebase.",
-    "auth/popup-blocked":"اسمح بالنافذة المنبثقة لتسجيل الدخول باستخدام Google.",
-    "auth/popup-closed-by-user":"أُغلقت نافذة تسجيل الدخول.",
-    "auth/cancelled-popup-request":"أكمل محاولة الدخول الحالية.",
-    "auth/account-exists-with-different-credential":"استخدم طريقة الدخول الأصلية المرتبطة بهذا البريد.",
-    "auth/too-many-requests":"محاولات كثيرة. انتظر قليلاً ثم حاول مجدداً.",
-    "auth/network-request-failed":"تحقق من اتصال الإنترنت.",
-    "permission-denied":"الحساب غير مخوّل أو قواعد قاعدة البيانات غير مكتملة.",
-    "unavailable":"تعذر الاتصال بقاعدة البيانات. حاول لاحقاً.",
-    "resource-exhausted":"تم بلوغ حد استخدام الخدمة. راجع Firebase."
-  };
-  return map[error.code]||(error.friendly?error.message:"تعذر إتمام العملية. حاول مجدداً.");
-}
-async function run(container,action){
-  if(container.dataset.busy==="yes") return;
-  container.dataset.busy="yes";
-  const controls=[...container.querySelectorAll("button,input,select")];
-  const previous=controls.map(item=>item.disabled);
-  controls.forEach(item=>{item.disabled=true;});
-  try{await action();}
-  catch(error){say(errorText(error));}
-  finally{
-    controls.forEach((item,index)=>{item.disabled=previous[index];});
-    delete container.dataset.busy;
-  }
-}
-function dialog(id){
-  document.querySelectorAll("dialog[open]").forEach(item=>item.close());
-  $(id).showModal();
-}
-document.querySelectorAll("[data-close]").forEach(button=>{
-  button.onclick=()=>$(button.dataset.close).close();
-});
-$("loginDialog").addEventListener("close",()=>{
-  $("password").value="";
-  $("password").type="password";
-  $("showPassword").textContent="إظهار كلمة المرور";
-  $("showPassword").setAttribute("aria-pressed","false");
-});
-CITIES.forEach(city=>{
-  $("city").append(new Option(city,city));
-  $("merchantCity").append(new Option(city,city));
-});
-FOOD_NAMES.forEach(name=>{
-  $("foodSelect").append(new Option(name,name));
-  $("merchantFood").append(new Option(name,name));
-});
-PHOTOS.forEach(item=>{
-  const row=node("p");
-  row.append(
-    link(item.name,COMMONS+"File:"+encodeURIComponent(item.file)),
-    document.createTextNode(" — "+item.author+" — "),
-    link(item.license,item.licenseUrl)
-  );
-  $("credits").append(row);
-});
-
-let offers=[],restaurants=[],customFoods=[];
-let selectedFood="",expanded=false;
-let offersReady=false,restaurantsReady=false;
-let offersFailed=false,restaurantsFailed=false;
-let auth=null,db=null,A=null,D=null,Apps=null;
-let member=null,memberReady=false,memberError=false;
-let privateStops=[];
-let loginMode="login";
-let adminRoute=new URLSearchParams(location.search).get("admin")==="1";
-
-function categoryPhoto(name){
-  const own=customFoods.find(item=>item.name===name&&safePhoto(item.img));
-  if(own) return own.img;
-  const stock=PHOTOS.find(item=>item.name===name);
-  return stock?filePhoto(stock.file):"";
-}
-function drawFoods(){
-  $("foods").replaceChildren();
-  PHOTOS.forEach(item=>{
-    const button=node("button",undefined,"category");
-    button.type="button";
-    button.setAttribute("aria-pressed",String(selectedFood===item.name));
-    button.append(image(categoryPhoto(item.name),item.name),node("span",item.name));
-    button.onclick=()=>{
-      selectedFood=selectedFood===item.name?"":item.name;
-      drawFoods();
-      drawRestaurants();
+  <script type="module">
+    const CONFIG = {
+      apiKey: "AIzaSyDRrHrWvynGEezRsJQR6fz1oMJSlj8v58M",
+      authDomain: "albalad-food.firebaseapp.com",
+      projectId: "albalad-food",
+      storageBucket: "albalad-food.firebasestorage.app",
+      messagingSenderId: "933902087450",
+      appId: "1:933902087450:web:a9e7a10d4dc393c6bb28a3"
     };
-    $("foods").append(button);
-  });
-}
-function drawRestaurants(){
-  const terms=normal($("search").value).split(/\s+/).filter(Boolean);
-  const city=$("city").value;
-  $("clear").hidden=!(terms.length||city||selectedFood);
-  if(!restaurantsReady){
-    empty($("restaurants"),restaurantsFailed?"تعذر تحميل المطاعم. أعد تحميل الصفحة للمحاولة.":"جارٍ تحميل المطاعم…");
-    return;
-  }
-  const records=restaurants.filter(item=>{
-    const categories=Array.isArray(item.categories)?item.categories:[];
-    const content=normal([item.name,item.city,item.area,...categories].join(" "));
-    return item.active!==false&&(!city||item.city===city)
-      &&(!selectedFood||categories.includes(selectedFood))
-      &&terms.every(term=>content.includes(term));
-  });
-  $("resultCount").textContent=records.length?"عدد المطاعم: "+records.length:"";
-  if(!records.length){
-    empty($("restaurants"),restaurants.length
-      ?"لا توجد مطاعم مطابقة. جرّب تغيير التصفية."
-      :"ستظهر المطاعم هنا بعد إضافتها من الإدارة.");
-    return;
-  }
-  $("restaurants").replaceChildren();
-  records.forEach(item=>{
-    const card=node("article",undefined,"card");
-    const categories=Array.isArray(item.categories)?item.categories:[];
-    const own=safePhoto(item.img);
-    const photo=own||categoryPhoto(categories[0]);
-    if(photo) card.append(image(photo,String(item.name||"مطعم"),"card-photo"));
-    const body=node("div",undefined,"card-body");
-    body.append(node("h3",String(item.name||"مطعم")));
-    body.append(node("p",[item.city,item.area].filter(Boolean).join(" — ")));
-    categories.forEach(name=>body.append(node("span",String(name),"chip")));
-    if(!own&&photo) body.append(node("p","صورة توضيحية لنوع الطعام"));
-    card.append(body);
-    $("restaurants").append(card);
-  });
-}
-function drawOffers(){
-  if(!offersReady){
-    empty($("offers"),offersFailed?"تعذر تحميل العروض. أعد تحميل الصفحة للمحاولة.":"جارٍ تحميل العروض…");
-    return;
-  }
-  const current=offers.filter(item=>item.active!==false);
-  $("offerToggle").hidden=current.length<=3;
-  $("offerToggle").textContent=expanded?"عرض مختصر":"عرض الكل";
-  $("offerToggle").setAttribute("aria-expanded",String(expanded));
-  if(!current.length){empty($("offers"),"لا توجد عروض منشورة حالياً.");return;}
-  $("offers").replaceChildren();
-  (expanded?current:current.slice(0,3)).forEach(item=>{
-    const card=node("article",undefined,"card");
-    if(safePhoto(item.img)) card.append(image(item.img,String(item.title||"عرض"),"card-photo"));
-    const body=node("div",undefined,"card-body");
-    body.append(node("h3",String(item.title||"عرض")));
-    card.append(body);
-    $("offers").append(card);
-  });
-}
-$("search").oninput=drawRestaurants;
-$("city").onchange=drawRestaurants;
-$("clear").onclick=()=>{
-  $("search").value="";$("city").value="";selectedFood="";
-  drawFoods();drawRestaurants();
-};
-$("offerToggle").onclick=()=>{expanded=!expanded;drawOffers();};
-drawFoods();
 
-function isAdmin(){return auth?.currentUser?.uid===ADMIN_UID;}
-function requireAdmin(){
-  if(!isAdmin()) userError("هذه العملية متاحة للمدير فقط.");
-}
-function showPublic(){
-  $("publicPage").hidden=false;
-  $("adminPage").hidden=true;
-  adminRoute=false;
-  history.replaceState(null,"",location.pathname);
-  window.scrollTo(0,0);
-}
-function showAdmin(){
-  if(!isAdmin()){openLogin("admin");return;}
-  $("publicPage").hidden=true;
-  $("adminPage").hidden=false;
-  adminRoute=true;
-  history.replaceState(null,"",location.pathname+"?admin=1");
-  drawAdminLists();
-  window.scrollTo(0,0);
-}
-function openLogin(mode){
-  loginMode=mode;
-  $("loginMessage").hidden=true;
-  $("loginTabs").hidden=mode==="merchant"||mode==="admin";
-  $("loginTitle").textContent=mode==="merchant"?"دخول التاجر":mode==="admin"?"دخول الإدارة":"أهلاً بك";
-  $("loginSubmit").textContent=mode==="signup"?"إنشاء الحساب":"تسجيل الدخول";
-  $("loginTab").classList.toggle("primary",mode!=="signup");
-  $("signupTab").classList.toggle("primary",mode==="signup");
-  $("password").autocomplete=mode==="signup"?"new-password":"current-password";
-  $("password").minLength=mode==="signup"?10:1;
-  $("resetPassword").hidden=mode==="signup";
-  dialog("loginDialog");
-}
-function showAccount(){
-  $("accountEmail").textContent=auth.currentUser?.email||"";
-  $("accountInfo").textContent=isAdmin()?"هذا هو حساب إدارة الموقع."
-    :!memberReady?"جارٍ التحقق من بيانات الحساب…"
-    :memberError?"تعذر تحميل معلومات الاشتراك. حاول لاحقاً."
-    :member&&Number.isFinite(Number(member.expiresAt))
-      ?(Number(member.expiresAt)>Date.now()?"اشتراك التاجر فعّال حتى ":"انتهى اشتراك التاجر في ")
-        +new Date(Number(member.expiresAt)).toLocaleDateString("ar")
-      :"أنت مسجّل الدخول بحساب زائر.";
-  dialog("accountDialog");
-}
-$("loginTab").onclick=()=>openLogin("login");
-$("signupTab").onclick=()=>openLogin("signup");
-$("showPassword").onclick=()=>{
-  const showing=$("password").type==="password";
-  $("password").type=showing?"text":"password";
-  $("showPassword").textContent=showing?"إخفاء كلمة المرور":"إظهار كلمة المرور";
-  $("showPassword").setAttribute("aria-pressed",String(showing));
-};
-$("backToSite").onclick=showPublic;
+    const ADMIN_UID = "diJ1B4OuMIbmpBt26ZCL1ghnvHj1";
+    const CITIES = ["دمشق","ريف دمشق","حمص","اللاذقية","حلب","دير الزور"];
+    const FOOD_NAMES = ["شاورما","بروستد","سندويش غربي","فلافل","مندي","برغر","كوكتيل","حلويات"];
+    const PHOTOS = [
+      ["Shawarma-sandwich-01.jpg","Vera Yu and David Li","CC BY 2.0","https://creativecommons.org/licenses/by/2.0/"],
+      ["Fried-Chicken-Set.jpg","Evan-Amos","CC0","https://creativecommons.org/publicdomain/zero/1.0/"],
+      ["Club_sandwich.jpg","Jessica / WordRidden","CC BY 2.0","https://creativecommons.org/licenses/by/2.0/"],
+      ["Bowl_of_falafel.jpg","EvanProdromou","CC BY-SA 4.0","https://creativecommons.org/licenses/by-sa/4.0/"],
+      ["Mandi_chicken.jpg","ReshmaNazeerhussain","CC0","https://creativecommons.org/publicdomain/zero/1.0/"],
+      ["Cheeseburger.png","Renee Comet / NCI; Download","Public domain","https://commons.wikimedia.org/wiki/File:Cheeseburger.png"],
+      ["Fruit_smoothie.jpg","Tiia Monto","CC BY-SA 3.0","https://creativecommons.org/licenses/by-sa/3.0/"],
+      ["Baklava.jpg","Randy Oostdyk; Rainer Zenz","CC BY-SA 3.0","https://creativecommons.org/licenses/by-sa/3.0/"]
+    ];
 
-async function compressImage(file){
-  if(!file) userError("اختر صورة أولاً.");
-  if(!["image/jpeg","image/png","image/webp"].includes(file.type)){
-    userError("استخدم صورة JPG أو PNG أو WebP.");
-  }
-  if(file.size>5*1024*1024) userError("الحد الأقصى للصورة 5 ميغابايت.");
-  const bitmap=await createImageBitmap(file);
-  try{
-    const scale=Math.min(1,640/Math.max(bitmap.width,bitmap.height));
-    const canvas=document.createElement("canvas");
-    canvas.width=Math.max(1,Math.round(bitmap.width*scale));
-    canvas.height=Math.max(1,Math.round(bitmap.height*scale));
-    const context=canvas.getContext("2d");
-    context.fillStyle="#ffffff";
-    context.fillRect(0,0,canvas.width,canvas.height);
-    context.drawImage(bitmap,0,0,canvas.width,canvas.height);
-    for(const quality of [.8,.65,.5,.35]){
-      const data=canvas.toDataURL("image/jpeg",quality);
-      if(data.length<=180000) return data;
+    const $ = id => document.getElementById(id);
+    const el = (tag, text, cls) => {
+      const n = document.createElement(tag);
+      if (text !== undefined) n.textContent = text;
+      if (cls) n.className = cls;
+      return n;
+    };
+
+    let App, Auth, DB, app, auth, db;
+    let currentUser = null;
+    let membership = null;
+    let membershipReady = false;
+    let authVersion = 0;
+    let privateStops = [];
+    let selectedFood = "";
+    let expandedOffers = false;
+    let loginMode = "visitor";
+    let signup = false;
+    let merchantRows = [];
+    let requestRows = [];
+    let publicErrors = new Set();
+
+    const state = { offers:[], foods:[], restaurants:[], menuItems:[] };
+    const ready = { offers:false, foods:false, restaurants:false, menuItems:false };
+    const failed = { offers:false, foods:false, restaurants:false, menuItems:false };
+
+    function tell(text, error = false, target = "status") {
+      const box = $(target);
+      box.textContent = text;
+      box.classList.toggle("error", error);
+      box.hidden = !text;
     }
-    userError("اختر صورة أبسط؛ حجم الصورة ما زال كبيراً بعد التصغير.");
-  }finally{bitmap.close();}
-}
-async function verifyMerchant(user){
-  if(user.uid===ADMIN_UID) return;
-  const record=await D.getDocFromServer(D.doc(db,"merchants",user.uid));
-  const expires=record.exists()?Number(record.data().expiresAt):0;
-  if(!Number.isFinite(expires)||expires<=Date.now()){
-    userError("تم تسجيل الدخول، لكن لا يوجد اشتراك تاجر فعّال لهذا الحساب.");
-  }
-}
-async function finishLogin(credential,mode){
-  if(mode==="merchant") await verifyMerchant(credential.user);
-  if(mode==="admin"&&credential.user.uid!==ADMIN_UID){
-    userError("تم تسجيل الدخول، لكن هذا الحساب لا يملك صلاحية الإدارة.");
-  }
-  $("loginDialog").close();
-  say("تم تسجيل الدخول بنجاح.");
-  if(mode==="admin") showAdmin();
-}
-async function signOut(){
-  await A.signOut(auth);
-  document.querySelectorAll("dialog[open]").forEach(item=>item.close());
-  showPublic();
-  say("تم تسجيل الخروج.");
-}
 
-function drawAdminLists(){
-  if(!isAdmin()) return;
-  function list(container,records,collection,titleKey){
-    container.replaceChildren();
-    if(!records.length){container.append(node("p","لا توجد إضافات بعد.","subtitle"));return;}
-    records.forEach(record=>{
-      const row=node("div",undefined,"row");
-      row.append(node("p",String(record[titleKey]||"بدون اسم")));
-      const button=node("button",record.active===false?"نشر":"إخفاء","btn small");
-      button.type="button";
-      button.onclick=()=>run(row,async()=>{
-        requireAdmin();
-        await D.updateDoc(D.doc(db,collection,record.id),{active:record.active===false});
-        say("تم تحديث حالة النشر.");
+    function friendly(text) { return Object.assign(new Error(text), { friendly:true }); }
+
+    function errorText(error) {
+      if (error?.friendly) return error.message;
+      const code = String(error?.code || "");
+      if (code.includes("permission-denied"))
+        return "لا توجد صلاحية لهذه العملية. تحقّق من الحساب وقواعد Firestore ومدة الاشتراك.";
+      if (code.includes("invalid-credential") || code.includes("wrong-password") || code.includes("user-not-found"))
+        return "تعذّر تسجيل الدخول. تحقّق من البريد وكلمة المرور.";
+      if (code.includes("email-already-in-use"))
+        return "البريد الإلكتروني مستخدم بالفعل.";
+      if (code.includes("weak-password"))
+        return "اختر كلمة مرور أقوى.";
+      if (code.includes("invalid-email"))
+        return "أدخل بريدًا إلكترونيًا صحيحًا.";
+      if (code.includes("popup-closed-by-user") || code.includes("cancelled-popup-request"))
+        return "تم إغلاق نافذة تسجيل الدخول قبل إكمال العملية.";
+      if (code.includes("popup-blocked"))
+        return "المتصفح منع نافذة Google. اسمح بالنوافذ المنبثقة لهذا الموقع.";
+      if (code.includes("unauthorized-domain"))
+        return "أضف نطاق الموقع إلى Authorized domains في Firebase Authentication.";
+      if (code.includes("operation-not-allowed"))
+        return "طريقة تسجيل الدخول غير مفعّلة في Firebase Authentication.";
+      if (code.includes("too-many-requests"))
+        return "محاولات كثيرة. انتظر قليلًا ثم أعد المحاولة.";
+      if (code.includes("network") || code.includes("unavailable"))
+        return "تعذّر الاتصال. تحقّق من الإنترنت ثم أعد المحاولة.";
+      return "تعذّرت العملية. أعد المحاولة وتحقق من إعدادات Firebase.";
+    }
+
+    async function run(container, action, target = "status") {
+      if (container.dataset.busy) return;
+      container.dataset.busy = "1";
+      const controls = [...container.querySelectorAll("button,input,select,textarea")];
+      if (container.matches("button")) controls.push(container);
+      const previous = controls.map(n => n.disabled);
+      controls.forEach(n => n.disabled = true);
+      try {
+        await action();
+      } catch (error) {
+        tell(errorText(error), true, target);
+      } finally {
+        controls.forEach((n,i) => n.disabled = previous[i]);
+        delete container.dataset.busy;
+      }
+    }
+
+    function normalize(text) {
+      return String(text || "").normalize("NFKC")
+        .replace(/[\u064B-\u065F\u0670\u0640]/g,"")
+        .replace(/[أإآ]/g,"ا").replace(/ى/g,"ي").toLowerCase().trim();
+    }
+
+    function safePhoto(value) {
+      if (typeof value !== "string" || value.length > 260000) return "";
+      if (/^data:image\/(?:jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/.test(value)) return value;
+      try {
+        const url = new URL(value);
+        return url.protocol === "https:" && !url.username && !url.password ? url.href : "";
+      } catch { return ""; }
+    }
+
+    function photo(src, alt, cls = "") {
+      const url = safePhoto(src);
+      const fallback = () => el("div","الصورة غير متاحة","image-fallback");
+      if (!url) return fallback();
+      const img = document.createElement("img");
+      img.src = url;
+      img.alt = alt;
+      img.loading = "lazy";
+      img.decoding = "async";
+      img.referrerPolicy = "no-referrer";
+      if (cls) img.className = cls;
+      img.addEventListener("error", () => img.replaceWith(fallback()), { once:true });
+      return img;
+    }
+
+    function categoryPhoto(name) {
+      const custom = state.foods.find(x => x.name === name && safePhoto(x.img));
+      if (custom) return custom.img;
+      const index = Math.max(0, FOOD_NAMES.indexOf(name));
+      return "https://commons.wikimedia.org/wiki/Special:FilePath/" +
+        encodeURIComponent(PHOTOS[index][0]) + "?width=400";
+    }
+
+    function empty(target, text) {
+      target.replaceChildren(el("p",text,"empty"));
+    }
+
+    function button(text, action, cls = "btn small") {
+      const b = el("button",text,cls);
+      b.type = "button";
+      b.addEventListener("click",action);
+      return b;
+    }
+
+    function timestamp(value) {
+      return typeof value?.toMillis === "function" ? value.toMillis() : 0;
+    }
+
+    function dateText(value) {
+      return Number.isFinite(value)
+        ? new Date(value).toLocaleDateString("ar",{year:"numeric",month:"long",day:"numeric"})
+        : "غير محدد";
+    }
+
+    function activeMember() {
+      return membership && Number.isFinite(membership.expiresAt) &&
+        membership.expiresAt > Date.now();
+    }
+
+    function money(payload) {
+      const labels = { SYP:"ل.س", TRY:"₺", USD:"$" };
+      return Number(payload.price).toLocaleString("ar",{maximumFractionDigits:2}) +
+        " " + (labels[payload.currency] || payload.currency || "");
+    }
+
+    async function compressImage(file) {
+      if (!file) throw friendly("اختر صورة أولًا.");
+      if (!["image/jpeg","image/png","image/webp"].includes(file.type))
+        throw friendly("الصيغ المدعومة: JPG وPNG وWebP.");
+      if (file.size > 5 * 1024 * 1024)
+        throw friendly("حجم الصورة يجب ألا يتجاوز 5 ميغابايت.");
+      let bitmap;
+      try {
+        bitmap = await createImageBitmap(file);
+        const scale = Math.min(1,640/Math.max(bitmap.width,bitmap.height));
+        const canvas = document.createElement("canvas");
+        canvas.width = Math.max(1,Math.round(bitmap.width*scale));
+        canvas.height = Math.max(1,Math.round(bitmap.height*scale));
+        const context = canvas.getContext("2d");
+        context.fillStyle = "#fff";
+        context.fillRect(0,0,canvas.width,canvas.height);
+        context.drawImage(bitmap,0,0,canvas.width,canvas.height);
+        for (const quality of [.8,.65,.5,.35]) {
+          const data = canvas.toDataURL("image/jpeg",quality);
+          if (data.length <= 180000) return data;
+        }
+        throw friendly("الصورة كبيرة بعد الضغط. اختر صورة أبسط أو أصغر.");
+      } finally { bitmap?.close(); }
+    }
+
+    function populate(select, values) {
+      values.forEach(value => {
+        const option = el("option",value);
+        option.value = value;
+        select.append(option);
       });
-      row.append(button);
-      container.append(row);
+    }
+
+    populate($("city"),CITIES);
+    populate($("merchantCity"),CITIES);
+    ["foodSelect","merchantFood","menuCategory"].forEach(id => populate($(id),FOOD_NAMES));
+
+    PHOTOS.forEach(([file,author,license,licenseUrl],i) => {
+      const item = el("li");
+      const link = el("a",FOOD_NAMES[i]);
+      link.href = "https://commons.wikimedia.org/wiki/File:" + encodeURIComponent(file);
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      const licenseLink = el("a",license);
+      licenseLink.href = licenseUrl;
+      licenseLink.target = "_blank";
+      licenseLink.rel = "noopener noreferrer";
+      item.append(link,document.createTextNode(" — "+author+" — "),licenseLink);
+      $("credits").append(item);
     });
-  }
-  list($("adminOffers"),offers,"offers","title");
-  list($("adminRestaurants"),restaurants,"restaurants","name");
-}
-function drawMembers(records){
-  $("adminMerchants").replaceChildren();
-  if(!records.length){$("adminMerchants").append(node("p","لا توجد حسابات تجار بعد.","subtitle"));return;}
-  records.forEach(record=>{
-    const row=node("div",undefined,"row");
-    const text=node("div");
-    text.append(node("p",String(record.name||"تاجر")));
-    const expires=Number(record.expiresAt);
-    text.append(node("p",Number.isFinite(expires)
-      ?"نهاية الاشتراك: "+new Date(expires).toLocaleDateString("ar")
-      :"مدة الاشتراك غير محددة"));
-    row.append(text);
-    const renew=node("button","إضافة 30 يوماً","btn small");
-    renew.onclick=()=>run(row,async()=>{
-      requireAdmin();
-      const reference=D.doc(db,"merchants",record.id);
-      await D.runTransaction(db,async transaction=>{
-        const current=await transaction.get(reference);
-        if(!current.exists()) userError("الحساب غير موجود.");
-        const old=Number(current.data().expiresAt);
-        transaction.update(reference,{
-          expiresAt:Math.max(Date.now(),Number.isFinite(old)?old:0)+30*86400000
-        });
+
+    function renderCategories() {
+      $("foods").replaceChildren();
+      FOOD_NAMES.forEach(name => {
+        const b = button("",() => {
+          selectedFood = selectedFood === name ? "" : name;
+          renderCategories();
+          renderPublic();
+        },"category");
+        b.setAttribute("aria-pressed",String(selectedFood === name));
+        b.append(photo(categoryPhoto(name),name+" — صورة توضيحية"),el("span",name));
+        $("foods").append(b);
       });
-      say("تم تجديد الاشتراك.");
-    });
-    row.append(renew);
-    $("adminMerchants").append(row);
-  });
-}
-
-async function boot(){
-  const modules=await Promise.all([
-    import("https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js"),
-    import("https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js"),
-    import("https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js")
-  ]);
-  [Apps,A,D]=modules;
-  const app=Apps.initializeApp(CONFIG);
-  auth=A.getAuth(app);
-  auth.languageCode="ar";
-  db=D.getFirestore(app);
-  $("status").hidden=true;
-
-  function feed(name,success,failure){
-    return D.onSnapshot(D.collection(db,name),snapshot=>{
-      success(snapshot.docs.map(record=>({...record.data(),id:record.id})));
-    },failure);
-  }
-  feed("foods",records=>{customFoods=records;drawFoods();},error=>say(errorText(error)));
-  feed("offers",records=>{
-    offers=records;offersReady=true;drawOffers();drawAdminLists();
-  },error=>{offersFailed=true;drawOffers();say(errorText(error));});
-  feed("restaurants",records=>{
-    restaurants=records;restaurantsReady=true;drawRestaurants();drawAdminLists();
-  },error=>{restaurantsFailed=true;drawRestaurants();say(errorText(error));});
-
-  A.onAuthStateChanged(auth,user=>{
-    privateStops.forEach(stop=>stop());
-    privateStops=[];
-    member=null;memberReady=false;memberError=false;
-    $("adminMerchants").replaceChildren();
-    $("accountBtn").disabled=false;
-    $("merchantBtn").disabled=false;
-    $("accountBtn").textContent=user?"حسابي":"تسجيل الدخول";
-    $("logoutBtn").hidden=!user;
-    $("adminBtn").hidden=!isAdmin();
-
-    if(!isAdmin()){
-      $("adminPage").hidden=true;
-      $("publicPage").hidden=false;
-      $("adminOffers").replaceChildren();
-      $("adminRestaurants").replaceChildren();
     }
-    if(user&&isAdmin()){
-      privateStops.push(feed("merchants",drawMembers,error=>say(errorText(error))));
-      if(adminRoute){$("loginDialog").close();showAdmin();}
-    }else if(user){
-      const uid=user.uid;
-      privateStops.push(D.onSnapshot(D.doc(db,"merchants",uid),snapshot=>{
-        if(auth.currentUser?.uid!==uid) return;
-        member=snapshot.exists()?snapshot.data():null;
-        memberReady=true;
-        if($("accountDialog").open) showAccount();
-      },()=>{
-        if(auth.currentUser?.uid!==uid) return;
-        memberReady=true;memberError=true;
-        if($("accountDialog").open) showAccount();
-      }));
-      if(adminRoute&&!$("loginDialog").open) openLogin("admin");
-    }else if(adminRoute){
-      openLogin("admin");
+
+    function renderOffers() {
+      if (!ready.offers) return;
+      if (failed.offers) return empty($("offers"),"تعذّر تحميل العروض. حاول تحديث الصفحة.");
+      const rows = state.offers.filter(x => x.active !== false)
+        .sort((a,b) => timestamp(b.createdAt)-timestamp(a.createdAt));
+      $("offerToggle").hidden = rows.length <= 3;
+      $("offerToggle").textContent = expandedOffers ? "عرض أقل" : "عرض الكل";
+      $("offerToggle").setAttribute("aria-expanded",String(expandedOffers));
+      $("offers").replaceChildren();
+      if (!rows.length) return empty($("offers"),"لا توجد عروض منشورة حاليًا.");
+      (expandedOffers ? rows : rows.slice(0,3)).forEach(row => {
+        const card = el("article",undefined,"card");
+        const body = el("div",undefined,"card-body");
+        body.append(el("h3",row.title || "عرض"));
+        card.append(photo(row.img,row.title || "عرض"),body);
+        $("offers").append(card);
+      });
     }
-  });
 
-  $("accountBtn").onclick=()=>auth.currentUser?showAccount():openLogin("login");
-  $("merchantBtn").onclick=()=>auth.currentUser?showAccount():openLogin("merchant");
-  $("adminBtn").onclick=showAdmin;
-  $("logoutBtn").onclick=()=>run(document.querySelector(".actions"),signOut);
-  $("accountLogout").onclick=()=>run($("accountDialog"),signOut);
+    function renderPublic() {
+      const query = normalize($("search").value);
+      const city = $("city").value;
+      $("clear").hidden = !query && !city && !selectedFood;
 
-  $("loginForm").onsubmit=event=>{
-    event.preventDefault();
-    const mode=loginMode;
-    run($("loginDialog"),async()=>{
-      const email=$("email").value.trim();
-      const password=$("password").value;
-      const credential=mode==="signup"
-        ?await A.createUserWithEmailAndPassword(auth,email,password)
-        :await A.signInWithEmailAndPassword(auth,email,password);
-      await finishLogin(credential,mode);
+      if (ready.restaurants) {
+        if (failed.restaurants) {
+          empty($("restaurants"),"تعذّر تحميل المطاعم. حاول تحديث الصفحة.");
+          $("resultCount").textContent = "";
+        } else {
+          const rows = state.restaurants.filter(row => {
+            const categories = Array.isArray(row.categories) ? row.categories : [];
+            return row.active !== false &&
+              (!city || row.city === city) &&
+              (!selectedFood || categories.includes(selectedFood)) &&
+              (!query || normalize([row.name,row.city,...categories].join(" ")).includes(query));
+          });
+          $("resultCount").textContent = rows.length + " مطعم";
+          $("restaurants").replaceChildren();
+          if (!rows.length) empty($("restaurants"),"لا توجد مطاعم مطابقة حاليًا.");
+          rows.forEach(row => {
+            const categories = Array.isArray(row.categories) ? row.categories : [];
+            const ownPhoto = safePhoto(row.img);
+            const card = el("article",undefined,"card");
+            const body = el("div",undefined,"card-body");
+            body.append(el("h3",row.name || "مطعم"),el("p",row.city || "","muted"));
+            categories.forEach(name => body.append(el("span",name,"chip")));
+            if (!ownPhoto) body.append(el("p","صورة الصنف توضيحية","muted"));
+            card.append(photo(ownPhoto || categoryPhoto(categories[0]),row.name || "مطعم"),body);
+            $("restaurants").append(card);
+          });
+        }
+      }
+
+      if (!ready.menuItems || !ready.restaurants) return;
+      if (failed.menuItems || failed.restaurants)
+        return empty($("menuList"),"تعذّر تحميل قائمة الوجبات. تحقق من الاتصال وقواعد Firestore.");
+
+      const restaurantMap = new Map(state.restaurants.map(row => [row.id,row]));
+      const rows = state.menuItems.filter(row => {
+        const restaurant = restaurantMap.get(row.merchantId);
+        const p = row.payload;
+        return row.status === "approved" && p && restaurant && restaurant.active !== false &&
+          (!city || restaurant.city === city) &&
+          (!selectedFood || p.category === selectedFood) &&
+          (!query || normalize([p.name,p.description,p.category,restaurant.name,restaurant.city].join(" ")).includes(query));
+      }).sort((a,b) => timestamp(b.approvedAt)-timestamp(a.approvedAt));
+
+      $("menuList").replaceChildren();
+      if (!rows.length) return empty($("menuList"),"لا توجد وجبات معتمدة مطابقة حاليًا.");
+      rows.forEach(row => {
+        const p = row.payload;
+        const restaurant = restaurantMap.get(row.merchantId);
+        const card = el("article",undefined,"card");
+        const body = el("div",undefined,"card-body");
+        body.append(
+          el("span",p.category,"chip"),
+          el("h3",p.name),
+          el("p",[restaurant.name,restaurant.city].filter(Boolean).join(" · "),"muted")
+        );
+        if (p.description) body.append(el("p",p.description,"review-description"));
+        body.append(el("p",money(p),"price"));
+        card.append(photo(p.img,p.name),body);
+        $("menuList").append(card);
+      });
+    }
+
+    $("search").addEventListener("input",renderPublic);
+    $("city").addEventListener("change",renderPublic);
+    $("clear").addEventListener("click",() => {
+      $("search").value = "";
+      $("city").value = "";
+      selectedFood = "";
+      renderCategories();
+      renderPublic();
     });
-  };
-  $("googleBtn").onclick=()=>{
-    const mode=loginMode;
-    run($("loginDialog"),async()=>{
-      const provider=new A.GoogleAuthProvider();
+    $("offerToggle").addEventListener("click",() => {
+      expandedOffers = !expandedOffers;
+      renderOffers();
+    });
+
+    function showPublic() {
+      $("publicPage").hidden = false;
+      $("adminPage").hidden = true;
+      history.replaceState(null,"",location.pathname);
+    }
+
+    function showAdmin() {
+      if (currentUser?.uid !== ADMIN_UID) return openLogin("admin");
+      $("publicPage").hidden = true;
+      $("adminPage").hidden = false;
+      history.replaceState(null,"",location.pathname+"?admin=1");
+      renderAdminLists();
+    }
+
+    function showDialog(id) {
+      if (!$(id).open) $(id).showModal();
+    }
+
+    document.querySelectorAll("[data-close]").forEach(b => {
+      b.addEventListener("click",() => $(b.dataset.close).close());
+    });
+    $("loginDialog").addEventListener("close",() => {
+      $("password").value = "";
+      $("password").type = "password";
+      $("showPassword").textContent = "إظهار كلمة المرور";
+      $("showPassword").setAttribute("aria-pressed","false");
+    });
+
+    function changeSignup(value) {
+      signup = value;
+      $("loginTab").classList.toggle("primary",!value);
+      $("signupTab").classList.toggle("primary",value);
+      $("loginSubmit").textContent = value ? "إنشاء حساب زائر" : "تسجيل الدخول";
+      $("password").autocomplete = value ? "new-password" : "current-password";
+      $("password").minLength = value ? 8 : 1;
+    }
+
+    function openLogin(mode = "visitor") {
+      loginMode = mode;
+      changeSignup(false);
+      $("loginTabs").hidden = mode !== "visitor";
+      $("loginTitle").textContent = mode === "admin" ? "دخول الإدارة" :
+        mode === "merchant" ? "دخول التاجر" : "تسجيل الدخول";
+      tell("",false,"loginMessage");
+      showDialog("loginDialog");
+    }
+
+    function updateAccount() {
+      $("accountEmail").textContent = currentUser?.email || "";
+      $("accountInfo").textContent = currentUser?.uid === ADMIN_UID ? "حساب الإدارة" :
+        !membershipReady ? "جارٍ التحقق من الحساب…" :
+        membership ? "حساب تاجر — "+(activeMember() ? "الاشتراك فعّال حتى " : "انتهى الاشتراك في ")+dateText(membership.expiresAt) :
+        "حساب زائر";
+      $("merchantBtn").textContent = membership ? "قائمتي" : "دخول التاجر";
+      $("membershipInfo").textContent = !membershipReady ? "جارٍ التحقق من الاشتراك…" :
+        !membership ? "لا يوجد اشتراك تاجر لهذا الحساب. تواصل مع الإدارة لتفعيل حساب تاجر." :
+        activeMember() ? "اشتراكك فعّال حتى "+dateText(membership.expiresAt) :
+        "انتهى الاشتراك في "+dateText(membership.expiresAt)+". تواصل مع الإدارة للتجديد.";
+      $("menuForm").hidden = !activeMember();
+    }
+
+    $("loginTab").addEventListener("click",() => changeSignup(false));
+    $("signupTab").addEventListener("click",() => changeSignup(true));
+    $("showPassword").addEventListener("click",() => {
+      const show = $("password").type === "password";
+      $("password").type = show ? "text" : "password";
+      $("showPassword").textContent = show ? "إخفاء كلمة المرور" : "إظهار كلمة المرور";
+      $("showPassword").setAttribute("aria-pressed",String(show));
+    });
+    $("accountBtn").addEventListener("click",() => {
+      if (!currentUser) return openLogin();
+      updateAccount();
+      showDialog("accountDialog");
+    });
+    $("merchantBtn").addEventListener("click",() => {
+      if (!currentUser) return openLogin("merchant");
+      updateAccount();
+      showDialog("merchantDialog");
+    });
+    $("adminBtn").addEventListener("click",showAdmin);
+    $("backToSite").addEventListener("click",showPublic);
+    $("pendingBtn").addEventListener("click",() => {
+      showAdmin();
+      $("approvals").scrollIntoView({behavior:"smooth"});
+    });
+
+    async function finishLogin(credential) {
+      const user = credential.user;
+      if (loginMode === "admin" && user.uid !== ADMIN_UID)
+        throw friendly("تم تسجيل الدخول، لكن هذا الحساب ليس حساب الإدارة.");
+      if (loginMode === "merchant") {
+        const snapshot = await DB.getDocFromServer(DB.doc(db,"merchants",user.uid));
+        if (!snapshot.exists())
+          throw friendly("تم تسجيل الدخول، لكن الحساب غير مسجّل كتاجر. يجب أن تفعّله الإدارة.");
+        const record = snapshot.data();
+        if (!Number.isFinite(record.expiresAt) || record.expiresAt <= Date.now())
+          throw friendly("تم تسجيل الدخول، لكن اشتراك التاجر منتهٍ. تواصل مع الإدارة.");
+      }
+      $("loginDialog").close();
+      tell("تم تسجيل الدخول بنجاح.");
+      if (loginMode === "admin") showAdmin();
+      if (loginMode === "merchant") {
+        updateAccount();
+        showDialog("merchantDialog");
+      }
+    }
+
+    $("loginForm").addEventListener("submit",event => {
+      event.preventDefault();
+      const email = $("email").value.trim();
+      const password = $("password").value;
+      const create = signup;
+      run($("loginDialog"),async () => {
+        const credential = create
+          ? await Auth.createUserWithEmailAndPassword(auth,email,password)
+          : await Auth.signInWithEmailAndPassword(auth,email,password);
+        await finishLogin(credential);
+      },"loginMessage");
+    });
+
+    $("googleBtn").addEventListener("click",() => run($("loginDialog"),async () => {
+      const provider = new Auth.GoogleAuthProvider();
       provider.setCustomParameters({prompt:"select_account"});
-      await finishLogin(await A.signInWithPopup(auth,provider),mode);
-    });
-  };
-  $("resetPassword").onclick=()=>{
-    if(!$("email").reportValidity()) return;
-    run($("loginDialog"),async()=>{
-      try{await A.sendPasswordResetEmail(auth,$("email").value.trim());}
-      catch(error){if(error.code!=="auth/user-not-found") throw error;}
-      say("إذا كان البريد مسجلاً، ستصلك رسالة لإعادة تعيين كلمة المرور.");
-    });
-  };
+      await finishLogin(await Auth.signInWithPopup(auth,provider));
+    },"loginMessage"));
 
-  $("offerForm").onsubmit=event=>{
-    event.preventDefault();
-    run($("offerForm"),async()=>{
-      requireAdmin();
-      const title=$("offerTitle").value.trim();
-      if(!title||title.length>150) userError("اكتب اسم عرض صالحاً.");
-      const img=await compressImage($("offerPic").files[0]);
-      requireAdmin();
-      await D.addDoc(D.collection(db,"offers"),{title,img,active:true,createdAt:D.serverTimestamp()});
-      $("offerForm").reset();
-      say("تم نشر العرض لجميع الزوار.");
-    });
-  };
-  $("foodForm").onsubmit=event=>{
-    event.preventDefault();
-    run($("foodForm"),async()=>{
-      requireAdmin();
-      const name=$("foodSelect").value;
-      const index=FOOD_NAMES.indexOf(name);
-      if(index<0) userError("اختر قسم الطعام.");
-      const img=await compressImage($("foodPic").files[0]);
-      await D.setDoc(D.doc(db,"foods","category-"+index),{name,img,updatedAt:D.serverTimestamp()});
-      $("foodForm").reset();
-      say("تم تحديث صورة القسم.");
-    });
-  };
-  $("merchantForm").onsubmit=event=>{
-    event.preventDefault();
-    run($("merchantForm"),async()=>{
-      requireAdmin();
-      const name=$("merchantName").value.trim();
-      const email=$("merchantEmail").value.trim();
-      const password=$("merchantPassword").value;
-      const phone=$("merchantPhone").value.trim();
-      const city=$("merchantCity").value;
-      const category=$("merchantFood").value;
-      const days=Number($("merchantDays").value);
-      if(!name||name.length>150||!CITIES.includes(city)||!FOOD_NAMES.includes(category)){
-        userError("أكمل بيانات المطعم.");
-      }
-      if(!Number.isInteger(days)||days<1||days>3650||password.length<10){
-        userError("تحقق من مدة الاشتراك وكلمة المرور.");
-      }
-      const picture=$("merchantPic").files[0];
-      const img=picture?await compressImage(picture):"";
-      const secondary=Apps.initializeApp(CONFIG,"merchant-"+crypto.randomUUID());
-      const temporary=A.getAuth(secondary);
-      let created=null,committed=false;
-      try{
-        await A.setPersistence(temporary,A.inMemoryPersistence);
-        created=(await A.createUserWithEmailAndPassword(temporary,email,password)).user;
-        requireAdmin();
-        const batch=D.writeBatch(db);
-        batch.set(D.doc(db,"merchants",created.uid),{
-          name,email,phone,expiresAt:Date.now()+days*86400000,createdAt:D.serverTimestamp()
-        });
-        batch.set(D.doc(db,"restaurants",created.uid),{
-          name,city,categories:[category],img,active:true,createdAt:D.serverTimestamp()
-        });
-        await batch.commit();
-        committed=true;
-        $("merchantForm").reset();
-        say("تم إنشاء حساب التاجر وحفظ المطعم والاشتراك.");
-      }catch(error){
-        if(created&&!committed){
-          try{await A.deleteUser(created);}
-          catch{userError("لم يكتمل الحفظ. راجع الحساب غير المكتمل في Firebase Authentication قبل إعادة المحاولة.");}
-        }
-        throw error;
-      }finally{
-        await A.signOut(temporary).catch(()=>{});
-        await Apps.deleteApp(secondary).catch(()=>{});
-      }
-    });
-  };
+    $("resetPassword").addEventListener("click",() => run($("loginDialog"),async () => {
+      if (!$("email").value.trim() || !$("email").checkValidity())
+        throw friendly("أدخل بريدًا إلكترونيًا صحيحًا أولًا.");
+      await Auth.sendPasswordResetEmail(auth,$("email").value.trim());
+      tell("إذا كان البريد مرتبطًا بحساب، فستصلك تعليمات إعادة تعيين كلمة المرور.",false,"loginMessage");
+    },"loginMessage"));
 
-  $("migrateBtn").onclick=()=>run($("migrationPanel"),async()=>{
-    requireAdmin();
-    function read(key){
-      try{
-        const value=JSON.parse(localStorage.getItem(key)||"[]");
-        if(!Array.isArray(value)) throw new Error();
-        return value;
-      }catch{userError("تعذر قراءة الإضافات المحلية. لم يتم حذفها.");}
+    async function logout() {
+      await Auth.signOut(auth);
+      ["accountDialog","merchantDialog","loginDialog"].forEach(id => $(id).close());
+      tell("تم تسجيل الخروج.");
     }
-    const groups=[["offers",read("admin_offers")],["foods",read("admin_foods")]];
-    let added=0,skipped=0;
-    for(const [collection,items] of groups){
-      for(const item of items){
-        if(!item||typeof item!=="object"){skipped++;continue;}
-        const title=String(collection==="offers"?item.title||"":item.name||"").trim();
-        const categoryIndex=FOOD_NAMES.indexOf(title);
-        if(!title||title.length>150||(collection==="foods"&&categoryIndex<0)){skipped++;continue;}
-        let img=safePhoto(item.img);
-        if(!img&&typeof item.img==="string"&&item.img.length<=7000000
-          &&/^data:image\/(?:jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/.test(item.img)){
-          img=await compressImage(await(await fetch(item.img)).blob());
-        }
-        if(!img){skipped++;continue;}
-        const digest=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(title+"\n"+String(item.img)));
-        const hash=[...new Uint8Array(digest)].map(value=>value.toString(16).padStart(2,"0")).join("");
-        const id=collection==="foods"?"category-"+categoryIndex:"legacy-"+hash;
-        const reference=D.doc(db,collection,id);
-        const copied=await D.runTransaction(db,async transaction=>{
-          const current=await transaction.get(reference);
-          if(current.exists()) return false;
-          transaction.set(reference,collection==="foods"
-            ?{name:title,img,updatedAt:D.serverTimestamp()}
-            :{title,img,active:true,createdAt:D.serverTimestamp()});
-          return true;
+    $("logoutBtn").addEventListener("click",() => run($("logoutBtn"),logout));
+    $("accountLogout").addEventListener("click",() => run($("accountLogout"),logout));
+
+    function renderHistory() {
+      $("menuHistory").replaceChildren();
+      if (!requestRows.length) return empty($("menuHistory"),"لا توجد طلبات بعد.");
+      const labels = { pending:"بانتظار المراجعة", approved:"تمت الموافقة", rejected:"مرفوض" };
+      [...requestRows].sort((a,b) => timestamp(b.submittedAt)-timestamp(a.submittedAt)).forEach(row => {
+        const item = el("article",undefined,"admin-item");
+        item.append(
+          el("strong",row.payload?.name || "وجبة"),
+          el("span",labels[row.status] || row.status,"chip status-"+row.status)
+        );
+        if (row.reviewNote) item.append(el("p","ملاحظة الإدارة: "+row.reviewNote,"review-description"));
+        $("menuHistory").append(item);
+      });
+    }
+
+    $("menuForm").addEventListener("submit",event => {
+      event.preventDefault();
+      const uid = currentUser?.uid;
+      const payload = {
+        name:$("menuName").value.trim(),
+        description:$("menuDescription").value.trim(),
+        category:$("menuCategory").value,
+        price:Number($("menuPrice").value),
+        currency:$("menuCurrency").value
+      };
+      const file = $("menuPhoto").files[0];
+      run($("menuForm"),async () => {
+        if (!uid || !activeMember()) throw friendly("يلزم حساب تاجر باشتراك فعّال.");
+        if (!payload.name) throw friendly("أدخل اسم الوجبة.");
+        if (!Number.isFinite(payload.price) || payload.price < 0 || payload.price > 1000000000)
+          throw friendly("أدخل سعرًا صحيحًا.");
+        payload.img = await compressImage(file);
+        if (auth.currentUser?.uid !== uid) throw friendly("تغيّر الحساب. أعد تسجيل الدخول.");
+        await DB.addDoc(DB.collection(db,"menuRequests"),{
+          merchantId:uid,
+          payload,
+          status:"pending",
+          submittedAt:DB.serverTimestamp()
         });
-        if(copied) added++;else skipped++;
+        $("menuForm").reset();
+        tell("تم إرسال الوجبة إلى الإدارة. ستظهر في الصفحة الرئيسية بعد الموافقة.",false,"menuMessage");
+      },"menuMessage");
+    });
+
+    async function reviewRequest(id, decision, note) {
+      if (auth.currentUser?.uid !== ADMIN_UID) throw friendly("هذه العملية للإدارة فقط.");
+      const requestRef = DB.doc(db,"menuRequests",id);
+      await DB.runTransaction(db,async transaction => {
+        const snapshot = await transaction.get(requestRef);
+        if (!snapshot.exists() || snapshot.data().status !== "pending")
+          throw friendly("تمت مراجعة هذا الطلب مسبقًا.");
+        const request = snapshot.data();
+        if (decision === "approved") {
+          transaction.set(DB.doc(db,"menuItems",id),{
+            merchantId:request.merchantId,
+            payload:request.payload,
+            status:"approved",
+            sourceRequestId:id,
+            approvedAt:DB.serverTimestamp()
+          });
+        }
+        transaction.update(requestRef,{
+          status:decision,
+          reviewedAt:DB.serverTimestamp(),
+          reviewedBy:ADMIN_UID,
+          reviewNote:note.trim()
+        });
+      });
+    }
+
+    function renderPending(rows) {
+      $("pendingBtn").textContent = "طلبات القائمة ("+rows.length+")";
+      $("approvalState").textContent = rows.length ? rows.length+" طلب بانتظار المراجعة" : "لا توجد طلبات معلّقة.";
+      $("pendingList").replaceChildren();
+      [...rows].sort((a,b) => timestamp(a.submittedAt)-timestamp(b.submittedAt)).forEach(row => {
+        const p = row.payload || {};
+        const restaurant = state.restaurants.find(x => x.id === row.merchantId);
+        const item = el("article",undefined,"admin-item");
+        item.append(
+          photo(p.img,p.name || "وجبة","review-photo"),
+          el("h3",p.name || "وجبة"),
+          el("p",restaurant?.name || "التاجر: "+row.merchantId,"muted"),
+          el("p",p.description || "لا يوجد وصف","review-description"),
+          el("p",p.category+" · "+money(p),"price")
+        );
+        const label = el("label","ملاحظة الإدارة — سبب الرفض مطلوب عند الرفض");
+        const note = document.createElement("textarea");
+        note.maxLength = 500;
+        label.append(note);
+        const actions = el("div",undefined,"row");
+        const process = decision => run(item,async () => {
+          if (decision === "rejected" && !note.value.trim())
+            throw friendly("اكتب سبب الرفض ليظهر للتاجر.");
+          await reviewRequest(row.id,decision,note.value);
+          tell(decision === "approved" ? "تمت الموافقة ونُشرت الوجبة." : "تم رفض الطلب وإبلاغ التاجر داخل حسابه.");
+        });
+        actions.append(
+          button("الموافقة والنشر",() => process("approved"),"btn primary"),
+          button("رفض الطلب",() => process("rejected"),"btn danger")
+        );
+        item.append(label,actions);
+        $("pendingList").append(item);
+      });
+    }
+
+    let pendingRows = [];
+
+    function renderAdminLists() {
+      if (currentUser?.uid !== ADMIN_UID) return;
+      [["offers","adminOffers"],["restaurants","adminRestaurants"]].forEach(([collectionName,target]) => {
+        $(target).replaceChildren();
+        if (!state[collectionName].length) empty($(target),"لا توجد بيانات.");
+        state[collectionName].forEach(row => {
+          const item = el("div",undefined,"admin-item");
+          item.append(el("strong",row.title || row.name || "بدون عنوان"));
+          item.append(el("p",row.active === false ? "مخفي عن الزوار" : "ظاهر للزوار","muted"));
+          item.append(button(row.active === false ? "إظهار" : "إخفاء",() => run(item,async () => {
+            await DB.updateDoc(DB.doc(db,collectionName,row.id),{active:row.active === false});
+            tell("تم تحديث حالة النشر.");
+          })));
+          $(target).append(item);
+        });
+      });
+      $("adminMerchants").replaceChildren();
+      if (!merchantRows.length) empty($("adminMerchants"),"لا توجد حسابات تجار.");
+      merchantRows.forEach(row => {
+        const item = el("div",undefined,"admin-item");
+        item.append(
+          el("strong",row.name || "تاجر"),
+          el("p",[row.email,row.phone].filter(Boolean).join(" · "),"muted"),
+          el("p","نهاية الاشتراك: "+dateText(row.expiresAt))
+        );
+        item.append(button("تمديد 30 يومًا",() => run(item,async () => {
+          const ref = DB.doc(db,"merchants",row.id);
+          await DB.runTransaction(db,async tx => {
+            const snapshot = await tx.get(ref);
+            if (!snapshot.exists()) throw friendly("حساب التاجر غير موجود.");
+            const expiry = snapshot.data().expiresAt;
+            tx.update(ref,{expiresAt:Math.max(Date.now(),Number.isFinite(expiry)?expiry:0)+30*86400000});
+          });
+          tell("تم تمديد الاشتراك 30 يومًا.");
+        })));
+        $("adminMerchants").append(item);
+      });
+      renderPending(pendingRows);
+    }
+
+    $("offerForm").addEventListener("submit",event => {
+      event.preventDefault();
+      const title = $("offerTitle").value.trim();
+      const file = $("offerPic").files[0];
+      run($("offerForm"),async () => {
+        if (!title) throw friendly("أدخل عنوان العرض.");
+        const img = await compressImage(file);
+        await DB.addDoc(DB.collection(db,"offers"),{title,img,active:true,createdAt:DB.serverTimestamp()});
+        $("offerForm").reset();
+        tell("تم نشر العرض.");
+      });
+    });
+
+    $("foodForm").addEventListener("submit",event => {
+      event.preventDefault();
+      const name = $("foodSelect").value;
+      const file = $("foodPic").files[0];
+      run($("foodForm"),async () => {
+        const img = await compressImage(file);
+        await DB.setDoc(DB.doc(db,"foods","category-"+FOOD_NAMES.indexOf(name)),{
+          name,img,updatedAt:DB.serverTimestamp()
+        });
+        $("foodForm").reset();
+        tell("تم تحديث صورة الصنف.");
+      });
+    });
+
+    $("merchantForm").addEventListener("submit",event => {
+      event.preventDefault();
+      const values = {
+        name:$("merchantName").value.trim(),
+        email:$("merchantEmail").value.trim(),
+        password:$("merchantPassword").value,
+        phone:$("merchantPhone").value.trim(),
+        city:$("merchantCity").value,
+        category:$("merchantFood").value,
+        days:Number($("merchantDays").value),
+        file:$("merchantPic").files[0]
+      };
+      run($("merchantForm"),async () => {
+        if (auth.currentUser?.uid !== ADMIN_UID) throw friendly("هذه العملية للإدارة فقط.");
+        if (!values.name || !Number.isInteger(values.days) || values.days < 1 || values.days > 3650)
+          throw friendly("تحقّق من اسم المطعم ومدة الاشتراك.");
+        const img = values.file ? await compressImage(values.file) : "";
+        const secondary = App.initializeApp(CONFIG,"merchant-"+crypto.randomUUID());
+        const secondaryAuth = Auth.getAuth(secondary);
+        let createdUser;
+        let committed = false;
+        try {
+          await Auth.setPersistence(secondaryAuth,Auth.inMemoryPersistence);
+          const credential = await Auth.createUserWithEmailAndPassword(
+            secondaryAuth,values.email,values.password
+          );
+          createdUser = credential.user;
+          const batch = DB.writeBatch(db);
+          batch.set(DB.doc(db,"merchants",createdUser.uid),{
+            name:values.name,
+            email:values.email,
+            phone:values.phone,
+            expiresAt:Date.now()+values.days*86400000,
+            createdAt:DB.serverTimestamp()
+          });
+          batch.set(DB.doc(db,"restaurants",createdUser.uid),{
+            name:values.name,
+            city:values.city,
+            categories:[values.category],
+            img,
+            active:true,
+            createdAt:DB.serverTimestamp()
+          });
+          await batch.commit();
+          committed = true;
+          $("merchantForm").reset();
+          tell("تم إنشاء حساب التاجر والمطعم. يمكنه الدخول بالبريد وكلمة المرور اللذين أدخلتهما.");
+        } catch (error) {
+          if (createdUser && !committed) {
+            try { await Auth.deleteUser(createdUser); }
+            catch {
+              throw friendly("لم تُحفظ بيانات المطعم، وتعذّر حذف حساب الدخول غير المكتمل. راجع هذا البريد في Firebase Authentication قبل إعادة الإنشاء.");
+            }
+          }
+          throw error;
+        } finally {
+          try { await Auth.signOut(secondaryAuth); } catch {}
+          try { await App.deleteApp(secondary); } catch {}
+        }
+      });
+    });
+
+    $("migrateBtn").addEventListener("click",() => run($("migrateBtn"),async () => {
+      if (auth.currentUser?.uid !== ADMIN_UID) throw friendly("هذه العملية للإدارة فقط.");
+      let oldOffers,oldFoods;
+      try {
+        oldOffers = JSON.parse(localStorage.getItem("admin_offers") || "[]");
+        oldFoods = JSON.parse(localStorage.getItem("admin_foods") || "[]");
+      } catch { throw friendly("تعذّر قراءة البيانات القديمة من هذا المتصفح."); }
+      if (!Array.isArray(oldOffers) || !Array.isArray(oldFoods))
+        throw friendly("صيغة البيانات القديمة غير صحيحة.");
+      let added = 0;
+      let skipped = 0;
+      for (const [kind,rows] of [["offers",oldOffers],["foods",oldFoods]]) {
+        for (const row of rows) {
+          const name = String(kind === "offers" ? row?.title || "" : row?.name || "").trim();
+          const original = row?.img;
+          if (!name || name.length > 150 || (kind === "foods" && !FOOD_NAMES.includes(name)) ||
+              typeof original !== "string") { skipped++; continue; }
+          let img = safePhoto(original);
+          if (/^data:image\/(?:jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/.test(original) && original.length < 7000000) {
+            try {
+              const blob = await (await fetch(original)).blob();
+              img = await compressImage(blob);
+            } catch { skipped++; continue; }
+          }
+          if (!img) { skipped++; continue; }
+          const bytes = await crypto.subtle.digest("SHA-256",new TextEncoder().encode(name+"\n"+original));
+          const hash = [...new Uint8Array(bytes)].map(n=>n.toString(16).padStart(2,"0")).join("");
+          const ref = DB.doc(db,kind,kind === "offers" ? "legacy-"+hash : "category-"+FOOD_NAMES.indexOf(name));
+          const saved = await DB.runTransaction(db,async tx => {
+            const snapshot = await tx.get(ref);
+            if (snapshot.exists()) return false;
+            tx.set(ref,kind === "offers" ?
+              {title:name,img,active:true,createdAt:DB.serverTimestamp()} :
+              {name,img,updatedAt:DB.serverTimestamp()});
+            return true;
+          });
+          saved ? added++ : skipped++;
+        }
+      }
+      tell("اكتمل الاستيراد: "+added+" سجل جديد، "+skipped+" سجل متجاوز. لم تُحذف البيانات المحلية.");
+    }));
+
+    function watchPublic(name, reference) {
+      DB.onSnapshot(reference,snapshot => {
+        state[name] = snapshot.docs.map(doc => ({...doc.data(),id:doc.id}));
+        ready[name] = true;
+        failed[name] = false;
+        publicErrors.delete(name);
+        if (!publicErrors.size && $("status").classList.contains("error"))
+          tell("تم استعادة الاتصال.");
+        if (name === "foods") renderCategories();
+        renderOffers();
+        renderPublic();
+        if (currentUser?.uid === ADMIN_UID) renderAdminLists();
+      },error => {
+        ready[name] = true;
+        failed[name] = true;
+        state[name] = [];
+        publicErrors.add(name);
+        tell(errorText(error),true);
+        renderOffers();
+        renderPublic();
+      });
+    }
+
+    function handleAuth(user) {
+      const version = ++authVersion;
+      privateStops.forEach(stop => stop());
+      privateStops = [];
+      currentUser = user;
+      membership = null;
+      membershipReady = !user;
+      merchantRows = [];
+      requestRows = [];
+      pendingRows = [];
+      $("pendingList").replaceChildren();
+      $("adminMerchants").replaceChildren();
+      $("menuHistory").replaceChildren();
+      $("menuForm").reset();
+      tell("",false,"menuMessage");
+      ["merchantDialog","accountDialog"].forEach(id => $(id).close());
+      const admin = user?.uid === ADMIN_UID;
+      $("accountBtn").textContent = user ? "حسابي" : "تسجيل الدخول";
+      $("logoutBtn").hidden = !user;
+      $("adminBtn").hidden = !admin;
+      $("pendingBtn").hidden = !admin;
+      $("pendingBtn").textContent = "طلبات القائمة (0)";
+      updateAccount();
+
+      if (!admin && !$("adminPage").hidden) showPublic();
+
+      if (user) {
+        privateStops.push(DB.onSnapshot(DB.doc(db,"merchants",user.uid),snapshot => {
+          if (version !== authVersion) return;
+          membership = snapshot.exists() ? snapshot.data() : null;
+          membershipReady = true;
+          updateAccount();
+        },error => {
+          if (version !== authVersion) return;
+          membership = null;
+          membershipReady = true;
+          updateAccount();
+          tell(errorText(error),true);
+        }));
+
+        privateStops.push(DB.onSnapshot(
+          DB.query(DB.collection(db,"menuRequests"),DB.where("merchantId","==",user.uid)),
+          snapshot => {
+            if (version !== authVersion) return;
+            requestRows = snapshot.docs.map(doc => ({...doc.data(),id:doc.id}));
+            renderHistory();
+          },
+          error => {
+            if (version !== authVersion) return;
+            empty($("menuHistory"),errorText(error));
+          }
+        ));
+      }
+
+      if (admin) {
+        privateStops.push(DB.onSnapshot(DB.collection(db,"merchants"),snapshot => {
+          if (version !== authVersion) return;
+          merchantRows = snapshot.docs.map(doc => ({...doc.data(),id:doc.id}));
+          renderAdminLists();
+        },error => {
+          if (version === authVersion) empty($("adminMerchants"),errorText(error));
+        }));
+
+        $("approvalState").textContent = "جارٍ تحميل الطلبات…";
+        privateStops.push(DB.onSnapshot(
+          DB.query(DB.collection(db,"menuRequests"),DB.where("status","==","pending")),
+          snapshot => {
+            if (version !== authVersion) return;
+            pendingRows = snapshot.docs.map(doc => ({...doc.data(),id:doc.id}));
+            renderPending(pendingRows);
+          },
+          error => {
+            if (version !== authVersion) return;
+            $("pendingBtn").textContent = "تعذّر تحميل الطلبات";
+            $("approvalState").textContent = errorText(error);
+          }
+        ));
+        if (new URLSearchParams(location.search).get("admin") === "1") showAdmin();
+      } else if (!user && new URLSearchParams(location.search).get("admin") === "1") {
+        openLogin("admin");
       }
     }
-    say("تم نقل "+added+" إضافة وتجاوز "+skipped+" إضافة موجودة أو غير صالحة. لم تُحذف البيانات المحلية.");
-  });
-}
-boot().catch(error=>{
-  $("status").hidden=false;
-  $("status").textContent="تعذر تشغيل الاتصال بالموقع. تحقق من الإنترنت وأعد تحميل الصفحة.";
-  console.error("Initialization failed:",error.code||error.name);
-});
-</script>
+
+    renderCategories();
+
+    async function boot() {
+      try {
+        [App,Auth,DB] = await Promise.all([
+          import("https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js"),
+          import("https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js"),
+          import("https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js")
+        ]);
+        app = App.initializeApp(CONFIG);
+        auth = Auth.getAuth(app);
+        db = DB.getFirestore(app);
+
+        Auth.onAuthStateChanged(auth,handleAuth,error => tell(errorText(error),true));
+        watchPublic("offers",DB.collection(db,"offers"));
+        watchPublic("foods",DB.collection(db,"foods"));
+        watchPublic("restaurants",DB.collection(db,"restaurants"));
+        watchPublic("menuItems",DB.query(DB.collection(db,"menuItems"),DB.where("status","==","approved")));
+
+        $("accountBtn").disabled = false;
+        $("merchantBtn").disabled = false;
+        tell("");
+      } catch {
+        tell("تعذّر تحميل Firebase. تحقق من الإنترنت ثم حدّث الصفحة.",true);
+        ["offers","menuList","restaurants"].forEach(id => empty($(id),"تعذّر الاتصال بالخدمة."));
+      }
+    }
+
+    document.addEventListener("visibilitychange",() => {
+      if (!document.hidden) updateAccount();
+    });
+    boot();
+  </script>
 </body>
 </html>
