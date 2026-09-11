@@ -153,6 +153,12 @@ footer li{margin-bottom:7px}
     <img class="hero-photo" src="https://upload.wikimedia.org/wikipedia/commons/5/5f/Shawarma-sandwich-01.jpg" alt="ساندويش شاورما — صورة توضيحية" width="799" height="533" fetchpriority="high">
   </div>
 
+  <section class="panel" aria-labelledby="joinTitle">
+    <h2 id="joinTitle">عندك مطعم؟ انضم إلينا</h2>
+    <p>عرّف الناس على مطعمك وانشر قائمتك وعروضك. تواصل معنا لطلب إضافة مطعمك.</p>
+    <a class="btn primary" target="_blank" rel="noopener noreferrer" href="https://wa.me/905052077638?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D9%81%D9%8A%20%D8%A5%D8%B6%D8%A7%D9%81%D8%A9%20%D9%85%D8%B7%D8%B9%D9%85%D9%8A%20%D8%A5%D9%84%D9%89%20%D8%A7%D9%84%D8%A8%D9%84%D8%AF%20%D9%81%D9%88%D8%AF">إضافة مطعمي عبر WhatsApp</a>
+  </section>
+
   <section aria-labelledby="categoryTitle">
     <div class="section-head">
       <div><h2 id="categoryTitle">على ذوقك</h2><p class="subtitle">اختر صنفك المفضل</p></div>
@@ -202,6 +208,8 @@ footer li{margin-bottom:7px}
       <h3>إضافة عرض</h3>
       <label for="offerTitle">عنوان العرض وتفاصيله</label>
       <input id="offerTitle" maxlength="150" required>
+      <label for="offerDetails">تفاصيل العرض</label><textarea id="offerDetails" maxlength="1500"></textarea>
+      <label for="offerRestaurant">المطعم</label><select id="offerRestaurant"><option value="">اختر المطعم — اختياري</option></select>
       <label for="offerPic">صورة العرض</label>
       <input id="offerPic" type="file" accept="image/jpeg,image/png,image/webp" required>
       <button class="btn primary full" type="submit">نشر العرض</button>
@@ -220,10 +228,15 @@ footer li{margin-bottom:7px}
       <h3>إنشاء حساب تاجر ومطعم</h3>
       <label for="merchantName">اسم المطعم</label>
       <input id="merchantName" maxlength="150" required>
-      <label for="merchantEmail">البريد الإلكتروني</label>
+      <label for="merchantUsername">اسم المستخدم لصاحب المطعم</label>
+      <input id="merchantUsername" dir="ltr" pattern="[A-Za-z0-9_]{3,30}" minlength="3" maxlength="30" required autocomplete="off">
+      <p class="muted">حروف إنجليزية وأرقام وشرطة سفلية، دون مسافات. استعادة كلمة المرور لهذه الحسابات عبر الإدارة.</p>
+      <label for="merchantEmail">بريد التواصل — للإدارة فقط</label>
       <input id="merchantEmail" type="email" autocomplete="off" dir="ltr" required>
       <label for="merchantPassword">كلمة مرور أولية — 10 أحرف على الأقل</label>
       <input id="merchantPassword" type="password" minlength="10" autocomplete="new-password" required>
+      <label for="merchantWhatsapp">رقم WhatsApp للمطعم — يظهر للعملاء</label>
+      <input id="merchantWhatsapp" type="tel" dir="ltr" value="+963" required maxlength="20">
       <label for="merchantPhone">رقم التواصل — للإدارة فقط</label>
       <input id="merchantPhone" type="tel" maxlength="30" dir="ltr">
       <div class="two">
@@ -247,6 +260,7 @@ footer li{margin-bottom:7px}
 
   <div class="panel admin-block"><h3>العروض المنشورة</h3><div id="adminOffers"></div></div>
   <div class="panel admin-block"><h3>المطاعم</h3><div id="adminRestaurants"></div></div>
+  <div class="panel admin-block"><h3>الوجبات المنشورة</h3><div id="adminMenus"></div></div>
   <div class="panel admin-block"><h3>اشتراكات التجار</h3><div id="adminMerchants"></div></div>
   <div class="panel admin-block">
     <h3>استيراد البيانات القديمة</h3>
@@ -277,6 +291,10 @@ footer li{margin-bottom:7px}
   <p id="loginMessage" class="notice" role="status" hidden></p>
 </dialog>
 
+<dialog id="ratingDialog" aria-labelledby="ratingTitle">
+  <div class="dialog-head"><h2 id="ratingTitle">تقييم المطعم</h2><button class="btn" data-close="ratingDialog">إغلاق ✕</button></div>
+  <form id="ratingForm"><label for="ratingScore">تقييمك</label><select id="ratingScore"><option value="5">★★★★★ — 5</option><option value="4">★★★★ — 4</option><option value="3">★★★ — 3</option><option value="2">★★ — 2</option><option value="1">★ — 1</option></select><button class="btn primary" type="submit">حفظ التقييم</button></form>
+</dialog>
 <dialog id="accountDialog" aria-labelledby="accountTitle">
   <div class="dialog-head">
     <h2 id="accountTitle">حسابي</h2>
@@ -395,7 +413,7 @@ let photoDraft = [];
 let merchantTab = "new";
 let publicErrors = new Set();
 
-const state = {offers:[],foods:[],restaurants:[],menuItems:[]};
+const state = {offers:[],foods:[],restaurants:[],menuItems:[],ratings:[]};
 const ready = {offers:false,foods:false,restaurants:false,menuItems:false};
 const failed = {offers:false,foods:false,restaurants:false,menuItems:false};
 
@@ -671,6 +689,57 @@ function renderCategories(){
   });
 }
 
+function normalizeWhatsapp(raw){
+  let n=String(raw || "").trim().replace(/[\s()\-]/g,"");
+  if(n.startsWith("00")) n="+"+n.slice(2);
+  if(/^09\d{8}$/.test(n)) n="+963"+n.slice(1);
+  if(!/^\+[1-9]\d{7,14}$/.test(n)) throw friendly("أدخل رقم WhatsApp كاملًا مع رمز الدولة، مثل +963 ثم الرقم دون الصفر الأول.");
+  return n;
+}
+function whatsappLink(restaurant,subject){
+  if(!restaurant || restaurant.active===false || !restaurant.whatsapp) return el("span","رقم WhatsApp غير متاح حاليًا","muted");
+  let number;try{number=normalizeWhatsapp(restaurant.whatsapp).slice(1);}catch{return el("span","رقم WhatsApp غير متاح","muted");}
+  const a=el("a","تواصل مع المطعم عبر WhatsApp","btn primary");
+  a.href="https://wa.me/"+number+"?text="+encodeURIComponent("مرحباً "+restaurant.name+"، أود الاستفسار عن "+subject+". شاهدته على البلد فود.");
+  a.target="_blank";a.rel="noopener noreferrer";return a;
+}
+function displayOrder(a,b){return (Number.isFinite(a.sortOrder)?a.sortOrder:1000000)-(Number.isFinite(b.sortOrder)?b.sortOrder:1000000) || timestamp(b.approvedAt || b.createdAt)-timestamp(a.approvedAt || a.createdAt) || String(a.id).localeCompare(String(b.id));}
+function merchantLoginEmail(value){
+  const name=value.trim().toLowerCase();
+  if(name.includes("@")) return name;
+  if(!/^[a-z0-9_]{3,30}$/.test(name)) throw friendly("اسم المستخدم: من 3 إلى 30 حرفًا إنجليزيًا أو رقمًا أو شرطة سفلية.");
+  return name+"@merchant.albaladfood.com";
+}
+function ratingControl(restaurant){
+  const box=el("div");
+  const ratings=state.ratings.filter(r=>r.restaurantId===restaurant.id);
+  box.append(el("p",ratings.length ? "★ "+(ratings.reduce((sum,r)=>sum+r.score,0)/ratings.length).toFixed(1)+" / 5 · "+ratings.length+" تقييم" : "لا توجد تقييمات بعد","muted"));
+  const b=button("قيّم المطعم",()=>openRating(restaurant.id));b.dataset.rateRestaurant=restaurant.id;box.append(b);return box;
+}
+let ratingRestaurantId="";
+function openRating(id){
+  ratingRestaurantId=id;
+  if(!currentUser){openLogin("visitor");return;}
+  if(!membershipReady){tell("انتظر التحقق من الحساب ثم أعد المحاولة.",true);return;}
+  if(membership || currentUser.uid===ADMIN_UID){tell("التقييم متاح لحسابات العملاء فقط.",true);return;}
+  const restaurant=state.restaurants.find(r=>r.id===id && r.active!==false);if(!restaurant)return;
+  $("ratingTitle").textContent="تقييم "+restaurant.name;
+  $("ratingScore").value=String(state.ratings.find(r=>r.restaurantId===id && r.uid===currentUser.uid)?.score || 5);
+  showDialog("ratingDialog");
+}
+document.addEventListener("click",event=>{
+  const b=event.target.closest("#categoryResultsDialog [data-rate-restaurant]");
+  if(b)openRating(b.dataset.rateRestaurant);
+});
+$("ratingForm").addEventListener("submit",event=>{
+  event.preventDefault();run($("ratingForm"),async()=>{
+    if(!currentUser || membership || currentUser.uid===ADMIN_UID)throw friendly("سجّل الدخول بحساب عميل للتقييم.");
+    const score=Number($("ratingScore").value);
+    if(!Number.isInteger(score)||score<1||score>5)throw friendly("اختر تقييمًا من 1 إلى 5.");
+    await DB.setDoc(DB.doc(db,"ratings",ratingRestaurantId+"_"+currentUser.uid),{restaurantId:ratingRestaurantId,uid:currentUser.uid,score,updatedAt:DB.serverTimestamp()});
+    $("ratingDialog").close();tell("تم حفظ تقييمك. يمكنك تحديثه لاحقًا.");
+  });
+});
 function renderOffers(){
   if (!ready.offers) return;
   if (failed.offers) return empty($("offers"),"تعذّر تحميل العروض. حاول تحديث الصفحة.");
@@ -685,6 +754,8 @@ function renderOffers(){
     const card = el("article",undefined,"card");
     const body = el("div",undefined,"card-body");
     body.append(el("h3",row.title || "عرض"));
+    if(row.details)body.append(el("p",row.details,"review-description"));
+    if(row.restaurantId)body.append(whatsappLink(state.restaurants.find(r=>r.id===row.restaurantId),"عرض: "+row.title));
     card.append(photo(row.img,row.title || "عرض"),body);
     $("offers").append(card);
   });
@@ -723,13 +794,14 @@ function renderPublic(){
       $("resultCount").textContent = rows.length+" مطعم";
       $("restaurants").replaceChildren();
       if (!rows.length) empty($("restaurants"),"لا توجد مطاعم مطابقة حاليًا.");
-      rows.forEach(row=>{
+      rows.sort(displayOrder).forEach(row=>{
         const categories = Array.isArray(row.categories) ? row.categories : [];
         const ownPhoto = safePhoto(row.img);
         const card = el("article",undefined,"card");
         const body = el("div",undefined,"card-body");
         body.append(el("h3",row.name || "مطعم"),el("p",row.city || "","muted"));
         categories.forEach(name=>body.append(el("span",name,"chip")));
+        body.append(whatsappLink(row,"قائمة المطعم"),ratingControl(row));
         if (!ownPhoto) body.append(el("p","صورة الصنف توضيحية","muted"));
         card.append(photo(ownPhoto || categoryPhoto(categories[0]),row.name || "مطعم"),body);
         $("restaurants").append(card);
@@ -749,7 +821,7 @@ function renderPublic(){
       (!city || restaurant.city === city) &&
       (!selectedFood || p.category === selectedFood) &&
       (!query || normalize([p.name,p.description,p.category,restaurant.name,restaurant.city].join(" ")).includes(query));
-  }).sort((a,b)=>timestamp(b.approvedAt)-timestamp(a.approvedAt));
+  }).sort(displayOrder);
 
   $("menuList").replaceChildren();
   if (!rows.length) return empty($("menuList"),"لا توجد وجبات معتمدة مطابقة حاليًا.");
@@ -764,7 +836,7 @@ function renderPublic(){
       el("p",[restaurant.name,restaurant.city].filter(Boolean).join(" · "),"muted")
     );
     if (p.description) body.append(el("p",p.description,"review-description"));
-    body.append(el("p",money(p),"price"));
+    body.append(el("p",money(p),"price"),whatsappLink(restaurant,"الوجبة: "+p.name+" — "+money(p)));
     card.append(menuGallery(p,p.name),body);
     $("menuList").append(card);
   });
@@ -819,20 +891,25 @@ function changeSignup(value){
 }
 function openLogin(mode="visitor"){
   loginMode = mode;
+  $("googleBtn").hidden=mode!=="visitor";
+  $("email").type=mode==="merchant"?"text":"email";
+  $("email").autocomplete=mode==="merchant"?"username":"email";
+  document.querySelector('label[for="email"]').textContent=mode==="merchant"?"اسم المستخدم (أو بريد الحساب القديم)":"البريد الإلكتروني";
+  $("email").value="";
   changeSignup(false);
   $("loginTabs").hidden = mode !== "visitor";
   $("loginTitle").textContent = mode === "admin" ? "دخول الإدارة" :
-    mode === "merchant" ? "دخول التاجر" : "تسجيل الدخول";
+    mode === "merchant" ? "دخول صاحب المطعم" : "دخول العميل للتقييم";
   tell("",false,"loginMessage");
   showDialog("loginDialog");
 }
 function updateAccount(){
-  $("accountEmail").textContent = currentUser?.email || "";
+  $("accountEmail").textContent = membership?.username || (currentUser?.email || "").replace("@merchant.albaladfood.com","");
   $("accountInfo").textContent = currentUser?.uid === ADMIN_UID ? "حساب الإدارة" :
     !membershipReady ? "جارٍ التحقق من الحساب…" :
     membership ? "حساب تاجر — "+(activeMember() ? "الاشتراك فعّال حتى " : "انتهى الاشتراك في ")+dateText(membership.expiresAt) :
     "حساب زائر";
-  $("merchantBtn").textContent = "إضافة / تعديل قائمتي";
+  $("merchantBtn").textContent = currentUser && membership ? "إضافة / تعديل قائمتي" : "دخول صاحب المطعم";
   $("membershipInfo").textContent = !membershipReady ? "جارٍ التحقق من الاشتراك…" :
     !membership ? "لا يوجد اشتراك تاجر لهذا الحساب. تواصل مع الإدارة لتفعيل حساب تاجر." :
     activeMember() ? "اشتراكك فعّال حتى "+dateText(membership.expiresAt) :
@@ -856,7 +933,7 @@ $("accountBtn").addEventListener("click",()=>{
   showDialog("accountDialog");
 });
 $("merchantBtn").addEventListener("click",()=>{
-  if (!currentUser) return openLogin("merchant");
+  if (!currentUser || !membership) return openLogin("merchant");
   updateAccount();
   showDialog("merchantDialog");
 });
@@ -881,6 +958,11 @@ async function finishLogin(credential){
   }
   $("loginDialog").close();
   tell("تم تسجيل الدخول بنجاح.");
+  if (loginMode === "visitor" && ratingRestaurantId){
+    const member=await DB.getDocFromServer(DB.doc(db,"merchants",user.uid));
+    membership=member.exists()?member.data():null;membershipReady=true;
+    openRating(ratingRestaurantId);
+  }
   if (loginMode === "admin") showAdmin();
   if (loginMode === "merchant"){
     updateAccount();
@@ -890,10 +972,12 @@ async function finishLogin(credential){
 
 $("loginForm").addEventListener("submit",event=>{
   event.preventDefault();
-  const email = $("email").value.trim();
+  const identity = $("email").value.trim();
   const password = $("password").value;
-  const create = signup;
+  const create = signup && loginMode === "visitor";
   run($("loginDialog"),async()=>{
+    const email=loginMode==="merchant"?merchantLoginEmail(identity):identity;
+    if(create && email.toLowerCase().endsWith("@merchant.albaladfood.com"))throw friendly("هذا الاسم مخصص لحسابات المطاعم التي تنشئها الإدارة.");
     const credential = create
       ? await Auth.createUserWithEmailAndPassword(auth,email,password)
       : await Auth.signInWithEmailAndPassword(auth,email,password);
@@ -901,11 +985,13 @@ $("loginForm").addEventListener("submit",event=>{
   },"loginMessage");
 });
 $("googleBtn").addEventListener("click",()=>run($("loginDialog"),async()=>{
+  if(loginMode!=="visitor")throw friendly("استخدم اسم المستخدم وكلمة المرور لحساب المطعم.");
   const provider = new Auth.GoogleAuthProvider();
   provider.setCustomParameters({prompt:"select_account"});
   await finishLogin(await Auth.signInWithPopup(auth,provider));
 },"loginMessage"));
 $("resetPassword").addEventListener("click",()=>run($("loginDialog"),async()=>{
+  if(loginMode==="merchant" && (!$("email").value.includes("@") || $("email").value.endsWith("@merchant.albaladfood.com")))throw friendly("لاستعادة حساب المطعم باسم المستخدم، تواصل مع الإدارة عبر رابط الانضمام أسفل الصفحة.");
   if (!$("email").value.trim() || !$("email").checkValidity())
     throw friendly("أدخل بريدًا إلكترونيًا صحيحًا أولًا.");
   await Auth.sendPasswordResetEmail(auth,$("email").value.trim());
@@ -1141,11 +1227,15 @@ async function reviewRequest(id,decision,note){
     const request = snapshot.data();
 
     if (decision === "approved"){
+      const restaurant=await transaction.get(DB.doc(db,"restaurants",request.merchantId));
+      if(!restaurant.exists())throw friendly("تم حذف المطعم. ارفض الطلب أو أعد إنشاء بيانات المطعم أولًا.");
+      let existingOrder;
       const targetId = request.targetItemId || id;
       if (request.targetItemId){
         const current = await transaction.get(DB.doc(db,"menuItems",targetId));
         if (!current.exists() || current.data().merchantId !== request.merchantId)
           throw friendly("الوجبة الأصلية غير موجودة أو لا تخص هذا التاجر. ارفض الطلب مع ذكر السبب.");
+        existingOrder=current.data().sortOrder;
         if (current.data().sourceRequestId !== request.baseSourceRequestId)
           throw friendly("تغيرت الوجبة منذ إرسال هذا الطلب. ارفضه واطلب من التاجر إرسال تعديل جديد.");
       }
@@ -1154,6 +1244,7 @@ async function reviewRequest(id,decision,note){
         payload:request.payload,
         status:"approved",
         sourceRequestId:id,
+        ...(Number.isInteger(existingOrder)?{sortOrder:existingOrder}:{}),
         approvedAt:DB.serverTimestamp()
       });
     }
@@ -1212,17 +1303,38 @@ function renderPending(rows){
 
 function renderAdminLists(){
   if (currentUser?.uid !== ADMIN_UID) return;
-  [["offers","adminOffers"],["restaurants","adminRestaurants"]].forEach(([collectionName,target])=>{
+  const selectedRestaurant=$("offerRestaurant").value;
+  $("offerRestaurant").replaceChildren(new Option("اختر المطعم — اختياري",""));
+  state.restaurants.filter(r=>r.active!==false).forEach(r=>$("offerRestaurant").append(new Option(r.name,r.id)));
+  $("offerRestaurant").value=selectedRestaurant;
+  [["offers","adminOffers"],["restaurants","adminRestaurants"],["menuItems","adminMenus"]].forEach(([collectionName,target])=>{
     $(target).replaceChildren();
     if (!state[collectionName].length) empty($(target),"لا توجد بيانات.");
-    state[collectionName].forEach(row=>{
+    state[collectionName].slice().sort(displayOrder).forEach(row=>{
       const item = el("div",undefined,"admin-item");
-      item.append(el("strong",row.title || row.name || "بدون عنوان"));
+      item.append(el("strong",row.title || row.name || row.payload?.name || "بدون عنوان"));
       item.append(el("p",row.active === false ? "مخفي عن الزوار" : "ظاهر للزوار","muted"));
-      item.append(button(row.active === false ? "إظهار" : "إخفاء",()=>run(item,async()=>{
+      if(collectionName!=="menuItems")item.append(button(row.active === false ? "إظهار" : "إخفاء",()=>run(item,async()=>{
         await DB.updateDoc(DB.doc(db,collectionName,row.id),{active:row.active === false});
         tell("تم تحديث حالة النشر.");
       })));
+      if(collectionName!=="offers"){
+        const order=el("input");order.type="number";order.min="0";order.max="999999";order.step="1";order.value=String(row.sortOrder ?? 1000);order.setAttribute("aria-label","ترتيب العرض — الرقم الأصغر أولًا");
+        item.append(el("p","ترتيب العرض — الرقم الأصغر أولًا"),order,button("حفظ الترتيب",()=>run(item,async()=>{
+          const sortOrder=Number(order.value);if(!Number.isInteger(sortOrder)||sortOrder<0||sortOrder>999999)throw friendly("أدخل ترتيبًا صحيحًا من 0 إلى 999999.");
+          await DB.updateDoc(DB.doc(db,collectionName,row.id),{sortOrder});tell("تم حفظ ترتيب العرض.");
+        })));
+      }
+      if(collectionName==="restaurants"){
+        const phone=el("input");phone.type="tel";phone.dir="ltr";phone.value=row.whatsapp || "+963";phone.setAttribute("aria-label","WhatsApp للمطعم — يظهر للعملاء");
+        item.append(el("p","WhatsApp للمطعم — يظهر للعملاء"),phone,button("حفظ WhatsApp",()=>run(item,async()=>{
+          await DB.updateDoc(DB.doc(db,"restaurants",row.id),{whatsapp:normalizeWhatsapp(phone.value)});tell("تم حفظ رقم WhatsApp.");
+        })));
+      }
+      item.append(button("حذف نهائي",()=>run(item,async()=>{
+        if(!confirm("حذف "+(row.name || row.title || row.payload?.name || "السجل")+" نهائيًا؟"))return;
+        await DB.deleteDoc(DB.doc(db,collectionName,row.id));tell(collectionName==="restaurants"?"تم حذف المطعم وإزالة وجباته من عرض العملاء. حساب الدخول وسجل الطلبات محفوظان للإدارة.":"تم حذف السجل.");
+      }),"btn danger"));
       $(target).append(item);
     });
   });
@@ -1257,11 +1369,12 @@ $("offerForm").addEventListener("submit",event=>{
   event.preventDefault();
   const title = $("offerTitle").value.trim();
   const file = $("offerPic").files[0];
+  const details=$("offerDetails").value.trim(),restaurantId=$("offerRestaurant").value;
   run($("offerForm"),async()=>{
     if (!title) throw friendly("أدخل عنوان العرض.");
     const img = await compressImage(file);
     await DB.addDoc(DB.collection(db,"offers"),{
-      title,img,active:true,createdAt:DB.serverTimestamp()
+      title,details,restaurantId,img,active:true,createdAt:DB.serverTimestamp()
     });
     $("offerForm").reset();
     tell("تم نشر العرض.");
@@ -1287,6 +1400,8 @@ $("merchantForm").addEventListener("submit",event=>{
   const values = {
     name:$("merchantName").value.trim(),
     email:$("merchantEmail").value.trim(),
+    username:$("merchantUsername").value.trim().toLowerCase(),
+    whatsapp:$("merchantWhatsapp").value.trim(),
     password:$("merchantPassword").value,
     phone:$("merchantPhone").value.trim(),
     city:$("merchantCity").value,
@@ -1298,6 +1413,8 @@ $("merchantForm").addEventListener("submit",event=>{
     if (auth.currentUser?.uid !== ADMIN_UID) throw friendly("هذه العملية للإدارة فقط.");
     if (!values.name || !Number.isInteger(values.days) || values.days < 1 || values.days > 3650)
       throw friendly("تحقّق من اسم المطعم ومدة الاشتراك.");
+    values.whatsapp=normalizeWhatsapp(values.whatsapp);
+    const loginEmail=merchantLoginEmail(values.username);
     const img = values.file ? await compressImage(values.file) : "";
     const secondary = App.initializeApp(CONFIG,"merchant-"+crypto.randomUUID());
     const secondaryAuth = Auth.getAuth(secondary);
@@ -1306,13 +1423,15 @@ $("merchantForm").addEventListener("submit",event=>{
     try{
       await Auth.setPersistence(secondaryAuth,Auth.inMemoryPersistence);
       const credential = await Auth.createUserWithEmailAndPassword(
-        secondaryAuth,values.email,values.password
+        secondaryAuth,loginEmail,values.password
       );
       createdUser = credential.user;
       const batch = DB.writeBatch(db);
       batch.set(DB.doc(db,"merchants",createdUser.uid),{
         name:values.name,
         email:values.email,
+        username:values.username,
+        loginEmail,
         phone:values.phone,
         expiresAt:Date.now()+values.days*86400000,
         createdAt:DB.serverTimestamp()
@@ -1321,6 +1440,7 @@ $("merchantForm").addEventListener("submit",event=>{
         name:values.name,
         city:values.city,
         categories:[values.category],
+        whatsapp:values.whatsapp,
         img,
         active:true,
         createdAt:DB.serverTimestamp()
@@ -1328,7 +1448,7 @@ $("merchantForm").addEventListener("submit",event=>{
       await batch.commit();
       committed = true;
       $("merchantForm").reset();
-      tell("تم إنشاء حساب التاجر والمطعم. يمكنه الدخول بالبريد وكلمة المرور اللذين أدخلتهما.");
+      tell("تم إنشاء حساب المطعم. يمكن لصاحبه الدخول باسم المستخدم وكلمة المرور اللذين أدخلتهما.");
     }catch(error){
       if (createdUser && !committed){
         try{await Auth.deleteUser(createdUser);}
@@ -1435,7 +1555,7 @@ function handleAuth(user){
   tell("",false,"menuMessage");
   ["merchantDialog","accountDialog"].forEach(id=>$(id).close());
   const admin = user?.uid === ADMIN_UID;
-  $("accountBtn").textContent = user ? "حسابي" : "تسجيل الدخول";
+  $("accountBtn").textContent = user ? "حسابي" : "دخول العميل";
   $("logoutBtn").hidden = !user;
   $("adminBtn").hidden = !admin;
   $("pendingBtn").hidden = !admin;
@@ -1515,6 +1635,7 @@ async function boot(){
     auth = Auth.getAuth(app);
     db = DB.getFirestore(app);
     Auth.onAuthStateChanged(auth,handleAuth,error=>tell(errorText(error),true));
+    watchPublic("ratings",DB.collection(db,"ratings"));
     watchPublic("offers",DB.collection(db,"offers"));
     watchPublic("foods",DB.collection(db,"foods"));
     watchPublic("restaurants",DB.collection(db,"restaurants"));
