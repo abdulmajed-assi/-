@@ -551,15 +551,114 @@ PHOTOS.forEach(([file,author,license,licenseUrl],i)=>{
 });
 
 function renderCategories(){
+ function renderCategories(){
+  let popup = document.getElementById("categoryResultsDialog");
+
+  if (!popup){
+    popup = document.createElement("dialog");
+    popup.id = "categoryResultsDialog";
+    popup.setAttribute("aria-labelledby","categoryResultsTitle");
+    popup.style.cssText =
+      "width:min(1120px,96vw);max-height:92dvh;padding:24px";
+
+    const head = el("div",undefined,"dialog-head");
+    const title = el("h2");
+    title.id = "categoryResultsTitle";
+
+    head.append(
+      title,
+      button("إغلاق ✕",()=>popup.close())
+    );
+
+    const note = el(
+      "p",
+      "النتائج حسب المدينة والبحث المحددين في الصفحة الرئيسية.",
+      "muted"
+    );
+
+    const restaurantsBox = el("div",undefined,"grid");
+    const mealsBox = el("div",undefined,"grid");
+    const mealsHeading = el("h3","الوجبات والقوائم");
+
+    mealsHeading.style.marginTop = "28px";
+
+    popup.append(
+      head,
+      note,
+      el("h3","المطاعم"),
+      restaurantsBox,
+      mealsHeading,
+      mealsBox
+    );
+
+    document.body.append(popup);
+
+    const sync = ()=>{
+      if (!popup.open) return;
+
+      title.textContent = "مطاعم ووجبات " + selectedFood;
+
+      for (const [source,destination] of [
+        ["restaurants",restaurantsBox],
+        ["menuList",mealsBox]
+      ]){
+        destination.replaceChildren(
+          ...Array.from(
+            $(source).children,
+            item=>item.cloneNode(true)
+          )
+        );
+
+        destination.querySelectorAll("img").forEach(img=>{
+          img.addEventListener("error",()=>{
+            img.replaceWith(
+              el("div","الصورة غير متاحة","image-fallback")
+            );
+          },{once:true});
+        });
+      }
+    };
+
+    const observer = new MutationObserver(sync);
+
+    observer.observe($("restaurants"),{
+      childList:true,
+      subtree:true
+    });
+
+    observer.observe($("menuList"),{
+      childList:true,
+      subtree:true
+    });
+
+    popup.addEventListener("categoryrefresh",sync);
+  }
+
   $("foods").replaceChildren();
+
   FOOD_NAMES.forEach(name=>{
     const b = button("",()=>{
-      selectedFood = selectedFood === name ? "" : name;
+      selectedFood = name;
+
       renderCategories();
       renderPublic();
+
+      if (!popup.open) popup.showModal();
+
+      popup.dispatchEvent(new Event("categoryrefresh"));
+      popup.scrollTop = 0;
     },"category");
-    b.setAttribute("aria-pressed",String(selectedFood === name));
-    b.append(photo(categoryPhoto(name),name+" — صورة توضيحية"),el("span",name));
+
+    b.setAttribute(
+      "aria-pressed",
+      String(selectedFood === name)
+    );
+
+    b.append(
+      photo(categoryPhoto(name),name+" — صورة توضيحية"),
+      el("span",name)
+    );
+
     $("foods").append(b);
   });
 }
