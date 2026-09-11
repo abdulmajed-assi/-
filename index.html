@@ -1,686 +1,927 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>البلد فود - Albalad Food</title>
-    <meta name="description"
-          content="تصفح المطاعم وأقسام الطعام والعروض على البلد فود.">
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap"
-        rel="stylesheet"
-    >
-
-    <style>
-        :root {
-            --primary-green: #008857;
-            --primary-orange: #ff7010;
-            --bg-color: #f8f9fa;
-            --text-main: #333333;
-            --text-secondary: #626262;
-            --border-color: #e5e5e5;
-            --white: #ffffff;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body,
-        input,
-        select,
-        button {
-            font-family: "Cairo", sans-serif;
-        }
-
-        body {
-            background: var(--bg-color);
-            color: var(--text-main);
-        }
-
-        [hidden] {
-            display: none !important;
-        }
-
-        button,
-        select {
-            cursor: pointer;
-        }
-
-        button {
-            color: inherit;
-        }
-
-        button:disabled {
-            opacity: 0.6;
-            cursor: wait;
-        }
-
-        :focus-visible {
-            outline: 3px solid var(--primary-green);
-            outline-offset: 3px;
-        }
-
-        header {
-            background: var(--white);
-            border-bottom: 1px solid var(--border-color);
-            padding: 15px 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 20px;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .logo {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--primary-green);
-            white-space: nowrap;
-        }
-
-        .search-bar {
-            display: flex;
-            align-items: center;
-            background: #f1f1f1;
-            border-radius: 8px;
-            padding: 8px 15px;
-            width: 45%;
-            min-width: 0;
-        }
-
-        .search-bar input {
-            border: none;
-            background: transparent;
-            width: 100%;
-            min-width: 0;
-            padding: 0 10px;
-            font-size: 14px;
-            color: var(--text-main);
-        }
-
-        .auth-buttons {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .auth-buttons button {
-            padding: 8px 15px;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 13px;
-        }
-
-        .btn-visitor {
-            background: var(--white);
-            border: 1px solid var(--border-color);
-            color: var(--text-main);
-        }
-
-        .btn-merchant {
-            background: var(--primary-green);
-            border: 1px solid var(--primary-green);
-            color: var(--white);
-        }
-
-        .top-red-banner {
-            background: #d32f2f;
-            min-height: 160px;
-            margin: 20px 5%;
-            padding: 10px;
-            border-radius: 12px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-        }
-
-        .top-red-banner img {
-            display: block;
-            height: 140px;
-            max-width: 100%;
-            object-fit: contain;
-        }
-
-        .container {
-            display: flex;
-            padding: 0 5%;
-            gap: 30px;
-            align-items: flex-start;
-        }
-
-        sidebar {
-            display: block;
-            flex: 0 0 280px;
-            width: 280px;
-            background: var(--white);
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-        }
-
-        .filter-group {
-            margin-top: 12px;
-        }
-
-        .filter-group label {
-            display: block;
-            font-size: 14px;
-            color: var(--text-secondary);
-            margin-bottom: 8px;
-        }
-
-        .filter-group select {
-            width: 100%;
-            padding: 8px;
-            border-radius: 6px;
-            border: 1px solid var(--border-color);
-            background: var(--white);
-        }
-
-        main {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 15px;
-        }
-
-        .section-header h2 {
-            font-size: 20px;
-            font-weight: 700;
-        }
-
-        .see-all {
-            color: var(--primary-green);
-            background: transparent;
-            border: none;
-            padding: 8px;
-            font-weight: 600;
-            font-size: 14px;
-            text-decoration: none;
-        }
-
-        .kampanyalar-slider {
-            display: flex;
-            gap: 20px;
-            overflow-x: auto;
-            padding-bottom: 15px;
-            margin-bottom: 30px;
-        }
-
-        .kampanyalar-slider.expanded {
-            flex-wrap: wrap;
-        }
-
-        .kampanya-card {
-            flex: 0 0 280px;
-            max-width: 100%;
-            background: var(--white);
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-        }
-
-        .kampanya-card img {
-            display: block;
-            width: 100%;
-            height: 120px;
-            object-fit: cover;
-        }
-
-        .kampanya-card p {
-            padding: 8px;
-            font-size: 13px;
-            font-weight: 700;
-            text-align: center;
-            overflow-wrap: anywhere;
-        }
-
-        .mutfaklar-slider {
-            display: flex;
-            gap: 15px;
-            overflow-x: auto;
-            padding-bottom: 10px;
-            margin-bottom: 30px;
-        }
-
-        .mutfak-item {
-            text-align: center;
-            min-width: 80px;
-            flex-shrink: 0;
-            background: transparent;
-            border: none;
-            padding: 4px;
-        }
-
-        .mutfak-item img {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid var(--border-color);
-        }
-
-        .mutfak-item p {
-            font-size: 12px;
-            margin-top: 6px;
-            font-weight: 600;
-        }
-
-        .mutfak-item[aria-pressed="true"] {
-            background: #dff5e9;
-            border-radius: 10px;
-        }
-
-        .food-icon {
-            display: grid;
-            place-items: center;
-            width: 70px;
-            height: 70px;
-            margin: auto;
-            border-radius: 50%;
-            background: #e8f4ed;
-            font-size: 32px;
-        }
-
-        .restoranlar-grid {
-            display: grid;
-            grid-template-columns:
-                repeat(auto-fill, minmax(min(100%, 280px), 1fr));
-            gap: 20px;
-            margin-bottom: 40px;
-        }
-
-        .restoran-card {
-            background: var(--white);
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid var(--border-color);
-        }
-
-        .restoran-img-container {
-            height: 160px;
-        }
-
-        .restoran-img-container img {
-            display: block;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .restoran-info {
-            padding: 15px;
-            overflow-wrap: anywhere;
-        }
-
-        .restoran-title-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 8px;
-        }
-
-        .restoran-name {
-            font-weight: 700;
-            font-size: 16px;
-        }
-
-        .restoran-details {
-            font-size: 12px;
-            color: var(--text-secondary);
-        }
-
-        .rating {
-            color: var(--primary-green);
-            font-weight: 700;
-        }
-
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.6);
-            z-index: 3000;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-box {
-            background: var(--white);
-            padding: 30px;
-            border-radius: 12px;
-            width: min(400px, calc(100% - 24px));
-            max-height: calc(100dvh - 24px);
-            overflow-y: auto;
-            text-align: center;
-            position: relative;
-        }
-
-        .modal-box h3 {
-            padding-inline: 20px;
-        }
-
-        .modal-box label {
-            display: block;
-            text-align: start;
-            margin-top: 10px;
-        }
-
-        .modal-box input,
-        .modal-box select {
-            width: 100%;
-            padding: 10px;
-            margin: 8px 0;
-            border: 1px solid #cccccc;
-            border-radius: 6px;
-        }
-
-        .btn-main {
-            background: var(--primary-green);
-            color: var(--white);
-            border: none;
-            padding: 10px;
-            border-radius: 6px;
-            width: 100%;
-            font-weight: 700;
-            margin-top: 10px;
-        }
-
-        .close-btn {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            background: none;
-            border: none;
-            font-size: 18px;
-            padding: 4px;
-        }
-
-        .notice {
-            padding: 12px;
-            margin: 12px 0;
-            background: #fff5db;
-            border: 1px solid #d6bc79;
-            border-radius: 8px;
-            overflow-wrap: anywhere;
-        }
-
-        .global-notice,
-        #startupStatus {
-            margin: 12px 5%;
-        }
-
-        @media (max-width: 760px) {
-            header {
-                flex-wrap: wrap;
-                gap: 12px;
-                padding: 12px 4%;
-                position: static;
-            }
-
-            .logo {
-                font-size: 21px;
-            }
-
-            .search-bar {
-                order: 3;
-                width: 100%;
-            }
-
-            .auth-buttons {
-                gap: 6px;
-            }
-
-            .auth-buttons button {
-                padding: 8px;
-            }
-
-            .container {
-                flex-direction: column;
-                padding: 0 4%;
-                gap: 16px;
-            }
-
-            sidebar {
-                width: 100%;
-                flex: auto;
-            }
-
-            main {
-                width: 100%;
-            }
-
-            .top-red-banner {
-                margin: 16px 4%;
-            }
-
-            .kampanya-card {
-                flex-basis: min(280px, 100%);
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#153f35">
+<meta name="description" content="اكتشف المطاعم والعروض وأقسام الطعام على البلد فود.">
+<title>البلد فود | اكتشف مطاعم مدينتك</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --green:#153f35;--green2:#22634f;--cream:#f8f6f0;
+  --ink:#202c27;--muted:#647169;--line:#e2e7df;
+  --white:#fff;--accent:#f2c66d;--radius:20px
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--cream);color:var(--ink);font-family:Cairo,sans-serif}
+button,input,select{font:inherit}
+button,a,input,select{-webkit-tap-highlight-color:transparent}
+button{cursor:pointer}
+button:disabled{opacity:.55;cursor:wait}
+a{color:var(--green)}
+[hidden]{display:none!important}
+:focus-visible{outline:3px solid #c88d21;outline-offset:4px}
+.wrap{width:min(1180px,92%);margin:auto}
+.top{background:#fff;border-bottom:1px solid var(--line)}
+.top-inner{min-height:88px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.brand{text-decoration:none;color:var(--green);display:flex;align-items:center;gap:12px}
+.brand-mark{width:44px;height:44px;background:var(--green);border-radius:14px;color:#fff;display:grid;place-items:center;font-weight:800;font-size:23px}
+.brand strong{display:block;font-size:23px;line-height:1.3}
+.brand small{display:block;font-size:11px;letter-spacing:2px;color:var(--muted)}
+.actions{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.btn{border:1px solid var(--line);background:#fff;color:var(--green);padding:10px 17px;border-radius:12px;font-weight:700}
+.btn.primary{background:var(--green);color:#fff;border-color:var(--green)}
+.btn.soft{background:#edf3ed;border-color:#edf3ed}
+.btn.small{font-size:12px;padding:7px 11px}
+.btn.full{width:100%}
+button:hover:not(:disabled){filter:brightness(.97)}
+.notice{padding:13px 16px;background:#fff3d6;border:1px solid #e6cc92;border-radius:12px;overflow-wrap:anywhere}
+#status{margin-top:16px;margin-bottom:16px}
+.hero{margin:28px 0 34px;border-radius:28px;background:var(--green);color:#fff;display:grid;grid-template-columns:1.35fr .65fr;overflow:hidden;min-height:290px}
+.hero-copy{padding:34px}
+.eyebrow{font-size:12px;color:#e9cc91;margin:0 0 10px}
+h1{font-size:clamp(30px,4.2vw,48px);line-height:1.4;margin:0 0 10px;font-weight:800}
+.hero-copy>p:not(.eyebrow){color:#d5e3da;margin:0 0 24px;font-size:14px}
+.hero-photo{width:100%;height:100%;object-fit:cover;min-height:260px}
+.filters{display:grid;grid-template-columns:1fr 155px;gap:10px;background:#fff;padding:9px;border-radius:16px}
+.filters input,.filters select{border:0;background:#f3f5f1;color:var(--ink);border-radius:10px;min-width:0;width:100%;padding:12px;font-size:13px}
+.section{margin:0 0 34px}
+.section-head{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:17px}
+h2{font-size:23px;margin:0}
+.subtitle{font-size:12px;color:var(--muted);margin:4px 0 0}
+.categories{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:13px}
+.category{border:1px solid var(--line);border-radius:17px;background:#fff;padding:7px 7px 11px;min-width:0;transition:transform .16s,border-color .16s}
+.category:hover{transform:translateY(-3px)}
+.category[aria-pressed=true]{border:2px solid var(--green);background:#eaf1e8;padding:6px 6px 10px}
+.category img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:11px;display:block;background:#eee}
+.category span{display:block;margin-top:8px;font-weight:700;font-size:12px;color:var(--ink)}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:19px}
+.card{border:1px solid var(--line);border-radius:var(--radius);background:#fff;overflow:hidden;min-width:0}
+.card-photo{height:190px;width:100%;object-fit:cover;display:block;background:#eef1e9}
+.card-body{padding:18px}
+.card h3{font-size:18px;margin:0 0 8px;overflow-wrap:anywhere}
+.card p{font-size:13px;color:var(--muted);margin:5px 0;overflow-wrap:anywhere}
+.chip{display:inline-block;font-size:11px;background:#edf3eb;color:var(--green);padding:4px 9px;border-radius:8px;margin:5px 0 0 5px}
+.empty{grid-column:1/-1;border:1px dashed #cad4c8;background:#ffffff80;padding:28px;border-radius:18px;color:var(--muted);text-align:center}
+footer{border-top:1px solid var(--line);padding:26px 0 36px;margin-top:35px;color:var(--muted);font-size:12px}
+.footer-top{display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap}
+details{margin-top:15px}
+summary{cursor:pointer;color:var(--green);font-weight:700}
+#credits p{margin:8px 0}
+dialog{border:1px solid var(--line);border-radius:24px;padding:26px;width:min(440px,calc(100% - 24px));max-height:90dvh;overflow:auto;color:var(--ink)}
+dialog::backdrop{background:#0b211c99;backdrop-filter:blur(3px)}
+.dialog-head{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:17px}
+.dialog-head h2{font-size:22px}
+.close{border:0;border-radius:9px;background:#eff2ec;width:34px;height:34px;font-size:20px}
+form label{display:block;font-size:13px;font-weight:700;margin:13px 0 6px}
+form input,form select{width:100%;padding:11px 12px;border:1px solid #d7dfd3;border-radius:11px;background:#fff;color:var(--ink);min-width:0}
+form input[type=file]{font-size:12px;padding:9px}
+form .btn{margin-top:16px}
+.tabs{display:flex;gap:8px;margin-bottom:8px}
+.tabs .btn{flex:1}
+.separator{display:flex;align-items:center;gap:12px;color:var(--muted);font-size:12px;margin:18px 0}
+.separator:before,.separator:after{content:"";height:1px;background:var(--line);flex:1}
+.text-btn{border:0;background:none;color:var(--green);padding:8px 0;font-size:12px;text-decoration:underline}
+.account-mail{direction:ltr;text-align:right;overflow-wrap:anywhere}
+.admin-title{margin:30px 0 22px;display:flex;justify-content:space-between;gap:15px;align-items:center}
+.admin-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;align-items:start}
+.panel{background:#fff;border:1px solid var(--line);padding:22px;border-radius:20px;min-width:0}
+.panel h3{font-size:18px;margin:0 0 10px}
+.admin-block{margin:20px 0}
+.row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid var(--line)}
+.row p{margin:0;font-size:13px;overflow-wrap:anywhere}
+.row:last-child{border-bottom:0}
+.sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+@media(max-width:950px){
+  .categories{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .hero{grid-template-columns:1.3fr .7fr}
+  .hero-copy{padding:26px}
+  .admin-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:650px){
+  .top-inner{min-height:80px;gap:12px;flex-wrap:wrap;padding:15px 0}
+  .brand strong{font-size:20px}
+  .actions{gap:6px}
+  .actions .btn{padding:8px 10px;font-size:12px}
+  .hero{display:block;margin:20px 0 26px;position:relative}
+  .hero-copy{padding:25px;position:relative;z-index:1}
+  .hero-photo{height:150px;min-height:0;object-position:center 55%}
+  .filters{grid-template-columns:1fr}
+  .filters input,.filters select{font-size:16px}
+  .categories{gap:9px}
+  .category span{font-size:11px}
+  .grid,.admin-grid{grid-template-columns:1fr}
+  .card-photo{height:210px}
+  h2{font-size:21px}
+  .panel{padding:18px}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*:before,*:after{transition:none!important;scroll-behavior:auto!important}
+}
+</style>
 </head>
 
 <body>
-    <header>
-        <div class="logo">البلد فود</div>
+<header class="top">
+  <div class="wrap top-inner">
+    <a class="brand" href="./index.html">
+      <span class="brand-mark" aria-hidden="true">ب</span>
+      <span><strong>البلد فود</strong><small>ALBALAD FOOD</small></span>
+    </a>
+    <nav class="actions" aria-label="الحساب">
+      <button id="accountBtn" class="btn" disabled>تسجيل الدخول</button>
+      <button id="merchantBtn" class="btn primary" disabled>حساب تاجر</button>
+      <button id="adminBtn" class="btn soft" hidden>الإدارة</button>
+      <button id="logoutBtn" class="btn small" hidden>خروج</button>
+    </nav>
+  </div>
+</header>
 
-        <div class="search-bar" role="search">
-            <span aria-hidden="true">⌕</span>
-            <input
-                type="search"
-                aria-label="ابحث عن مطعم أو وجبة"
-                placeholder="ابحث عن مطعم أو وجبة..."
-            >
-        </div>
+<p id="status" class="wrap notice" role="status">جارٍ الاتصال بخدمات الموقع…</p>
+<noscript><p class="wrap notice">يرجى تفعيل JavaScript لاستخدام الموقع.</p></noscript>
 
-        <div class="auth-buttons">
-            <button type="button" class="btn-visitor">
-                حساب زائر
-            </button>
-
-            <button type="button" class="btn-merchant">
-                حساب تاجر
-            </button>
-        </div>
-    </header>
-
-    <p id="startupStatus" class="notice" role="status">
-        جارٍ تشغيل البحث وتسجيل الدخول…
-    </p>
-
-    <noscript>
-        <p class="notice global-notice">
-            يرجى تفعيل JavaScript لاستخدام البحث وتسجيل الدخول وعرض التحديثات.
-        </p>
-    </noscript>
-
-    <div class="top-red-banner">
-        <img
-            src="https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=300"
-            alt="كوكا كولا"
-            width="210"
-            height="140"
-        >
+<main id="publicPage" class="wrap">
+  <section class="hero" aria-labelledby="heroTitle">
+    <div class="hero-copy">
+      <p class="eyebrow">اكتشف مطاعم مدينتك</p>
+      <h1 id="heroTitle">شو مشتهي اليوم؟</h1>
+      <p>اختَر مدينتك، واستكشف المطاعم والعروض حسب ذوقك.</p>
+      <div class="filters" role="search">
+        <label class="sr" for="search">البحث عن مطعم أو نوع طعام</label>
+        <input id="search" type="search" placeholder="ابحث عن مطعم أو نوع طعام…" autocomplete="off">
+        <label class="sr" for="city">المدينة</label>
+        <select id="city"><option value="">جميع المدن</option></select>
+      </div>
     </div>
+    <img class="hero-photo"
+      src="https://upload.wikimedia.org/wikipedia/commons/5/5f/Shawarma-sandwich-01.jpg"
+      alt="صورة توضيحية لشاورما" width="799" height="533"
+      fetchpriority="high" decoding="async">
+  </section>
 
-    <div class="container">
-        <sidebar role="complementary" aria-label="تصفية المطاعم">
-            <h3>تصفية المطاعم</h3>
-
-            <div class="filter-group">
-                <label for="cityFilter">
-                    <strong>المدينة</strong>
-                </label>
-
-                <select id="cityFilter">
-                    <option value="">جميع المدن</option>
-                    <option value="دمشق">دمشق</option>
-                    <option value="ريف دمشق">ريف دمشق</option>
-                    <option value="حمص">حمص</option>
-                    <option value="اللاذقية">اللاذقية</option>
-                    <option value="حلب">حلب</option>
-                    <option value="دير الزور">دير الزور</option>
-                </select>
-            </div>
-        </sidebar>
-
-        <main>
-            <div class="section-header">
-                <h2>العروض</h2>
-                <button type="button" class="see-all">
-                    عرض الكل
-                </button>
-            </div>
-
-            <div class="kampanyalar-slider" id="homeOffersContainer">
-                <div class="kampanya-card">
-                    <img
-                        src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400"
-                        alt="وجبات متنوعة"
-                        loading="lazy"
-                    >
-                    <p>عرض العائلة المميز</p>
-                </div>
-            </div>
-
-            <div class="section-header">
-                <h2>أقسام الطعام</h2>
-            </div>
-
-            <div class="mutfaklar-slider" id="homeFoodContainer">
-                <div class="mutfak-item">
-                    <span class="food-icon" aria-hidden="true">🌯</span>
-                    <p>شاورما</p>
-                </div>
-
-                <div class="mutfak-item">
-                    <span class="food-icon" aria-hidden="true">🍗</span>
-                    <p>بروستد</p>
-                </div>
-
-                <div class="mutfak-item">
-                    <span class="food-icon" aria-hidden="true">🥪</span>
-                    <p>سندويش غربي</p>
-                </div>
-
-                <div class="mutfak-item">
-                    <span class="food-icon" aria-hidden="true">🧆</span>
-                    <p>فلافل</p>
-                </div>
-
-                <div class="mutfak-item">
-                    <span class="food-icon" aria-hidden="true">🍚</span>
-                    <p>مندي</p>
-                </div>
-
-                <div class="mutfak-item">
-                    <span class="food-icon" aria-hidden="true">🍔</span>
-                    <p>برغر</p>
-                </div>
-
-                <div class="mutfak-item">
-                    <span class="food-icon" aria-hidden="true">🥤</span>
-                    <p>كوكتيل</p>
-                </div>
-
-                <div class="mutfak-item">
-                    <span class="food-icon" aria-hidden="true">🍰</span>
-                    <p>حلويات</p>
-                </div>
-            </div>
-
-            <div class="section-header">
-                <h2>كل المطاعم</h2>
-            </div>
-
-            <div class="restoranlar-grid" id="homeRestaurantsContainer">
-                <article class="restoran-card">
-                    <div class="restoran-img-container">
-                        <img
-                            src="https://images.unsplash.com/photo-1550547660-d9450f859349?w=400"
-                            alt="وجبة من المطعم"
-                            loading="lazy"
-                        >
-                    </div>
-
-                    <div class="restoran-info">
-                        <div class="restoran-title-row">
-                            <h3 class="restoran-name">
-                                مطعم الشام الأصيل
-                            </h3>
-
-                            <span class="rating">4.8 ⭐</span>
-                        </div>
-
-                        <p class="restoran-details">
-                            دمشق - المزة | شاورما ومشاوي
-                        </p>
-                    </div>
-                </article>
-            </div>
-        </main>
+  <section class="section" aria-labelledby="categoryTitle">
+    <div class="section-head">
+      <div><h2 id="categoryTitle">على ذوقك</h2><p class="subtitle">اختر نوع الطعام لتصفية المطاعم</p></div>
+      <button id="clear" class="btn small" hidden>مسح التصفية</button>
     </div>
+    <div id="foods" class="categories"></div>
+  </section>
 
-    <div
-        id="visitorModal"
-        class="modal-overlay"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="visitorModalTitle"
-    >
-        <div class="modal-box">
-            <h3 id="visitorModalTitle">حساب الزائر</h3>
-        </div>
+  <section class="section" aria-labelledby="offersTitle">
+    <div class="section-head">
+      <div><h2 id="offersTitle">العروض</h2><p class="subtitle">العروض التي تنشرها إدارة الموقع</p></div>
+      <button id="offerToggle" class="btn small" hidden aria-expanded="false">عرض الكل</button>
     </div>
+    <div id="offers" class="grid"><p class="empty">جارٍ تحميل العروض…</p></div>
+  </section>
 
-    <div
-        id="merchantModal"
-        class="modal-overlay"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="merchantModalTitle"
-    >
-        <div class="modal-box">
-            <h3 id="merchantModalTitle">حساب التاجر</h3>
-        </div>
+  <section class="section" aria-labelledby="restaurantTitle">
+    <div class="section-head">
+      <div><h2 id="restaurantTitle">استكشف المطاعم</h2><p id="resultCount" class="subtitle" role="status"></p></div>
     </div>
+    <div id="restaurants" class="grid"><p class="empty">جارٍ تحميل المطاعم…</p></div>
+  </section>
+</main>
 
-    <script>
-        const startupStatus = document.getElementById("startupStatus");
+<section id="adminPage" class="wrap" hidden aria-labelledby="adminTitle">
+  <div class="admin-title">
+    <div><h2 id="adminTitle">إدارة البلد فود</h2><p class="subtitle">المحتوى والحسابات والاشتراكات</p></div>
+    <button id="backToSite" class="btn">معاينة الموقع</button>
+  </div>
 
-        import("./site.js")
-            .then(function () {
-                startupStatus.remove();
-            })
-            .catch(function (error) {
-                console.error(
-                    "Site başlatılamadı:",
-                    error.code || error.name
-                );
+  <div class="admin-grid">
+    <form id="offerForm" class="panel">
+      <h3>إضافة عرض</h3>
+      <label for="offerTitle">اسم العرض</label>
+      <input id="offerTitle" maxlength="150" required>
+      <label for="offerPic">صورة العرض</label>
+      <input id="offerPic" type="file" accept="image/jpeg,image/png,image/webp" required>
+      <button class="btn primary full" type="submit">نشر العرض</button>
+    </form>
 
-                startupStatus.textContent =
-                    "تعذر تشغيل الموقع. تحقق من وجود ملف site.js واتصال الإنترنت، ثم أعد تحميل الصفحة.";
+    <form id="foodForm" class="panel">
+      <h3>صورة قسم الطعام</h3>
+      <label for="foodSelect">القسم</label>
+      <select id="foodSelect" required><option value="">اختر القسم</option></select>
+      <label for="foodPic">الصورة الجديدة</label>
+      <input id="foodPic" type="file" accept="image/jpeg,image/png,image/webp" required>
+      <button class="btn primary full" type="submit">حفظ الصورة</button>
+    </form>
 
-                startupStatus.setAttribute("role", "alert");
-            });
-    </script>
+    <form id="merchantForm" class="panel">
+      <h3>إضافة تاجر ومطعم</h3>
+      <label for="merchantName">اسم المطعم</label>
+      <input id="merchantName" maxlength="150" required>
+      <label for="merchantEmail">البريد الإلكتروني للتاجر</label>
+      <input id="merchantEmail" type="email" autocomplete="off" required>
+      <label for="merchantPassword">كلمة مرور أولية</label>
+      <input id="merchantPassword" type="password" minlength="10" autocomplete="new-password" required>
+      <label for="merchantPhone">هاتف التاجر — غير منشور للزوار</label>
+      <input id="merchantPhone" type="tel" maxlength="30">
+      <label for="merchantCity">المدينة</label>
+      <select id="merchantCity" required><option value="">اختر المدينة</option></select>
+      <label for="merchantFood">نوع الطعام</label>
+      <select id="merchantFood" required><option value="">اختر النوع</option></select>
+      <label for="merchantDays">مدة الاشتراك بالأيام</label>
+      <input id="merchantDays" type="number" min="1" max="3650" step="1" value="30" required>
+      <label for="merchantPic">صورة المطعم أو وجبة منه — اختياري</label>
+      <input id="merchantPic" type="file" accept="image/jpeg,image/png,image/webp">
+      <button class="btn primary full" type="submit">إنشاء الحساب والمطعم</button>
+    </form>
+  </div>
+
+  <section class="panel admin-block">
+    <h3>إدارة العروض</h3>
+    <div id="adminOffers"></div>
+  </section>
+
+  <section class="panel admin-block">
+    <h3>ظهور المطاعم</h3>
+    <div id="adminRestaurants"></div>
+  </section>
+
+  <section class="panel admin-block">
+    <h3>اشتراكات التجار</h3>
+    <div id="adminMerchants"></div>
+  </section>
+
+  <section class="panel admin-block" id="migrationPanel">
+    <h3>نقل الإضافات القديمة</h3>
+    <p class="subtitle">افتح هذه الصفحة من المتصفح الذي أضفت منه المحتوى سابقاً. سيتم نشر الإضافات لجميع الزوار دون حذف النسخة المحلية.</p>
+    <button id="migrateBtn" class="btn" type="button">نقل إضافات localStorage</button>
+  </section>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-top">
+      <strong>البلد فود · Albalad Food</strong>
+      <span>صور أقسام الطعام توضيحية، وقد تختلف عن وجبات المطاعم.</span>
+    </div>
+    <details>
+      <summary>مصادر صور الطعام</summary>
+      <p>تُعرض الصور مصغّرة ومقتصّة لتناسب البطاقات. تبقى حقوق الصور وتراخيصها لأصحابها.</p>
+      <div id="credits"></div>
+    </details>
+  </div>
+</footer>
+
+<dialog id="loginDialog" aria-labelledby="loginTitle">
+  <div class="dialog-head">
+    <h2 id="loginTitle">أهلاً بك</h2>
+    <button type="button" class="close" data-close="loginDialog" aria-label="إغلاق">×</button>
+  </div>
+  <div id="loginTabs" class="tabs">
+    <button id="loginTab" class="btn primary" type="button">دخول</button>
+    <button id="signupTab" class="btn" type="button">حساب جديد</button>
+  </div>
+  <form id="loginForm">
+    <label for="email">البريد الإلكتروني</label>
+    <input id="email" type="email" autocomplete="email" required>
+    <label for="password">كلمة المرور</label>
+    <input id="password" type="password" autocomplete="current-password" required>
+    <button id="showPassword" type="button" class="text-btn" aria-pressed="false">إظهار كلمة المرور</button>
+    <button id="loginSubmit" class="btn primary full" type="submit">تسجيل الدخول</button>
+  </form>
+  <button id="resetPassword" type="button" class="text-btn">نسيت كلمة المرور؟</button>
+  <div class="separator">أو</div>
+  <button id="googleBtn" class="btn full" type="button">المتابعة باستخدام Google</button>
+  <p id="loginMessage" class="notice" role="status" hidden></p>
+</dialog>
+
+<dialog id="accountDialog" aria-labelledby="accountTitle">
+  <div class="dialog-head">
+    <h2 id="accountTitle">حسابي</h2>
+    <button type="button" class="close" data-close="accountDialog" aria-label="إغلاق">×</button>
+  </div>
+  <p id="accountEmail" class="account-mail"></p>
+  <p id="accountInfo" class="notice"></p>
+  <button id="accountLogout" class="btn full" type="button">تسجيل الخروج</button>
+</dialog>
+
+<script type="module">
+const $ = id => document.getElementById(id);
+const ADMIN_UID = "diJ1B4OuMIbmpBt26ZCL1ghnvHj1";
+const CONFIG = {
+  apiKey: "AIzaSyDRrHrWvynGEezRsJQR6fz1oMJSlj8v58M",
+  authDomain: "albalad-food.firebaseapp.com",
+  projectId: "albalad-food",
+  storageBucket: "albalad-food.firebasestorage.app",
+  messagingSenderId: "933902087450",
+  appId: "1:933902087450:web:a9e7a10d4dc393c6bb28a3"
+};
+
+const CITIES = ["دمشق","ريف دمشق","حمص","اللاذقية","حلب","دير الزور"];
+const COMMONS = "https://commons.wikimedia.org/wiki/";
+const cc = version => "https://creativecommons.org/licenses/" + version + "/";
+const filePhoto = name => COMMONS + "Special:FilePath/" + encodeURIComponent(name) + "?width=330";
+
+const PHOTOS = [
+  {name:"شاورما",file:"Shawarma-sandwich-01.jpg",author:"Vera Yu and David Li",license:"CC BY 2.0",licenseUrl:cc("by/2.0")},
+  {name:"بروستد",file:"Fried-Chicken-Set.jpg",author:"Evan-Amos",license:"CC0",licenseUrl:"https://creativecommons.org/publicdomain/zero/1.0/"},
+  {name:"سندويش غربي",file:"Club_sandwich.jpg",author:"Jessica / WordRidden",license:"CC BY 2.0",licenseUrl:cc("by/2.0")},
+  {name:"فلافل",file:"Bowl_of_falafel.jpg",author:"EvanProdromou",license:"CC BY-SA 4.0",licenseUrl:cc("by-sa/4.0")},
+  {name:"مندي",file:"Mandi_chicken.jpg",author:"ReshmaNazeerhussain",license:"CC0",licenseUrl:"https://creativecommons.org/publicdomain/zero/1.0/"},
+  {name:"برغر",file:"Cheeseburger.png",author:"Renee Comet / NCI; Download",license:"Public domain",licenseUrl:"https://creativecommons.org/publicdomain/mark/1.0/"},
+  {name:"كوكتيل",file:"Fruit_smoothie.jpg",author:"Tiia Monto",license:"CC BY-SA 3.0",licenseUrl:cc("by-sa/3.0")},
+  {name:"حلويات",file:"Baklava.jpg",author:"Randy Oostdyk; Rainer Zenz",license:"CC BY-SA 3.0",licenseUrl:cc("by-sa/3.0")}
+];
+const FOOD_NAMES = PHOTOS.map(item => item.name);
+
+function node(tag,text,className){
+  const result=document.createElement(tag);
+  if(text!==undefined) result.textContent=text;
+  if(className) result.className=className;
+  return result;
+}
+function link(text,href){
+  const result=node("a",text);
+  result.href=href;
+  result.target="_blank";
+  result.rel="noopener noreferrer";
+  return result;
+}
+function normal(value){
+  return String(value||"").normalize("NFKC")
+    .replace(/[\u064B-\u065F\u0670\u0640]/g,"")
+    .replace(/[أإآٱ]/g,"ا").replace(/ى/g,"ي").toLowerCase().trim();
+}
+function safePhoto(value){
+  if(typeof value!=="string"||value.length>260000) return "";
+  if(/^data:image\/(?:jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/.test(value)) return value;
+  try{
+    const url=new URL(value);
+    return url.protocol==="https:"&&!url.username&&!url.password?url.href:"";
+  }catch{return "";}
+}
+function image(src,alt,className){
+  const img=node("img",undefined,className);
+  img.src=safePhoto(src);
+  img.alt=alt;
+  img.loading="lazy";
+  img.decoding="async";
+  img.referrerPolicy="no-referrer";
+  img.addEventListener("error",()=>{
+    const placeholder=node("div",alt,"empty");
+    img.replaceWith(placeholder);
+  },{once:true});
+  return img;
+}
+function empty(container,text){
+  container.replaceChildren(node("p",text,"empty"));
+}
+function say(text){
+  const target=$("loginDialog").open?$("loginMessage"):$("status");
+  target.textContent=text;
+  target.hidden=false;
+}
+function userError(message){
+  const error=new Error(message);
+  error.friendly=true;
+  throw error;
+}
+function errorText(error){
+  const map={
+    "auth/invalid-credential":"البريد الإلكتروني أو كلمة المرور غير صحيحة.",
+    "auth/invalid-email":"أدخل بريداً إلكترونياً صالحاً.",
+    "auth/email-already-in-use":"البريد مسجل بالفعل. استخدم تسجيل الدخول.",
+    "auth/weak-password":"اختر كلمة مرور أقوى.",
+    "auth/password-does-not-meet-requirements":"كلمة المرور لا تستوفي شروط الأمان.",
+    "auth/operation-not-allowed":"طريقة الدخول غير مفعّلة في Firebase.",
+    "auth/unauthorized-domain":"نطاق الموقع غير مضاف إلى Authorized domains في Firebase.",
+    "auth/popup-blocked":"اسمح بالنافذة المنبثقة لتسجيل الدخول باستخدام Google.",
+    "auth/popup-closed-by-user":"أُغلقت نافذة تسجيل الدخول.",
+    "auth/cancelled-popup-request":"أكمل محاولة الدخول الحالية.",
+    "auth/account-exists-with-different-credential":"استخدم طريقة الدخول الأصلية المرتبطة بهذا البريد.",
+    "auth/too-many-requests":"محاولات كثيرة. انتظر قليلاً ثم حاول مجدداً.",
+    "auth/network-request-failed":"تحقق من اتصال الإنترنت.",
+    "permission-denied":"الحساب غير مخوّل أو قواعد قاعدة البيانات غير مكتملة.",
+    "unavailable":"تعذر الاتصال بقاعدة البيانات. حاول لاحقاً.",
+    "resource-exhausted":"تم بلوغ حد استخدام الخدمة. راجع Firebase."
+  };
+  return map[error.code]||(error.friendly?error.message:"تعذر إتمام العملية. حاول مجدداً.");
+}
+async function run(container,action){
+  if(container.dataset.busy==="yes") return;
+  container.dataset.busy="yes";
+  const controls=[...container.querySelectorAll("button,input,select")];
+  const previous=controls.map(item=>item.disabled);
+  controls.forEach(item=>{item.disabled=true;});
+  try{await action();}
+  catch(error){say(errorText(error));}
+  finally{
+    controls.forEach((item,index)=>{item.disabled=previous[index];});
+    delete container.dataset.busy;
+  }
+}
+function dialog(id){
+  document.querySelectorAll("dialog[open]").forEach(item=>item.close());
+  $(id).showModal();
+}
+document.querySelectorAll("[data-close]").forEach(button=>{
+  button.onclick=()=>$(button.dataset.close).close();
+});
+$("loginDialog").addEventListener("close",()=>{
+  $("password").value="";
+  $("password").type="password";
+  $("showPassword").textContent="إظهار كلمة المرور";
+  $("showPassword").setAttribute("aria-pressed","false");
+});
+CITIES.forEach(city=>{
+  $("city").append(new Option(city,city));
+  $("merchantCity").append(new Option(city,city));
+});
+FOOD_NAMES.forEach(name=>{
+  $("foodSelect").append(new Option(name,name));
+  $("merchantFood").append(new Option(name,name));
+});
+PHOTOS.forEach(item=>{
+  const row=node("p");
+  row.append(
+    link(item.name,COMMONS+"File:"+encodeURIComponent(item.file)),
+    document.createTextNode(" — "+item.author+" — "),
+    link(item.license,item.licenseUrl)
+  );
+  $("credits").append(row);
+});
+
+let offers=[],restaurants=[],customFoods=[];
+let selectedFood="",expanded=false;
+let offersReady=false,restaurantsReady=false;
+let offersFailed=false,restaurantsFailed=false;
+let auth=null,db=null,A=null,D=null,Apps=null;
+let member=null,memberReady=false,memberError=false;
+let privateStops=[];
+let loginMode="login";
+let adminRoute=new URLSearchParams(location.search).get("admin")==="1";
+
+function categoryPhoto(name){
+  const own=customFoods.find(item=>item.name===name&&safePhoto(item.img));
+  if(own) return own.img;
+  const stock=PHOTOS.find(item=>item.name===name);
+  return stock?filePhoto(stock.file):"";
+}
+function drawFoods(){
+  $("foods").replaceChildren();
+  PHOTOS.forEach(item=>{
+    const button=node("button",undefined,"category");
+    button.type="button";
+    button.setAttribute("aria-pressed",String(selectedFood===item.name));
+    button.append(image(categoryPhoto(item.name),item.name),node("span",item.name));
+    button.onclick=()=>{
+      selectedFood=selectedFood===item.name?"":item.name;
+      drawFoods();
+      drawRestaurants();
+    };
+    $("foods").append(button);
+  });
+}
+function drawRestaurants(){
+  const terms=normal($("search").value).split(/\s+/).filter(Boolean);
+  const city=$("city").value;
+  $("clear").hidden=!(terms.length||city||selectedFood);
+  if(!restaurantsReady){
+    empty($("restaurants"),restaurantsFailed?"تعذر تحميل المطاعم. أعد تحميل الصفحة للمحاولة.":"جارٍ تحميل المطاعم…");
+    return;
+  }
+  const records=restaurants.filter(item=>{
+    const categories=Array.isArray(item.categories)?item.categories:[];
+    const content=normal([item.name,item.city,item.area,...categories].join(" "));
+    return item.active!==false&&(!city||item.city===city)
+      &&(!selectedFood||categories.includes(selectedFood))
+      &&terms.every(term=>content.includes(term));
+  });
+  $("resultCount").textContent=records.length?"عدد المطاعم: "+records.length:"";
+  if(!records.length){
+    empty($("restaurants"),restaurants.length
+      ?"لا توجد مطاعم مطابقة. جرّب تغيير التصفية."
+      :"ستظهر المطاعم هنا بعد إضافتها من الإدارة.");
+    return;
+  }
+  $("restaurants").replaceChildren();
+  records.forEach(item=>{
+    const card=node("article",undefined,"card");
+    const categories=Array.isArray(item.categories)?item.categories:[];
+    const own=safePhoto(item.img);
+    const photo=own||categoryPhoto(categories[0]);
+    if(photo) card.append(image(photo,String(item.name||"مطعم"),"card-photo"));
+    const body=node("div",undefined,"card-body");
+    body.append(node("h3",String(item.name||"مطعم")));
+    body.append(node("p",[item.city,item.area].filter(Boolean).join(" — ")));
+    categories.forEach(name=>body.append(node("span",String(name),"chip")));
+    if(!own&&photo) body.append(node("p","صورة توضيحية لنوع الطعام"));
+    card.append(body);
+    $("restaurants").append(card);
+  });
+}
+function drawOffers(){
+  if(!offersReady){
+    empty($("offers"),offersFailed?"تعذر تحميل العروض. أعد تحميل الصفحة للمحاولة.":"جارٍ تحميل العروض…");
+    return;
+  }
+  const current=offers.filter(item=>item.active!==false);
+  $("offerToggle").hidden=current.length<=3;
+  $("offerToggle").textContent=expanded?"عرض مختصر":"عرض الكل";
+  $("offerToggle").setAttribute("aria-expanded",String(expanded));
+  if(!current.length){empty($("offers"),"لا توجد عروض منشورة حالياً.");return;}
+  $("offers").replaceChildren();
+  (expanded?current:current.slice(0,3)).forEach(item=>{
+    const card=node("article",undefined,"card");
+    if(safePhoto(item.img)) card.append(image(item.img,String(item.title||"عرض"),"card-photo"));
+    const body=node("div",undefined,"card-body");
+    body.append(node("h3",String(item.title||"عرض")));
+    card.append(body);
+    $("offers").append(card);
+  });
+}
+$("search").oninput=drawRestaurants;
+$("city").onchange=drawRestaurants;
+$("clear").onclick=()=>{
+  $("search").value="";$("city").value="";selectedFood="";
+  drawFoods();drawRestaurants();
+};
+$("offerToggle").onclick=()=>{expanded=!expanded;drawOffers();};
+drawFoods();
+
+function isAdmin(){return auth?.currentUser?.uid===ADMIN_UID;}
+function requireAdmin(){
+  if(!isAdmin()) userError("هذه العملية متاحة للمدير فقط.");
+}
+function showPublic(){
+  $("publicPage").hidden=false;
+  $("adminPage").hidden=true;
+  adminRoute=false;
+  history.replaceState(null,"",location.pathname);
+  window.scrollTo(0,0);
+}
+function showAdmin(){
+  if(!isAdmin()){openLogin("admin");return;}
+  $("publicPage").hidden=true;
+  $("adminPage").hidden=false;
+  adminRoute=true;
+  history.replaceState(null,"",location.pathname+"?admin=1");
+  drawAdminLists();
+  window.scrollTo(0,0);
+}
+function openLogin(mode){
+  loginMode=mode;
+  $("loginMessage").hidden=true;
+  $("loginTabs").hidden=mode==="merchant"||mode==="admin";
+  $("loginTitle").textContent=mode==="merchant"?"دخول التاجر":mode==="admin"?"دخول الإدارة":"أهلاً بك";
+  $("loginSubmit").textContent=mode==="signup"?"إنشاء الحساب":"تسجيل الدخول";
+  $("loginTab").classList.toggle("primary",mode!=="signup");
+  $("signupTab").classList.toggle("primary",mode==="signup");
+  $("password").autocomplete=mode==="signup"?"new-password":"current-password";
+  $("password").minLength=mode==="signup"?10:1;
+  $("resetPassword").hidden=mode==="signup";
+  dialog("loginDialog");
+}
+function showAccount(){
+  $("accountEmail").textContent=auth.currentUser?.email||"";
+  $("accountInfo").textContent=isAdmin()?"هذا هو حساب إدارة الموقع."
+    :!memberReady?"جارٍ التحقق من بيانات الحساب…"
+    :memberError?"تعذر تحميل معلومات الاشتراك. حاول لاحقاً."
+    :member&&Number.isFinite(Number(member.expiresAt))
+      ?(Number(member.expiresAt)>Date.now()?"اشتراك التاجر فعّال حتى ":"انتهى اشتراك التاجر في ")
+        +new Date(Number(member.expiresAt)).toLocaleDateString("ar")
+      :"أنت مسجّل الدخول بحساب زائر.";
+  dialog("accountDialog");
+}
+$("loginTab").onclick=()=>openLogin("login");
+$("signupTab").onclick=()=>openLogin("signup");
+$("showPassword").onclick=()=>{
+  const showing=$("password").type==="password";
+  $("password").type=showing?"text":"password";
+  $("showPassword").textContent=showing?"إخفاء كلمة المرور":"إظهار كلمة المرور";
+  $("showPassword").setAttribute("aria-pressed",String(showing));
+};
+$("backToSite").onclick=showPublic;
+
+async function compressImage(file){
+  if(!file) userError("اختر صورة أولاً.");
+  if(!["image/jpeg","image/png","image/webp"].includes(file.type)){
+    userError("استخدم صورة JPG أو PNG أو WebP.");
+  }
+  if(file.size>5*1024*1024) userError("الحد الأقصى للصورة 5 ميغابايت.");
+  const bitmap=await createImageBitmap(file);
+  try{
+    const scale=Math.min(1,640/Math.max(bitmap.width,bitmap.height));
+    const canvas=document.createElement("canvas");
+    canvas.width=Math.max(1,Math.round(bitmap.width*scale));
+    canvas.height=Math.max(1,Math.round(bitmap.height*scale));
+    const context=canvas.getContext("2d");
+    context.fillStyle="#ffffff";
+    context.fillRect(0,0,canvas.width,canvas.height);
+    context.drawImage(bitmap,0,0,canvas.width,canvas.height);
+    for(const quality of [.8,.65,.5,.35]){
+      const data=canvas.toDataURL("image/jpeg",quality);
+      if(data.length<=180000) return data;
+    }
+    userError("اختر صورة أبسط؛ حجم الصورة ما زال كبيراً بعد التصغير.");
+  }finally{bitmap.close();}
+}
+async function verifyMerchant(user){
+  if(user.uid===ADMIN_UID) return;
+  const record=await D.getDocFromServer(D.doc(db,"merchants",user.uid));
+  const expires=record.exists()?Number(record.data().expiresAt):0;
+  if(!Number.isFinite(expires)||expires<=Date.now()){
+    userError("تم تسجيل الدخول، لكن لا يوجد اشتراك تاجر فعّال لهذا الحساب.");
+  }
+}
+async function finishLogin(credential,mode){
+  if(mode==="merchant") await verifyMerchant(credential.user);
+  if(mode==="admin"&&credential.user.uid!==ADMIN_UID){
+    userError("تم تسجيل الدخول، لكن هذا الحساب لا يملك صلاحية الإدارة.");
+  }
+  $("loginDialog").close();
+  say("تم تسجيل الدخول بنجاح.");
+  if(mode==="admin") showAdmin();
+}
+async function signOut(){
+  await A.signOut(auth);
+  document.querySelectorAll("dialog[open]").forEach(item=>item.close());
+  showPublic();
+  say("تم تسجيل الخروج.");
+}
+
+function drawAdminLists(){
+  if(!isAdmin()) return;
+  function list(container,records,collection,titleKey){
+    container.replaceChildren();
+    if(!records.length){container.append(node("p","لا توجد إضافات بعد.","subtitle"));return;}
+    records.forEach(record=>{
+      const row=node("div",undefined,"row");
+      row.append(node("p",String(record[titleKey]||"بدون اسم")));
+      const button=node("button",record.active===false?"نشر":"إخفاء","btn small");
+      button.type="button";
+      button.onclick=()=>run(row,async()=>{
+        requireAdmin();
+        await D.updateDoc(D.doc(db,collection,record.id),{active:record.active===false});
+        say("تم تحديث حالة النشر.");
+      });
+      row.append(button);
+      container.append(row);
+    });
+  }
+  list($("adminOffers"),offers,"offers","title");
+  list($("adminRestaurants"),restaurants,"restaurants","name");
+}
+function drawMembers(records){
+  $("adminMerchants").replaceChildren();
+  if(!records.length){$("adminMerchants").append(node("p","لا توجد حسابات تجار بعد.","subtitle"));return;}
+  records.forEach(record=>{
+    const row=node("div",undefined,"row");
+    const text=node("div");
+    text.append(node("p",String(record.name||"تاجر")));
+    const expires=Number(record.expiresAt);
+    text.append(node("p",Number.isFinite(expires)
+      ?"نهاية الاشتراك: "+new Date(expires).toLocaleDateString("ar")
+      :"مدة الاشتراك غير محددة"));
+    row.append(text);
+    const renew=node("button","إضافة 30 يوماً","btn small");
+    renew.onclick=()=>run(row,async()=>{
+      requireAdmin();
+      const reference=D.doc(db,"merchants",record.id);
+      await D.runTransaction(db,async transaction=>{
+        const current=await transaction.get(reference);
+        if(!current.exists()) userError("الحساب غير موجود.");
+        const old=Number(current.data().expiresAt);
+        transaction.update(reference,{
+          expiresAt:Math.max(Date.now(),Number.isFinite(old)?old:0)+30*86400000
+        });
+      });
+      say("تم تجديد الاشتراك.");
+    });
+    row.append(renew);
+    $("adminMerchants").append(row);
+  });
+}
+
+async function boot(){
+  const modules=await Promise.all([
+    import("https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js"),
+    import("https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js"),
+    import("https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js")
+  ]);
+  [Apps,A,D]=modules;
+  const app=Apps.initializeApp(CONFIG);
+  auth=A.getAuth(app);
+  auth.languageCode="ar";
+  db=D.getFirestore(app);
+  $("status").hidden=true;
+
+  function feed(name,success,failure){
+    return D.onSnapshot(D.collection(db,name),snapshot=>{
+      success(snapshot.docs.map(record=>({...record.data(),id:record.id})));
+    },failure);
+  }
+  feed("foods",records=>{customFoods=records;drawFoods();},error=>say(errorText(error)));
+  feed("offers",records=>{
+    offers=records;offersReady=true;drawOffers();drawAdminLists();
+  },error=>{offersFailed=true;drawOffers();say(errorText(error));});
+  feed("restaurants",records=>{
+    restaurants=records;restaurantsReady=true;drawRestaurants();drawAdminLists();
+  },error=>{restaurantsFailed=true;drawRestaurants();say(errorText(error));});
+
+  A.onAuthStateChanged(auth,user=>{
+    privateStops.forEach(stop=>stop());
+    privateStops=[];
+    member=null;memberReady=false;memberError=false;
+    $("adminMerchants").replaceChildren();
+    $("accountBtn").disabled=false;
+    $("merchantBtn").disabled=false;
+    $("accountBtn").textContent=user?"حسابي":"تسجيل الدخول";
+    $("logoutBtn").hidden=!user;
+    $("adminBtn").hidden=!isAdmin();
+
+    if(!isAdmin()){
+      $("adminPage").hidden=true;
+      $("publicPage").hidden=false;
+      $("adminOffers").replaceChildren();
+      $("adminRestaurants").replaceChildren();
+    }
+    if(user&&isAdmin()){
+      privateStops.push(feed("merchants",drawMembers,error=>say(errorText(error))));
+      if(adminRoute){$("loginDialog").close();showAdmin();}
+    }else if(user){
+      const uid=user.uid;
+      privateStops.push(D.onSnapshot(D.doc(db,"merchants",uid),snapshot=>{
+        if(auth.currentUser?.uid!==uid) return;
+        member=snapshot.exists()?snapshot.data():null;
+        memberReady=true;
+        if($("accountDialog").open) showAccount();
+      },()=>{
+        if(auth.currentUser?.uid!==uid) return;
+        memberReady=true;memberError=true;
+        if($("accountDialog").open) showAccount();
+      }));
+      if(adminRoute&&!$("loginDialog").open) openLogin("admin");
+    }else if(adminRoute){
+      openLogin("admin");
+    }
+  });
+
+  $("accountBtn").onclick=()=>auth.currentUser?showAccount():openLogin("login");
+  $("merchantBtn").onclick=()=>auth.currentUser?showAccount():openLogin("merchant");
+  $("adminBtn").onclick=showAdmin;
+  $("logoutBtn").onclick=()=>run(document.querySelector(".actions"),signOut);
+  $("accountLogout").onclick=()=>run($("accountDialog"),signOut);
+
+  $("loginForm").onsubmit=event=>{
+    event.preventDefault();
+    const mode=loginMode;
+    run($("loginDialog"),async()=>{
+      const email=$("email").value.trim();
+      const password=$("password").value;
+      const credential=mode==="signup"
+        ?await A.createUserWithEmailAndPassword(auth,email,password)
+        :await A.signInWithEmailAndPassword(auth,email,password);
+      await finishLogin(credential,mode);
+    });
+  };
+  $("googleBtn").onclick=()=>{
+    const mode=loginMode;
+    run($("loginDialog"),async()=>{
+      const provider=new A.GoogleAuthProvider();
+      provider.setCustomParameters({prompt:"select_account"});
+      await finishLogin(await A.signInWithPopup(auth,provider),mode);
+    });
+  };
+  $("resetPassword").onclick=()=>{
+    if(!$("email").reportValidity()) return;
+    run($("loginDialog"),async()=>{
+      try{await A.sendPasswordResetEmail(auth,$("email").value.trim());}
+      catch(error){if(error.code!=="auth/user-not-found") throw error;}
+      say("إذا كان البريد مسجلاً، ستصلك رسالة لإعادة تعيين كلمة المرور.");
+    });
+  };
+
+  $("offerForm").onsubmit=event=>{
+    event.preventDefault();
+    run($("offerForm"),async()=>{
+      requireAdmin();
+      const title=$("offerTitle").value.trim();
+      if(!title||title.length>150) userError("اكتب اسم عرض صالحاً.");
+      const img=await compressImage($("offerPic").files[0]);
+      requireAdmin();
+      await D.addDoc(D.collection(db,"offers"),{title,img,active:true,createdAt:D.serverTimestamp()});
+      $("offerForm").reset();
+      say("تم نشر العرض لجميع الزوار.");
+    });
+  };
+  $("foodForm").onsubmit=event=>{
+    event.preventDefault();
+    run($("foodForm"),async()=>{
+      requireAdmin();
+      const name=$("foodSelect").value;
+      const index=FOOD_NAMES.indexOf(name);
+      if(index<0) userError("اختر قسم الطعام.");
+      const img=await compressImage($("foodPic").files[0]);
+      await D.setDoc(D.doc(db,"foods","category-"+index),{name,img,updatedAt:D.serverTimestamp()});
+      $("foodForm").reset();
+      say("تم تحديث صورة القسم.");
+    });
+  };
+  $("merchantForm").onsubmit=event=>{
+    event.preventDefault();
+    run($("merchantForm"),async()=>{
+      requireAdmin();
+      const name=$("merchantName").value.trim();
+      const email=$("merchantEmail").value.trim();
+      const password=$("merchantPassword").value;
+      const phone=$("merchantPhone").value.trim();
+      const city=$("merchantCity").value;
+      const category=$("merchantFood").value;
+      const days=Number($("merchantDays").value);
+      if(!name||name.length>150||!CITIES.includes(city)||!FOOD_NAMES.includes(category)){
+        userError("أكمل بيانات المطعم.");
+      }
+      if(!Number.isInteger(days)||days<1||days>3650||password.length<10){
+        userError("تحقق من مدة الاشتراك وكلمة المرور.");
+      }
+      const picture=$("merchantPic").files[0];
+      const img=picture?await compressImage(picture):"";
+      const secondary=Apps.initializeApp(CONFIG,"merchant-"+crypto.randomUUID());
+      const temporary=A.getAuth(secondary);
+      let created=null,committed=false;
+      try{
+        await A.setPersistence(temporary,A.inMemoryPersistence);
+        created=(await A.createUserWithEmailAndPassword(temporary,email,password)).user;
+        requireAdmin();
+        const batch=D.writeBatch(db);
+        batch.set(D.doc(db,"merchants",created.uid),{
+          name,email,phone,expiresAt:Date.now()+days*86400000,createdAt:D.serverTimestamp()
+        });
+        batch.set(D.doc(db,"restaurants",created.uid),{
+          name,city,categories:[category],img,active:true,createdAt:D.serverTimestamp()
+        });
+        await batch.commit();
+        committed=true;
+        $("merchantForm").reset();
+        say("تم إنشاء حساب التاجر وحفظ المطعم والاشتراك.");
+      }catch(error){
+        if(created&&!committed){
+          try{await A.deleteUser(created);}
+          catch{userError("لم يكتمل الحفظ. راجع الحساب غير المكتمل في Firebase Authentication قبل إعادة المحاولة.");}
+        }
+        throw error;
+      }finally{
+        await A.signOut(temporary).catch(()=>{});
+        await Apps.deleteApp(secondary).catch(()=>{});
+      }
+    });
+  };
+
+  $("migrateBtn").onclick=()=>run($("migrationPanel"),async()=>{
+    requireAdmin();
+    function read(key){
+      try{
+        const value=JSON.parse(localStorage.getItem(key)||"[]");
+        if(!Array.isArray(value)) throw new Error();
+        return value;
+      }catch{userError("تعذر قراءة الإضافات المحلية. لم يتم حذفها.");}
+    }
+    const groups=[["offers",read("admin_offers")],["foods",read("admin_foods")]];
+    let added=0,skipped=0;
+    for(const [collection,items] of groups){
+      for(const item of items){
+        if(!item||typeof item!=="object"){skipped++;continue;}
+        const title=String(collection==="offers"?item.title||"":item.name||"").trim();
+        const categoryIndex=FOOD_NAMES.indexOf(title);
+        if(!title||title.length>150||(collection==="foods"&&categoryIndex<0)){skipped++;continue;}
+        let img=safePhoto(item.img);
+        if(!img&&typeof item.img==="string"&&item.img.length<=7000000
+          &&/^data:image\/(?:jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/.test(item.img)){
+          img=await compressImage(await(await fetch(item.img)).blob());
+        }
+        if(!img){skipped++;continue;}
+        const digest=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(title+"\n"+String(item.img)));
+        const hash=[...new Uint8Array(digest)].map(value=>value.toString(16).padStart(2,"0")).join("");
+        const id=collection==="foods"?"category-"+categoryIndex:"legacy-"+hash;
+        const reference=D.doc(db,collection,id);
+        const copied=await D.runTransaction(db,async transaction=>{
+          const current=await transaction.get(reference);
+          if(current.exists()) return false;
+          transaction.set(reference,collection==="foods"
+            ?{name:title,img,updatedAt:D.serverTimestamp()}
+            :{title,img,active:true,createdAt:D.serverTimestamp()});
+          return true;
+        });
+        if(copied) added++;else skipped++;
+      }
+    }
+    say("تم نقل "+added+" إضافة وتجاوز "+skipped+" إضافة موجودة أو غير صالحة. لم تُحذف البيانات المحلية.");
+  });
+}
+boot().catch(error=>{
+  $("status").hidden=false;
+  $("status").textContent="تعذر تشغيل الاتصال بالموقع. تحقق من الإنترنت وأعد تحميل الصفحة.";
+  console.error("Initialization failed:",error.code||error.name);
+});
+</script>
 </body>
 </html>
