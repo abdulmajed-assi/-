@@ -1,14 +1,1853 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="robots" content="noindex">
-  <meta http-equiv="refresh" content="0;url=./index.html?admin=1">
-  <title>إدارة البلد فود</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#153f35">
+<meta name="description" content="اكتشف المطاعم والعروض وقوائم الطعام في مدينتك مع البلد فود.">
+<title>دخول الإدارة | البلد فود</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--green:#153f35;--green2:#22634f;--cream:#f8f6f0;--ink:#202c27;--muted:#647169;--line:#e2e7df;--accent:#f2c66d;--radius:20px}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--cream);color:var(--ink);font-family:"Cairo",sans-serif;line-height:1.8}
+button,input,select,textarea{font:inherit}
+button,a,input,select,textarea{-webkit-tap-highlight-color:transparent}
+button{cursor:pointer}
+button:disabled{cursor:wait;opacity:.55}
+a{color:var(--green)}
+img{display:block;max-width:100%}
+h1,h2,h3,p{margin-top:0}
+h2{font-size:1.55rem;margin-bottom:4px}
+h3{margin-bottom:8px}
+:focus-visible{outline:3px solid #d99927;outline-offset:3px}
+.wrap{width:min(1180px,92%);margin-inline:auto}
+.top{background:#fff;border-bottom:1px solid var(--line)}
+.top-inner{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;padding-block:18px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--green)}
+.brand-icon{display:grid;place-items:center;width:50px;height:50px;border-radius:16px;background:var(--green);color:var(--accent);font-weight:800;font-size:30px}
+.brand strong{display:block;font-size:22px;line-height:1.4}
+.brand small{display:block;font-size:10px;letter-spacing:3px}
+.actions,.row,.section-head{display:flex;align-items:center;flex-wrap:wrap;gap:10px}
+.section-head{justify-content:space-between;margin-bottom:20px}
+.btn{border:1px solid var(--line);border-radius:12px;padding:10px 17px;background:#fff;color:var(--green);font-weight:700}
+.btn:hover{background:#edf3ee}
+.btn.primary{background:var(--green);color:#fff;border-color:var(--green)}
+.btn.primary:hover{background:var(--green2)}
+.btn.danger{color:#a12c2c;border-color:#efc5c5}
+.btn.small{padding:7px 12px;font-size:13px}
+.notice{padding:12px 16px;border-radius:12px;background:#eaf1eb;overflow-wrap:anywhere;margin-block:16px}
+.notice.error{background:#fff0ee;color:#963b30}
+.muted,.subtitle{color:var(--muted);font-size:14px}
+.hero{margin-block:26px 36px;background:var(--green);color:white;border-radius:28px;overflow:hidden;display:grid;grid-template-columns:1.15fr 1fr;min-height:350px}
+.hero-copy{padding:40px}
+.eyebrow{color:var(--accent);font-weight:700;font-size:14px}
+.hero h1{font-size:clamp(32px,4vw,52px);line-height:1.4;margin-block:10px}
+.hero p{color:#dce8df}
+.hero-photo{width:100%;height:100%;min-height:350px;object-fit:cover}
+.searchbox{display:grid;grid-template-columns:1fr 150px;gap:8px;padding:8px;background:#fff;border-radius:16px;margin-top:26px}
+.searchbox input,.searchbox select{min-width:0;background:#f4f6f1}
+input,select,textarea{width:100%;border:1px solid var(--line);border-radius:10px;padding:11px 12px;background:#fff;color:var(--ink)}
+textarea{resize:vertical;min-height:95px}
+label{display:block;font-size:14px;font-weight:700;margin-block:12px 5px}
+main section{margin-block:38px}
+.categories{display:grid;grid-template-columns:repeat(8,1fr);gap:14px}
+.category{border:1px solid transparent;background:transparent;border-radius:16px;padding:8px;color:var(--ink)}
+.category img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:50%;margin-bottom:10px;box-shadow:0 5px 15px #153f3510}
+.category span{font-weight:700;font-size:13px}
+.category[aria-pressed="true"]{border-color:var(--green);background:#e8efe6}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+.card>img{width:100%;height:215px;object-fit:cover}
+.card-body{padding:20px}
+.card-body p:last-child{margin-bottom:0}
+.card-body h3{line-height:1.6}
+.chip{display:inline-block;background:#edf3ea;color:var(--green);border-radius:30px;padding:3px 12px;margin:3px;font-size:12px;font-weight:700}
+.price{color:var(--green);font-size:20px;font-weight:800}
+.empty{grid-column:1/-1;background:#fff;border:1px dashed #cdd8cd;border-radius:16px;padding:30px;text-align:center;color:var(--muted)}
+.image-fallback{display:grid;place-items:center;min-height:140px;background:#eaf0e5;color:var(--green);text-align:center;padding:15px}
+.panel{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:24px}
+.admin-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.admin-block{margin-block:20px}
+.admin-item{padding-block:18px;border-bottom:1px solid var(--line);overflow-wrap:anywhere}
+.admin-item:last-child{border-bottom:0}
+.review-photo{width:160px;height:110px;object-fit:cover;border-radius:12px}
+.review-description{white-space:pre-wrap;overflow-wrap:anywhere}
+.status-pending{color:#8d650e;background:#fff4d5}
+.status-approved{color:#23633d;background:#e7f4e9}
+.status-rejected{color:#a33434;background:#fce9e9}
+dialog{width:min(560px,94vw);max-height:90dvh;border:0;border-radius:22px;padding:26px;color:var(--ink);overflow:auto}
+dialog::backdrop{background:#10241cd0}
+dialog.wide{width:min(720px,94vw)}
+.dialog-head{display:flex;justify-content:space-between;align-items:center;gap:15px}
+.dialog-head h2{font-size:22px}
+.tabs{display:flex;gap:8px;margin-block:15px}
+.tabs button{flex:1}
+.full{width:100%;margin-top:15px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+footer{border-top:1px solid var(--line);padding-block:25px;margin-top:50px}
+footer p,footer details{color:var(--muted);font-size:12px}
+footer li{margin-bottom:7px}
+@media(max-width:950px){
+.categories{grid-template-columns:repeat(4,1fr)}
+.hero-copy{padding:28px}
+.grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:650px){
+.hero{grid-template-columns:1fr}
+.hero-photo{height:210px;min-height:0}
+.hero-copy{padding:26px 22px}
+.searchbox{grid-template-columns:1fr}
+.grid,.admin-grid,.two{grid-template-columns:1fr}
+.actions{gap:6px}
+.actions .btn{font-size:12px;padding:8px 10px}
+.categories{gap:5px}
+.category{padding:5px}
+.category span{font-size:11px}
+.panel,dialog{padding:19px}
+.top-inner{gap:12px}
+}
+
+.photo-preview{display:grid;grid-template-columns:repeat(auto-fit,minmax(115px,1fr));gap:10px;margin-top:14px}
+.photo-preview figure{margin:0;border:1px solid var(--line);border-radius:12px;padding:8px}
+.photo-preview img{width:100%;height:110px;object-fit:cover;border-radius:8px}
+.menu-gallery>img,.menu-gallery>.image-fallback{width:100%;height:215px;object-fit:cover}
+.menu-gallery .btn{margin:10px}
+.gallery-pages img{width:100%;height:auto;margin:12px 0;border-radius:12px}
+
+.directory,.restaurant-detail{font-family:Tahoma,Arial,sans-serif;font-size:14px;line-height:1.6}
+.directory{background:#f4f4f4;border-radius:12px;padding:24px}
+.directory-heading{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.directory-heading h2{font:700 24px Tahoma,Arial,sans-serif;margin:0}.directory-heading span{color:#626262;font-size:13px}
+.directory-layout,.detail-menu-layout{display:grid;grid-template-columns:220px minmax(0,1fr);gap:24px;align-items:start}
+.directory-sidebar{background:white;border-radius:14px;padding:20px;min-width:0}
+.directory-sidebar h3{font-size:18px;margin-bottom:18px}.directory-sidebar h4{font-size:15px;margin:22px 0 10px}
+.directory-sidebar input,.directory-sidebar select{font-size:13px;padding:10px;border-color:#d9d9d9}
+.filter-check{display:flex;gap:9px;align-items:center;font-size:13px;font-weight:400;margin:12px 0;cursor:pointer}
+.filter-check input{width:16px;height:16px;accent-color:var(--green);padding:0}
+.directory-sidebar .btn{margin-top:14px}.directory-results{min-width:0}
+.cuisine-strip{display:flex;gap:12px;overflow-x:auto;padding-bottom:16px;margin-bottom:8px;scrollbar-width:thin}
+.cuisine-tile{flex:0 0 82px;background:white;border:1px solid transparent;border-radius:12px;padding:6px;color:#222;font-size:11px;line-height:1.4}
+.cuisine-tile img{width:68px;height:60px;object-fit:cover;border-radius:9px;margin:0 auto 5px}.cuisine-tile[aria-pressed="true"]{border-color:var(--green);background:#eaf3ee}
+.restaurant-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
+.restaurant-card{background:white;border-radius:9px;overflow:hidden;min-width:0;border:1px solid #efefef;transition:box-shadow .18s,transform .18s}
+.restaurant-card:hover{box-shadow:0 6px 20px #00000012;transform:translateY(-2px)}
+.restaurant-cover{display:block;position:relative;text-decoration:none;background:#eee;aspect-ratio:2.65;overflow:hidden}
+.restaurant-cover>img,.restaurant-cover>.image-fallback{width:100%;height:100%;min-height:0;object-fit:cover}
+.restaurant-offer-tags{position:absolute;top:8px;inset-inline:8px;display:flex;align-items:flex-start;flex-direction:column;gap:4px;pointer-events:none}
+.restaurant-offer-tag{max-width:95%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:#d91521;color:#fff;border-radius:4px;padding:2px 6px;font-size:11px;font-weight:700}
+.restaurant-card-body{padding:11px 12px 14px}.restaurant-name-row{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.restaurant-name-row h3{font-size:15px;line-height:1.5;margin:0;overflow-wrap:anywhere}.restaurant-name-row a{text-decoration:none;color:#202020}
+.rating-badge{font-size:11px;white-space:nowrap;background:#e7f2e8;color:#22633e;border-radius:4px;padding:2px 5px;font-weight:700}
+.restaurant-card-body p{font-size:12px;color:#626262;margin:5px 0 0}.restaurant-blurb{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.restaurant-detail{padding-top:25px}.restaurant-detail .btn{font-family:inherit;font-size:13px;padding:7px 12px}
+.restaurant-profile{display:grid;grid-template-columns:190px 1fr;gap:24px;align-items:center;margin:28px 0}
+.restaurant-profile>img,.restaurant-profile>.image-fallback{width:190px;height:165px;object-fit:cover;border-radius:14px}
+.restaurant-profile h1{font-size:25px;line-height:1.4;margin-bottom:8px}.restaurant-profile p{font-size:14px;margin:7px 0;color:#565656}.restaurant-profile .row{margin-top:12px}
+.restaurant-detail h2{font-size:20px}.restaurant-detail h3{font-size:16px}
+.detail-offer-list{display:flex;gap:12px;overflow-x:auto;padding-bottom:10px}.detail-offer{background:#f3f3f3;padding:16px;border-radius:10px;flex:0 0 240px;font-size:13px}.detail-offer h3{font-size:14px;margin:0 0 6px}.detail-offer p{white-space:pre-wrap;font-size:12px}
+.detail-menu-layout{background:#f4f4f4;padding:24px;border-radius:12px;margin-top:32px!important}.detail-menu-main{min-width:0}.detail-menu-main>input{border-radius:24px;margin-bottom:22px;font-size:14px}
+.detail-category{display:block;width:100%;border:0;background:transparent;text-align:start;padding:12px 8px;border-radius:8px;color:#333;font-size:13px}.detail-category[aria-pressed="true"]{background:#e8f1ea;color:var(--green);font-weight:700}
+.detail-meal-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.detail-meal{display:grid;grid-template-columns:94px minmax(0,1fr);gap:12px;background:#fff;border-radius:12px;padding:14px;align-items:start;min-width:0}
+.detail-meal-photo{border:0;background:#fff;padding:0;border-radius:8px;overflow:hidden}.detail-meal-photo img,.detail-meal-photo .image-fallback{width:94px;height:100px;min-height:0;object-fit:contain}.detail-meal h3{font-size:14px;line-height:1.45;margin:0 0 5px;overflow-wrap:anywhere}.detail-meal p{font-size:12px;line-height:1.5;color:#606060;margin:0 0 8px;white-space:pre-wrap;overflow-wrap:anywhere}.detail-meal .price{font-size:15px;color:#202020;font-weight:700}.detail-meal .btn{font-size:11px;padding:5px 8px;border-radius:20px}.detail-meal span.muted{font-size:11px}.detail-meal-actions{display:flex;gap:6px;flex-wrap:wrap;align-items:center}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+@media(max-width:1000px){.directory-layout,.detail-menu-layout{grid-template-columns:185px minmax(0,1fr);gap:16px}.directory,.detail-menu-layout{padding:18px}.detail-meal-grid{grid-template-columns:1fr}}
+@media(max-width:700px){.directory-layout,.detail-menu-layout{grid-template-columns:1fr}.directory{padding:14px}.directory-sidebar{padding:14px}.directory-sidebar h3{margin-bottom:10px}#restaurantFilters{display:flex;flex-wrap:wrap;gap:0 16px}.filter-check{margin:6px 0}.restaurant-grid{gap:14px}.restaurant-cover{aspect-ratio:2.25}.restaurant-name-row h3{font-size:14px}.restaurant-profile{grid-template-columns:100px minmax(0,1fr);gap:15px}.restaurant-profile>img,.restaurant-profile>.image-fallback{width:100px;height:100px}.restaurant-profile h1{font-size:21px}.detail-menu-layout{padding:14px}#detailCategories{display:flex;overflow-x:auto;gap:6px}.detail-category{white-space:nowrap;width:auto}.detail-meal-grid{grid-template-columns:1fr}}
+@media(max-width:470px){.restaurant-grid{grid-template-columns:1fr}.restaurant-cover{aspect-ratio:2.65}.directory-heading h2{font-size:22px}.restaurant-profile{align-items:start}}
+
+.offer-image-button{display:block;width:100%;padding:0;border:0;background:#f2f2f2;cursor:zoom-in}
+.offer-image-button>img,.offer-image-button>.image-fallback{width:100%;height:215px;object-fit:cover}
+#offerDialog{width:min(900px,96vw)}
+.offer-full-image{width:100%;height:auto;max-height:none;object-fit:contain;border-radius:12px;margin-block:16px}
+.offer-contact-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}.offer-contact-actions a{text-decoration:none}
+.detail-offer .offer-image-button{border-radius:8px;margin-bottom:10px}.detail-offer .offer-image-button>img{height:120px;object-fit:cover}
+
+#publicPage,#restaurantDetail,#accountBtn,#merchantBtn,#adminBtn,footer{display:none!important}
+#adminLanding{width:min(560px,92%);margin:70px auto;padding:32px;text-align:center}
+#adminLanding h1{font-size:26px}#adminLanding .btn{margin:8px}
+#adminSetupDialog label{text-align:start}#adminSetupDialog p{font-size:14px}
+</style>
 </head>
 <body>
-  <p>جارٍ فتح الإدارة…</p>
-  <a href="./index.html?admin=1">فتح صفحة الإدارة</a>
+
+<header class="top">
+  <div class="wrap top-inner">
+    <a class="brand" href="./index.html" aria-label="البلد فود، الصفحة الرئيسية">
+      <span class="brand-icon" aria-hidden="true">ب</span>
+      <span><strong>البلد فود</strong><small>ALBALAD FOOD</small></span>
+    </a>
+    <nav class="actions" aria-label="الحساب">
+      <button class="btn" id="accountBtn" disabled>تسجيل الدخول</button>
+      <button class="btn primary" id="merchantBtn" disabled>إضافة / تعديل قائمتي</button>
+      <button class="btn" id="adminBtn" hidden>لوحة الإدارة</button>
+      <button class="btn" id="pendingBtn" hidden aria-live="polite">طلبات القائمة (0)</button>
+      <button class="btn" id="logoutBtn" hidden>خروج</button>
+    </nav>
+  </div>
+</header>
+
+<section id="adminLanding" class="panel">
+  <h1>إدارة البلد فود</h1><p>دخول خاص بإدارة الموقع</p>
+  <button id="adminLoginOpen" class="btn primary" type="button">الدخول باسم Jonathan</button>
+  <button id="adminRecovery" class="btn" type="button" disabled>تفعيل اسم المستخدم أو استعادة الدخول</button>
+  <p class="muted">للتفعيل لأول مرة، تحقّق بحساب Google الإداري الحالي ثم اختر كلمة مرور. هذا الخيار لا يمنح حسابًا جديدًا صلاحيات الإدارة.</p>
+  <a href="./index.html">العودة إلى الموقع</a>
+</section>
+<dialog id="adminSetupDialog" aria-labelledby="adminSetupTitle">
+  <div class="dialog-head"><h2 id="adminSetupTitle">تفعيل دخول Jonathan</h2><button class="btn small" data-close="adminSetupDialog">إغلاق ✕</button></div>
+  <p>تم التحقق من حساب الإدارة. اختر كلمة مرور للدخول باسم Jonathan. يبقى حساب Google وسيلة لاستعادة الدخول.</p>
+  <form id="adminSetupForm">
+    <label for="adminNewPassword">كلمة المرور الجديدة — 10 أحرف على الأقل</label><input id="adminNewPassword" type="password" minlength="10" autocomplete="new-password" required>
+    <label for="adminConfirmPassword">تأكيد كلمة المرور</label><input id="adminConfirmPassword" type="password" minlength="10" autocomplete="new-password" required>
+    <button class="btn primary full" type="submit">حفظ وتفعيل الدخول</button>
+  </form><p id="adminSetupMessage" class="notice" role="status" hidden></p>
+</dialog>
+<p id="status" class="wrap notice" role="status">جارٍ الاتصال بالخدمة…</p>
+
+<main id="publicPage" class="wrap">
+  <div class="hero">
+    <div class="hero-copy">
+      <span class="eyebrow">اكتشف مطاعم مدينتك</span>
+      <h1>شو مشتهي اليوم؟</h1>
+      <p>اختَر مدينتك، واستكشف المطاعم والعروض وقوائم الطعام المعتمدة.</p>
+      <div class="searchbox">
+        <input id="search" type="search" placeholder="ابحث عن مطعم أو وجبة…" aria-label="البحث عن مطعم أو وجبة">
+        <select id="city" aria-label="اختر المدينة"><option value="">كل المدن</option></select>
+      </div>
+    </div>
+    <img class="hero-photo" src="https://upload.wikimedia.org/wikipedia/commons/5/5f/Shawarma-sandwich-01.jpg" alt="ساندويش شاورما — صورة توضيحية" width="799" height="533" fetchpriority="high">
+  </div>
+
+  <section class="panel" aria-labelledby="joinTitle">
+    <h2 id="joinTitle">عندك مطعم؟ انضم إلينا</h2>
+    <p>عرّف الناس على مطعمك وانشر قائمتك وعروضك. تواصل معنا لطلب إضافة مطعمك.</p>
+    <a class="btn primary" target="_blank" rel="noopener noreferrer" href="https://wa.me/905052077638?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D9%81%D9%8A%20%D8%A5%D8%B6%D8%A7%D9%81%D8%A9%20%D9%85%D8%B7%D8%B9%D9%85%D9%8A%20%D8%A5%D9%84%D9%89%20%D8%A7%D9%84%D8%A8%D9%84%D8%AF%20%D9%81%D9%88%D8%AF">إضافة مطعمي عبر WhatsApp</a>
+  </section>
+
+  <section aria-labelledby="categoryTitle">
+    <div class="section-head">
+      <div><h2 id="categoryTitle">على ذوقك</h2><p class="subtitle">اختر صنفك المفضل</p></div>
+      <button class="btn small" id="clear" hidden>مسح الفلاتر</button>
+    </div>
+    <div id="foods" class="categories"></div>
+  </section>
+
+  <section aria-labelledby="offersTitle">
+    <div class="section-head">
+      <div><h2 id="offersTitle">العروض</h2><p class="subtitle">آخر العروض المنشورة من الإدارة</p></div>
+      <button class="btn small" id="offerToggle" hidden aria-expanded="false">عرض الكل</button>
+    </div>
+    <div id="offers" class="grid"><p class="empty">جارٍ تحميل العروض…</p></div>
+  </section>
+
+  <section id="restaurantDirectory" class="directory" aria-labelledby="restaurantTitle">
+    <div class="directory-layout">
+      <aside class="directory-sidebar" aria-label="تصفية المطاعم">
+        <h3>فلترة وترتيب</h3>
+        <label for="restaurantSearch">ابحث عن مطعم</label><input id="restaurantSearch" type="search" placeholder="اسم المطعم أو الوجبة">
+        <label for="restaurantSort">ترتيب المطاعم</label><select id="restaurantSort"><option value="recommended">الترتيب المقترح</option><option value="name">حسب الاسم</option><option value="rating">الأعلى تقييمًا</option></select>
+        <h4>أقسام الطعام</h4><div id="restaurantFilters"></div>
+        <button class="btn small" id="clearRestaurantFilters" type="button">مسح فلاتر المطاعم</button>
+      </aside>
+      <div class="directory-results">
+        <div class="directory-heading"><h2 id="restaurantCuisineTitle">أقسام الطعام</h2></div>
+        <div id="restaurantCuisines" class="cuisine-strip" aria-labelledby="restaurantCuisineTitle"></div>
+        <div class="directory-heading"><h2 id="restaurantTitle">المطاعم</h2><span id="resultCount" role="status"></span></div>
+        <div id="restaurants" class="restaurant-grid"><p class="empty">جارٍ تحميل المطاعم…</p></div>
+      </div>
+    </div>
+  </section>
+</main>
+<main id="restaurantDetail" class="restaurant-detail wrap" hidden aria-labelledby="detailName">
+  <button id="backToRestaurants" class="btn small" type="button">← العودة إلى المطاعم</button>
+  <div id="restaurantDetailInfo"></div>
+  <section id="restaurantDetailOffers" aria-label="عروض المطعم"></section>
+  <section class="detail-menu-layout" aria-label="قائمة المطعم">
+    <aside class="directory-sidebar"><h3>أقسام القائمة</h3><div id="detailCategories"></div></aside>
+    <div class="detail-menu-main"><label class="sr-only" for="detailSearch">البحث داخل قائمة المطعم</label><input id="detailSearch" type="search" placeholder="ابحث في قائمة هذا المطعم"><h2 id="detailMenuTitle">الوجبات والقائمة</h2><div id="detailMeals" class="detail-meal-grid"></div></div>
+  </section>
+</main>
+
+<section id="adminPage" class="wrap" hidden aria-labelledby="adminTitle">
+  <div class="section-head" style="margin-top:30px">
+    <div><h1 id="adminTitle">لوحة الإدارة</h1><p class="subtitle">إدارة المحتوى والتجار وطلبات القوائم</p></div>
+    <button class="btn" id="backToSite">عرض الموقع</button>
+  </div>
+
+  <div id="approvals" class="panel admin-block">
+    <h2>طلبات إضافة وتعديل الوجبات</h2>
+    <p class="subtitle">الإضافات والتعديلات تحتاج موافقة الإدارة قبل النشر.</p>
+    <p id="approvalState" role="status"></p>
+    <div id="pendingList"></div>
+  </div>
+
+  <div class="admin-grid">
+    <form id="offerForm" class="panel">
+      <h3>إضافة عرض</h3>
+      <label for="offerTitle">عنوان العرض وتفاصيله</label>
+      <input id="offerTitle" maxlength="150" required>
+      <label for="offerDetails">تفاصيل العرض</label><textarea id="offerDetails" maxlength="1500"></textarea>
+      <label for="offerRestaurant">المطعم</label><select id="offerRestaurant"><option value="">اختر المطعم — اختياري</option></select>
+      <label for="offerContactName">اسم المطعم صاحب العرض — إذا لم تختر مطعمًا</label><input id="offerContactName" maxlength="150">
+      <label for="offerWhatsapp">رقم التواصل للعرض — اختياري، يظهر للعملاء</label><input id="offerWhatsapp" type="tel" dir="ltr" placeholder="+963…" maxlength="20">
+      <p class="muted">اترك الرقم فارغًا لاستخدام رقم WhatsApp المحفوظ للمطعم. الرقم المضاف يفعّل واتساب والاتصال المباشر.</p>
+      <label for="offerPic">صورة العرض</label>
+      <input id="offerPic" type="file" accept="image/jpeg,image/png,image/webp" required>
+      <button class="btn primary full" type="submit">نشر العرض</button>
+    </form>
+
+    <form id="foodForm" class="panel">
+      <h3>تغيير صورة الصنف</h3>
+      <label for="foodSelect">الصنف</label>
+      <select id="foodSelect" required></select>
+      <label for="foodPic">الصورة</label>
+      <input id="foodPic" type="file" accept="image/jpeg,image/png,image/webp" required>
+      <button class="btn primary full" type="submit">حفظ الصورة</button>
+    </form>
+
+    <form id="merchantForm" class="panel">
+      <h3>إنشاء حساب تاجر ومطعم</h3>
+      <label for="merchantName">اسم المطعم</label>
+      <input id="merchantName" maxlength="150" required>
+      <label for="merchantUsername">اسم المستخدم لصاحب المطعم</label>
+      <input id="merchantUsername" dir="ltr" pattern="[A-Za-z0-9_]{3,30}" minlength="3" maxlength="30" required autocomplete="off">
+      <p class="muted">حروف إنجليزية وأرقام وشرطة سفلية، دون مسافات. استعادة كلمة المرور لهذه الحسابات عبر الإدارة.</p>
+      <label for="merchantDescription">وصف مختصر للمطعم</label><textarea id="merchantDescription" maxlength="300" placeholder="نبذة عن المطعم وأبرز أطباقه"></textarea>
+      <label for="merchantEmail">بريد التواصل — للإدارة فقط</label>
+      <input id="merchantEmail" type="email" autocomplete="off" dir="ltr" required>
+      <label for="merchantPassword">كلمة مرور أولية — 10 أحرف على الأقل</label>
+      <input id="merchantPassword" type="password" minlength="10" autocomplete="new-password" required>
+      <label for="merchantWhatsapp">رقم WhatsApp للمطعم — يظهر للعملاء</label>
+      <input id="merchantWhatsapp" type="tel" dir="ltr" value="+963" required maxlength="20">
+      <label for="merchantPhone">رقم التواصل — للإدارة فقط</label>
+      <input id="merchantPhone" type="tel" maxlength="30" dir="ltr">
+      <div class="two">
+        <div><label for="merchantCity">المدينة</label><select id="merchantCity" required></select></div>
+        <div><label for="merchantFood">الصنف الرئيسي</label><select id="merchantFood" required></select></div>
+      </div>
+      <label for="merchantDays">مدة الاشتراك بالأيام</label>
+      <input id="merchantDays" type="number" min="1" max="3650" step="1" value="30" required>
+      <label for="merchantPic">صورة المطعم — اختيارية</label>
+      <input id="merchantPic" type="file" accept="image/jpeg,image/png,image/webp">
+      <button class="btn primary full" type="submit">إنشاء التاجر والمطعم</button>
+    </form>
+
+    <div class="panel">
+      <h3>مراجعة القوائم</h3>
+      <p>يسجّل التاجر الدخول، ثم يختار إضافة وجبة أو تعديل وجبة منشورة من الزر الموجود في أعلى الموقع.</p>
+      <p>يصل الطلب إلى الإدارة. عند الموافقة تُنشر الإضافة أو يُحدَّث الطبق نفسه. عند الرفض يظهر السبب للتاجر.</p>
+      <p class="muted">تبقى النسخة الحالية من الوجبة منشورة حتى الموافقة على تعديلها. التنبيهات داخل لوحة الإدارة.</p>
+    </div>
+  </div>
+
+  <div class="panel admin-block"><h3>العروض المنشورة</h3><div id="adminOffers"></div></div>
+  <div class="panel admin-block"><h3>المطاعم</h3><div id="adminRestaurants"></div></div>
+  <div class="panel admin-block"><h3>الوجبات المنشورة</h3><div id="adminMenus"></div></div>
+  <div class="panel admin-block"><h3>اشتراكات التجار</h3><div id="adminMerchants"></div></div>
+  <div class="panel admin-block">
+    <h3>استيراد البيانات القديمة</h3>
+    <p class="muted">يستورد العروض وصور الأصناف القديمة المحفوظة في هذا المتصفح. لا يحذف النسخة المحلية.</p>
+    <button class="btn" id="migrateBtn">استيراد البيانات القديمة</button>
+  </div>
+</section>
+
+<dialog id="offerDialog" aria-labelledby="offerDialogTitle">
+  <div class="dialog-head"><h2 id="offerDialogTitle">تفاصيل العرض</h2><button class="btn small" data-close="offerDialog" aria-label="إغلاق العرض">✕</button></div>
+  <div id="offerDialogContent"></div>
+</dialog>
+<dialog id="loginDialog" aria-labelledby="loginTitle">
+  <div class="dialog-head">
+    <h2 id="loginTitle">تسجيل الدخول</h2>
+    <button class="btn small" data-close="loginDialog" aria-label="إغلاق">✕</button>
+  </div>
+  <div class="tabs" id="loginTabs">
+    <button class="btn primary" id="loginTab" type="button">دخول</button>
+    <button class="btn" id="signupTab" type="button">حساب زائر جديد</button>
+  </div>
+  <form id="loginForm">
+    <label for="email">البريد الإلكتروني</label>
+    <input id="email" type="email" autocomplete="email" dir="ltr" required>
+    <label for="password">كلمة المرور</label>
+    <input id="password" type="password" autocomplete="current-password" required>
+    <button class="btn small" id="showPassword" type="button" aria-pressed="false">إظهار كلمة المرور</button>
+    <button class="btn primary full" id="loginSubmit" type="submit">تسجيل الدخول</button>
+  </form>
+  <button class="btn full" id="googleBtn" type="button">المتابعة باستخدام Google</button>
+  <button class="btn full" id="resetPassword" type="button">نسيت كلمة المرور</button>
+  <button class="btn full" id="adminSetupFromLogin" type="button" disabled>تفعيل Jonathan لأول مرة / استعادة الدخول</button>
+  <p id="loginMessage" class="notice" role="status" hidden></p>
+</dialog>
+
+<dialog id="ratingDialog" aria-labelledby="ratingTitle">
+  <div class="dialog-head"><h2 id="ratingTitle">تقييم المطعم</h2><button class="btn" data-close="ratingDialog">إغلاق ✕</button></div>
+  <form id="ratingForm"><label for="ratingScore">تقييمك</label><select id="ratingScore"><option value="5">★★★★★ — 5</option><option value="4">★★★★ — 4</option><option value="3">★★★ — 3</option><option value="2">★★ — 2</option><option value="1">★ — 1</option></select><button class="btn primary" type="submit">حفظ التقييم</button></form>
+</dialog>
+<dialog id="accountDialog" aria-labelledby="accountTitle">
+  <div class="dialog-head">
+    <h2 id="accountTitle">حسابي</h2>
+    <button class="btn small" data-close="accountDialog" aria-label="إغلاق">✕</button>
+  </div>
+  <p id="accountEmail" dir="ltr"></p>
+  <p id="accountInfo"></p>
+  <button class="btn full" id="accountLogout">تسجيل الخروج</button>
+</dialog>
+
+<dialog id="merchantDialog" class="wide" aria-labelledby="merchantTitle">
+  <div class="dialog-head">
+    <h2 id="merchantTitle">إضافة / تعديل قائمتي</h2>
+    <button class="btn small" data-close="merchantDialog" aria-label="إغلاق">✕</button>
+  </div>
+  <p id="membershipInfo" class="notice"></p>
+
+  <div class="row" style="margin-bottom:16px">
+    <button id="newMenuBtn" class="btn primary" type="button">إضافة وجبة جديدة</button>
+    <button id="myMenuBtn" class="btn" type="button">تعديل وجباتي المنشورة</button>
+  </div>
+
+  <section id="myPublishedSection" hidden>
+    <h3>وجباتي المنشورة</h3>
+    <p class="muted">تبقى النسخة الحالية منشورة حتى توافق الإدارة على التعديل.</p>
+    <div id="myPublishedList"></div>
+  </section>
+
+  <form id="menuForm" hidden>
+    <h3 id="menuFormTitle">طلب إضافة وجبة</h3>
+    <p id="editHint" class="muted" hidden>صور الوجبة الحالية محفوظة أدناه. يمكنك حذفها أو إضافة صور جديدة. التعديل يحتاج موافقة الإدارة.</p>
+    <label for="menuName">اسم الوجبة</label>
+    <input id="menuName" maxlength="120" required>
+    <label for="menuDescription">الوصف والمكونات ومسببات الحساسية إن وجدت</label>
+    <textarea id="menuDescription" maxlength="1000"></textarea>
+    <label for="menuCategory">الصنف</label>
+    <select id="menuCategory" required></select>
+    <div class="two">
+      <div>
+        <label for="menuPrice">السعر</label>
+        <input id="menuPrice" type="number" min="0" max="1000000000" step="0.01" required>
+      </div>
+      <div>
+        <label for="menuCurrency">العملة</label>
+        <select id="menuCurrency">
+          <option value="SYP">ليرة سورية</option>
+          <option value="TRY">ليرة تركية</option>
+          <option value="USD">دولار أمريكي</option>
+        </select>
+      </div>
+    </div>
+    <label for="menuPhoto">صور الوجبة أو صفحات القائمة — حتى 5 صور</label>
+    <input id="menuPhoto" type="file" accept="image/jpeg,image/png,image/webp" multiple>
+    <div id="menuPhotoPreview" class="photo-preview" aria-live="polite"></div>
+    <p class="muted">يمكنك إضافة الصور على دفعات وحذف أي صورة قبل الإرسال. الحد الأقصى 5 ميغابايت لكل صورة. استخدم صورًا تملك حق نشرها.</p>
+    <button id="menuSubmit" class="btn primary full" type="submit">إرسال إلى الإدارة للمراجعة</button>
+  </form>
+
+  <p id="menuMessage" class="notice" role="status" hidden></p>
+  <h3 style="margin-top:25px">طلباتي</h3>
+  <div id="menuHistory"></div>
+</dialog>
+
+<footer class="wrap">
+  <strong>البلد فود</strong>
+  <p>اكتشف المطاعم وقوائم الطعام في مدينتك. صور الأصناف والصورة الرئيسية توضيحية؛ صور الوجبات يرفعها التجار.</p>
+  <details><summary>مصادر الصور التوضيحية وحقوقها</summary><ul id="credits"></ul></details>
+</footer>
+
+<script type="module">
+const CONFIG = {
+  apiKey: "AIzaSyDRrHrWvynGEezRsJQR6fz1oMJSlj8v58M",
+  authDomain: "albalad-food.firebaseapp.com",
+  projectId: "albalad-food",
+  storageBucket: "albalad-food.firebasestorage.app",
+  messagingSenderId: "933902087450",
+  appId: "1:933902087450:web:a9e7a10d4dc393c6bb28a3"
+};
+const ADMIN_UID = "diJ1B4OuMIbmpBt26ZCL1ghnvHj1";
+const IS_ADMIN_PAGE=location.pathname.endsWith("/admin.html");
+const ADMIN_USERNAME="Jonathan";
+const ADMIN_LOGIN_EMAIL="jonathan@admin.albaladfood.com";
+function adminLoginEmail(value){
+  if(value.trim().toLowerCase()!==ADMIN_USERNAME.toLowerCase())throw friendly("اسم المستخدم أو كلمة المرور غير صحيحة.");
+  return ADMIN_LOGIN_EMAIL;
+}
+const CITIES = ["دمشق","ريف دمشق","حمص","اللاذقية","حلب","دير الزور"];
+const FOOD_NAMES = ["شاورما","بروستد","سندويش غربي","فلافل","مندي","برغر","كوكتيل","حلويات"];
+const PHOTOS = [
+  ["Shawarma-sandwich-01.jpg","Vera Yu and David Li","CC BY 2.0","https://creativecommons.org/licenses/by/2.0/"],
+  ["Fried-Chicken-Set.jpg","Evan-Amos","CC0","https://creativecommons.org/publicdomain/zero/1.0/"],
+  ["Club_sandwich.jpg","Jessica / WordRidden","CC BY 2.0","https://creativecommons.org/licenses/by/2.0/"],
+  ["Bowl_of_falafel.jpg","EvanProdromou","CC BY-SA 4.0","https://creativecommons.org/licenses/by-sa/4.0/"],
+  ["Mandi_chicken.jpg","ReshmaNazeerhussain","CC0","https://creativecommons.org/publicdomain/zero/1.0/"],
+  ["Cheeseburger.png","Renee Comet / NCI; Download","Public domain","https://commons.wikimedia.org/wiki/File:Cheeseburger.png"],
+  ["Fruit_smoothie.jpg","Tiia Monto","CC BY-SA 3.0","https://creativecommons.org/licenses/by-sa/3.0/"],
+  ["Baklava.jpg","Randy Oostdyk; Rainer Zenz","CC BY-SA 3.0","https://creativecommons.org/licenses/by-sa/3.0/"]
+];
+
+const $ = id => document.getElementById(id);
+const el = (tag,text,cls) => {
+  const n = document.createElement(tag);
+  if (text !== undefined) n.textContent = text;
+  if (cls) n.className = cls;
+  return n;
+};
+
+let App,Auth,DB,app,auth,db;
+let currentUser = null;
+let membership = null;
+let membershipReady = false;
+let authVersion = 0;
+let privateStops = [];
+let selectedFood = "";
+let expandedOffers = false;
+let loginMode = "visitor";
+let signup = false;
+let merchantRows = [];
+let requestRows = [];
+let pendingRows = [];
+let editingItem = null;
+let photoDraft = [];
+let merchantTab = "new";
+let publicErrors = new Set();
+
+const state = {offers:[],foods:[],restaurants:[],menuItems:[],ratings:[]};
+const ready = {offers:false,foods:false,restaurants:false,menuItems:false};
+const failed = {offers:false,foods:false,restaurants:false,menuItems:false};
+
+function tell(text,error=false,target="status"){
+  const box = $(target);
+  box.textContent = text;
+  box.classList.toggle("error",error);
+  box.hidden = !text;
+}
+function friendly(text){
+  return Object.assign(new Error(text),{friendly:true});
+}
+function errorText(error){
+  if (error?.friendly) return error.message;
+  const code = String(error?.code || "");
+  if (code.includes("permission-denied"))
+    return "لا توجد صلاحية لهذه العملية. تحقّق من الحساب وقواعد Firestore ومدة الاشتراك.";
+  if (code.includes("invalid-credential") || code.includes("wrong-password") || code.includes("user-not-found"))
+    return "تعذّر تسجيل الدخول. تحقّق من البريد وكلمة المرور.";
+  if (code.includes("email-already-in-use")) return "البريد الإلكتروني مستخدم بالفعل.";
+  if (code.includes("weak-password")) return "اختر كلمة مرور أقوى.";
+  if (code.includes("invalid-email")) return "أدخل بريدًا إلكترونيًا صحيحًا.";
+  if (code.includes("popup-closed-by-user") || code.includes("cancelled-popup-request"))
+    return "تم إغلاق نافذة تسجيل الدخول قبل إكمال العملية.";
+  if (code.includes("popup-blocked"))
+    return "المتصفح منع نافذة Google. اسمح بالنوافذ المنبثقة لهذا الموقع.";
+  if (code.includes("unauthorized-domain"))
+    return "أضف نطاق الموقع إلى Authorized domains في Firebase Authentication.";
+  if (code.includes("operation-not-allowed"))
+    return "طريقة تسجيل الدخول غير مفعّلة في Firebase Authentication.";
+  if (code.includes("too-many-requests")) return "محاولات كثيرة. انتظر قليلًا ثم أعد المحاولة.";
+  if (code.includes("network") || code.includes("unavailable"))
+    return "تعذّر الاتصال. تحقّق من الإنترنت ثم أعد المحاولة.";
+  return "تعذّرت العملية. أعد المحاولة وتحقق من إعدادات Firebase.";
+}
+
+async function run(container,action,target="status"){
+  if (container.dataset.busy) return;
+  container.dataset.busy = "1";
+  const controls = [...container.querySelectorAll("button,input,select,textarea")];
+  if (container.matches("button")) controls.push(container);
+  const previous = controls.map(n=>n.disabled);
+  controls.forEach(n=>n.disabled=true);
+  try{
+    await action();
+  }catch(error){
+    tell(errorText(error),true,target);
+  }finally{
+    controls.forEach((n,i)=>n.disabled=previous[i]);
+    delete container.dataset.busy;
+  }
+}
+
+function normalize(text){
+  return String(text || "").normalize("NFKC")
+    .replace(/[\u064B-\u065F\u0670\u0640]/g,"")
+    .replace(/[أإآ]/g,"ا").replace(/ى/g,"ي").toLowerCase().trim();
+}
+function safePhoto(value){
+  if (typeof value !== "string" || value.length > 260000) return "";
+  if (/^data:image\/(?:jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/.test(value)) return value;
+  try{
+    const url = new URL(value);
+    return url.protocol === "https:" && !url.username && !url.password ? url.href : "";
+  }catch{return "";}
+}
+function photo(src,alt,cls=""){
+  const url = safePhoto(src);
+  const fallback = ()=>el("div","الصورة غير متاحة","image-fallback");
+  if (!url) return fallback();
+  const img = document.createElement("img");
+  img.src = url;
+  img.alt = alt;
+  img.loading = "lazy";
+  img.decoding = "async";
+  img.referrerPolicy = "no-referrer";
+  if (cls) img.className = cls;
+  img.addEventListener("error",()=>img.replaceWith(fallback()),{once:true});
+  return img;
+}
+function categoryPhoto(name){
+  const custom = state.foods.find(x=>x.name === name && safePhoto(x.img));
+  if (custom) return custom.img;
+  const index = Math.max(0,FOOD_NAMES.indexOf(name));
+  return "https://commons.wikimedia.org/wiki/Special:FilePath/"+
+    encodeURIComponent(PHOTOS[index][0])+"?width=400";
+}
+function empty(target,text){
+  target.replaceChildren(el("p",text,"empty"));
+}
+function button(text,action,cls="btn small"){
+  const b = el("button",text,cls);
+  b.type = "button";
+  b.addEventListener("click",action);
+  return b;
+}
+function timestamp(value){
+  return typeof value?.toMillis === "function" ? value.toMillis() : 0;
+}
+function dateText(value){
+  return Number.isFinite(value)
+    ? new Date(value).toLocaleDateString("ar",{year:"numeric",month:"long",day:"numeric"})
+    : "غير محدد";
+}
+function activeMember(){
+  return membership && Number.isFinite(membership.expiresAt) && membership.expiresAt > Date.now();
+}
+function money(payload){
+  const labels = {SYP:"ل.س",TRY:"₺",USD:"$"};
+  return Number(payload.price).toLocaleString("ar",{maximumFractionDigits:2})+
+    " "+(labels[payload.currency] || payload.currency || "");
+}
+
+async function compressImage(file){
+  if (!file) throw friendly("اختر صورة أولًا.");
+  if (!["image/jpeg","image/png","image/webp"].includes(file.type))
+    throw friendly("الصيغ المدعومة: JPG وPNG وWebP.");
+  if (file.size > 5*1024*1024)
+    throw friendly("حجم الصورة يجب ألا يتجاوز 5 ميغابايت.");
+  let bitmap;
+  try{
+    bitmap = await createImageBitmap(file);
+    const scale = Math.min(1,640/Math.max(bitmap.width,bitmap.height));
+    const canvas = document.createElement("canvas");
+    canvas.width = Math.max(1,Math.round(bitmap.width*scale));
+    canvas.height = Math.max(1,Math.round(bitmap.height*scale));
+    const context = canvas.getContext("2d");
+    context.fillStyle = "#fff";
+    context.fillRect(0,0,canvas.width,canvas.height);
+    context.drawImage(bitmap,0,0,canvas.width,canvas.height);
+    for (const quality of [.8,.65,.5,.35]){
+      const data = canvas.toDataURL("image/jpeg",quality);
+      if (data.length <= 180000) return data;
+    }
+    throw friendly("الصورة كبيرة بعد الضغط. اختر صورة أبسط أو أصغر.");
+  }finally{bitmap?.close();}
+}
+
+function populate(select,values){
+  values.forEach(value=>{
+    const option = el("option",value);
+    option.value = value;
+    select.append(option);
+  });
+}
+populate($("city"),CITIES);
+populate($("merchantCity"),CITIES);
+["foodSelect","merchantFood","menuCategory"].forEach(id=>populate($(id),FOOD_NAMES));
+
+PHOTOS.forEach(([file,author,license,licenseUrl],i)=>{
+  const item = el("li");
+  const link = el("a",FOOD_NAMES[i]);
+  link.href = "https://commons.wikimedia.org/wiki/File:"+encodeURIComponent(file);
+  link.target = "_blank";
+  link.rel = "noopener noreferrer";
+  const licenseLink = el("a",license);
+  licenseLink.href = licenseUrl;
+  licenseLink.target = "_blank";
+  licenseLink.rel = "noopener noreferrer";
+  item.append(link,document.createTextNode(" — "+author+" — "),licenseLink);
+  $("credits").append(item);
+});
+
+function renderCategories(){
+  let popup = document.getElementById("categoryResultsDialog");
+
+  if (!popup){
+    popup = document.createElement("dialog");
+    popup.id = "categoryResultsDialog";
+    popup.setAttribute("aria-labelledby","categoryResultsTitle");
+    popup.style.cssText =
+      "width:min(1120px,96vw);max-height:92dvh;padding:24px";
+
+    const head = el("div",undefined,"dialog-head");
+    const title = el("h2");
+    title.id = "categoryResultsTitle";
+
+    head.append(
+      title,
+      button("إغلاق ✕",()=>popup.close())
+    );
+
+    const note = el(
+      "p",
+      "النتائج حسب المدينة والبحث المحددين في الصفحة الرئيسية.",
+      "muted"
+    );
+
+    const restaurantsBox = el("div",undefined,"grid");
+    const mealsBox = el("div",undefined,"grid");
+    const mealsHeading = el("h3","الوجبات والقوائم");
+
+    mealsHeading.style.marginTop = "28px";
+
+    popup.append(
+      head,
+      note,
+      el("h3","المطاعم"),
+      restaurantsBox,
+      mealsHeading,
+      mealsBox
+    );
+
+    document.body.append(popup);
+
+    const sync = ()=>{
+      if(!popup.open)return;
+      title.textContent="مطاعم ووجبات "+selectedFood;
+      restaurantsBox.className="restaurant-grid";mealsBox.className="detail-meal-grid";
+      restaurantsBox.replaceChildren();mealsBox.replaceChildren();
+      const rows=state.restaurants.filter(r=>matchesRestaurant(r,selectedFood,normalize($("search").value),$("city").value));
+      rows.sort(displayOrder).forEach(r=>restaurantsBox.append(restaurantCard(r)));
+      const ids=new Set(rows.map(r=>r.id));
+      state.menuItems.filter(m=>m.status==="approved" && ids.has(m.merchantId) && m.payload?.category===selectedFood).sort(displayOrder).forEach(m=>mealsBox.append(detailMealCard(m,state.restaurants.find(r=>r.id===m.merchantId))));
+      if(!rows.length)empty(restaurantsBox,"لا توجد مطاعم مطابقة حاليًا.");
+      if(!mealsBox.children.length)empty(mealsBox,"لا توجد وجبات معتمدة لهذا القسم حاليًا.");
+    };
+    const observer=new MutationObserver(sync);
+    observer.observe($("restaurants"),{childList:true});
+    popup.addEventListener("categoryrefresh",sync);
+  }
+
+  $("foods").replaceChildren();
+
+  FOOD_NAMES.forEach(name=>{
+    const b = button("",()=>{
+      selectedFood = name;
+
+      renderCategories();
+      renderPublic();
+
+      if (!popup.open) popup.showModal();
+
+      popup.dispatchEvent(new Event("categoryrefresh"));
+      popup.scrollTop = 0;
+    },"category");
+
+    b.setAttribute(
+      "aria-pressed",
+      String(selectedFood === name)
+    );
+
+    b.append(
+      photo(categoryPhoto(name),name+" — صورة توضيحية"),
+      el("span",name)
+    );
+
+    $("foods").append(b);
+  });
+}
+
+function normalizeWhatsapp(raw){
+  let n=String(raw || "").trim().replace(/[\s()\-]/g,"");
+  if(n.startsWith("00")) n="+"+n.slice(2);
+  if(/^09\d{8}$/.test(n)) n="+963"+n.slice(1);
+  if(!/^\+[1-9]\d{7,14}$/.test(n)) throw friendly("أدخل رقم WhatsApp كاملًا مع رمز الدولة، مثل +963 ثم الرقم دون الصفر الأول.");
+  return n;
+}
+function whatsappLink(restaurant,subject){
+  if(!restaurant || restaurant.active===false || !restaurant.whatsapp) return el("span","رقم WhatsApp غير متاح حاليًا","muted");
+  let number;try{number=normalizeWhatsapp(restaurant.whatsapp).slice(1);}catch{return el("span","رقم WhatsApp غير متاح","muted");}
+  const a=el("a","تواصل مع المطعم عبر WhatsApp","btn primary");
+  a.href="https://wa.me/"+number+"?text="+encodeURIComponent("مرحباً "+restaurant.name+"، أود الاستفسار عن "+subject+". شاهدته على البلد فود.");
+  a.target="_blank";a.rel="noopener noreferrer";return a;
+}
+function displayOrder(a,b){return (Number.isFinite(a.sortOrder)?a.sortOrder:1000000)-(Number.isFinite(b.sortOrder)?b.sortOrder:1000000) || timestamp(b.approvedAt || b.createdAt)-timestamp(a.approvedAt || a.createdAt) || String(a.id).localeCompare(String(b.id));}
+function merchantLoginEmail(value){
+  const name=value.trim().toLowerCase();
+  if(name.includes("@")) return name;
+  if(!/^[a-z0-9_]{3,30}$/.test(name)) throw friendly("اسم المستخدم: من 3 إلى 30 حرفًا إنجليزيًا أو رقمًا أو شرطة سفلية.");
+  return name+"@merchant.albaladfood.com";
+}
+function ratingControl(restaurant){
+  const box=el("div");
+  const ratings=state.ratings.filter(r=>r.restaurantId===restaurant.id);
+  box.append(el("p",ratings.length ? "★ "+(ratings.reduce((sum,r)=>sum+r.score,0)/ratings.length).toFixed(1)+" / 5 · "+ratings.length+" تقييم" : "لا توجد تقييمات بعد","muted"));
+  const b=button("قيّم المطعم",()=>openRating(restaurant.id));b.dataset.rateRestaurant=restaurant.id;box.append(b);return box;
+}
+let ratingRestaurantId="";
+function openRating(id){
+  ratingRestaurantId=id;
+  if(!currentUser){openLogin("visitor");return;}
+  if(!membershipReady){tell("انتظر التحقق من الحساب ثم أعد المحاولة.",true);return;}
+  if(membership || currentUser.uid===ADMIN_UID){tell("التقييم متاح لحسابات العملاء فقط.",true);return;}
+  const restaurant=state.restaurants.find(r=>r.id===id && r.active!==false);if(!restaurant)return;
+  $("ratingTitle").textContent="تقييم "+restaurant.name;
+  $("ratingScore").value=String(state.ratings.find(r=>r.restaurantId===id && r.uid===currentUser.uid)?.score || 5);
+  showDialog("ratingDialog");
+}
+document.addEventListener("click",event=>{
+  const b=event.target.closest("#categoryResultsDialog [data-rate-restaurant]");
+  if(b)openRating(b.dataset.rateRestaurant);
+});
+$("ratingForm").addEventListener("submit",event=>{
+  event.preventDefault();run($("ratingForm"),async()=>{
+    if(!currentUser || membership || currentUser.uid===ADMIN_UID)throw friendly("سجّل الدخول بحساب عميل للتقييم.");
+    const score=Number($("ratingScore").value);
+    if(!Number.isInteger(score)||score<1||score>5)throw friendly("اختر تقييمًا من 1 إلى 5.");
+    await DB.setDoc(DB.doc(db,"ratings",ratingRestaurantId+"_"+currentUser.uid),{restaurantId:ratingRestaurantId,uid:currentUser.uid,score,updatedAt:DB.serverTimestamp()});
+    $("ratingDialog").close();tell("تم حفظ تقييمك. يمكنك تحديثه لاحقًا.");
+  });
+});
+function getOfferContact(offer){
+  const restaurant=state.restaurants.find(r=>r.id===offer.restaurantId);
+  const name=restaurant?.name || offer.contactName || "المطعم";
+  if(restaurant?.active===false)return {name,number:""};
+  const raw=offer.whatsapp || restaurant?.whatsapp;
+  if(!raw)return {name,number:""};
+  try{return {name,number:normalizeWhatsapp(raw)};}catch{return {name,number:""};}
+}
+function offerContactActions(offer){
+  const contact=getOfferContact(offer),box=el("div",undefined,"offer-contact-actions");
+  if(!contact.number)return box;
+  const whatsapp=whatsappLink({name:contact.name,whatsapp:contact.number},"العرض: "+offer.title);
+  const call=el("a","اتصال بالمطعم","btn");call.href="tel:"+contact.number;call.setAttribute("aria-label","اتصال بـ "+contact.name);
+  box.append(whatsapp,call);return box;
+}
+function offerImageButton(offer){
+  const b=button("",()=>openOffer(offer.id),"offer-image-button");
+  b.setAttribute("aria-label","تكبير صورة العرض: "+(offer.title || "عرض"));b.append(photo(offer.img,offer.title || "عرض"));return b;
+}
+function openOffer(id){
+  const offer=state.offers.find(o=>o.id===id && o.active!==false);if(!offer)return;
+  $("offerDialogTitle").textContent=offer.title || "تفاصيل العرض";
+  const content=$("offerDialogContent");content.replaceChildren();
+  const image=photo(offer.img,offer.title || "صورة العرض");image.classList.add("offer-full-image");content.append(image);
+  const contact=getOfferContact(offer);
+  if(offer.restaurantId || offer.contactName)content.append(el("h3",contact.name));
+  if(offer.details)content.append(el("p",offer.details,"review-description"));
+  if(contact.number){content.append(offerContactActions(offer));const number=el("p",contact.number,"muted");number.dir="ltr";content.append(number);}
+  else content.append(el("p","لم يُضف رقم تواصل لهذا العرض بعد.","muted"));
+  showDialog("offerDialog");
+}
+function renderOffers(){
+  if (!ready.offers) return;
+  if (failed.offers) return empty($("offers"),"تعذّر تحميل العروض. حاول تحديث الصفحة.");
+  const rows = state.offers.filter(x=>x.active !== false)
+    .sort((a,b)=>timestamp(b.createdAt)-timestamp(a.createdAt));
+  $("offerToggle").hidden = rows.length <= 3;
+  $("offerToggle").textContent = expandedOffers ? "عرض أقل" : "عرض الكل";
+  $("offerToggle").setAttribute("aria-expanded",String(expandedOffers));
+  $("offers").replaceChildren();
+  if (!rows.length) return empty($("offers"),"لا توجد عروض منشورة حاليًا.");
+  (expandedOffers ? rows : rows.slice(0,3)).forEach(row=>{
+    const card = el("article",undefined,"card");
+    const body = el("div",undefined,"card-body");
+    body.append(el("h3",row.title || "عرض"));
+    if(row.details)body.append(el("p",row.details,"review-description"));
+    body.append(offerContactActions(row));
+    card.append(offerImageButton(row),body);
+    $("offers").append(card);
+  });
+}
+
+function restaurantHasCategory(restaurant,category){
+  return (Array.isArray(restaurant.categories) && restaurant.categories.includes(category)) ||
+    state.menuItems.some(item=>
+      item.status === "approved" &&
+      item.merchantId === restaurant.id &&
+      item.payload?.category === category);
+}
+
+let directoryCuisines=new Set(),detailId="",detailCuisine="";
+function restaurantCategories(row){return [...new Set([...(Array.isArray(row.categories)?row.categories:[]),...state.menuItems.filter(m=>m.merchantId===row.id && m.status==="approved").map(m=>m.payload?.category).filter(Boolean)])];}
+function restaurantDescription(row){return row.description || restaurantCategories(row).join(" · ") || "تعرّف على المطعم وتصفّح وجباته وقائمته.";}
+function restaurantRating(id){const rows=state.ratings.filter(r=>r.restaurantId===id);return {count:rows.length,average:rows.length?rows.reduce((n,r)=>n+r.score,0)/rows.length:0};}
+function matchesRestaurant(row,category,query,city){
+  const names=state.menuItems.filter(m=>m.merchantId===row.id && m.status==="approved").map(m=>m.payload?.name || "");
+  return row.active!==false && (!city || row.city===city) && (!category || restaurantHasCategory(row,category)) && (!query || normalize([row.name,row.description,row.city,...restaurantCategories(row),...names].join(" ")).includes(query));
+}
+function restaurantHref(id){const url=new URL(location.href);url.search="";url.hash="";url.searchParams.set("restaurant",id);return url.pathname+url.search;}
+function restaurantCard(row){
+  const card=el("article",undefined,"restaurant-card");
+  const cover=el("a",undefined,"restaurant-cover");cover.href=restaurantHref(row.id);cover.dataset.openRestaurant=row.id;cover.setAttribute("aria-label","عرض مطعم "+row.name+" وقائمته");
+  const own=safePhoto(row.img);cover.append(photo(own || categoryPhoto(restaurantCategories(row)[0]),row.name+(own?"":" — صورة توضيحية")));
+  const offers=state.offers.filter(o=>o.active!==false && o.restaurantId===row.id);
+  if(offers.length){const tags=el("div",undefined,"restaurant-offer-tags");offers.slice(0,2).forEach(o=>tags.append(el("span",o.title,"restaurant-offer-tag")));cover.append(tags);}
+  const body=el("div",undefined,"restaurant-card-body"),line=el("div",undefined,"restaurant-name-row"),name=el("h3"),link=el("a",row.name || "مطعم");link.href=cover.href;link.dataset.openRestaurant=row.id;name.append(link);line.append(name);
+  const rating=restaurantRating(row.id);if(rating.count)line.append(el("span","★ "+rating.average.toFixed(1)+" ("+rating.count+")","rating-badge"));
+  body.append(line,el("p",restaurantDescription(row),"restaurant-blurb"),el("p",[row.city,...restaurantCategories(row)].filter(Boolean).join(" · ")));
+  card.append(cover,body);return card;
+}
+function detailMealCard(row,restaurant){
+  const p=row.payload,card=el("article",undefined,"detail-meal"),imageButton=button("",()=>showMenuPhotos(p,p.name),"detail-meal-photo");
+  imageButton.setAttribute("aria-label","عرض صور "+p.name);imageButton.append(photo(p.img,p.name));
+  const body=el("div"),actions=el("div",undefined,"detail-meal-actions");
+  body.append(el("h3",p.name));if(p.description)body.append(el("p",p.description));body.append(el("p",money(p),"price"));
+  actions.append(whatsappLink(restaurant,"الوجبة: "+p.name+" — "+money(p)));
+  const photos=menuPhotos(p);if(photos.length>1)actions.append(button("الصور ("+photos.length+")",()=>showMenuPhotos(p,p.name),"btn small"));
+  body.append(actions);card.append(imageButton,body);return card;
+}
+function renderDirectoryFilters(){
+  $("restaurantFilters").replaceChildren();$("restaurantCuisines").replaceChildren();
+  const allLabel=el("label",undefined,"filter-check"),all=el("input");all.type="checkbox";all.checked=!directoryCuisines.size;all.addEventListener("change",()=>{directoryCuisines.clear();renderDirectoryFilters();renderPublic();});allLabel.append(all,document.createTextNode("جميع الأقسام"));$("restaurantFilters").append(allLabel);
+  FOOD_NAMES.forEach(name=>{
+    const toggle=()=>{directoryCuisines.has(name)?directoryCuisines.delete(name):directoryCuisines.add(name);renderDirectoryFilters();renderPublic();};
+    const label=el("label",undefined,"filter-check"),input=el("input");input.type="checkbox";input.checked=directoryCuisines.has(name);input.addEventListener("change",toggle);label.append(input,document.createTextNode(name));$("restaurantFilters").append(label);
+    const tile=button("",toggle,"cuisine-tile");tile.setAttribute("aria-pressed",String(directoryCuisines.has(name)));tile.append(photo(categoryPhoto(name),name+" — صورة توضيحية"),el("span",name));$("restaurantCuisines").append(tile);
+  });
+}
+function renderPublic(){
+  const query=normalize($("search").value),city=$("city").value;
+  $("clear").hidden=!query && !city && !selectedFood;
+  $("restaurants").replaceChildren();
+  if(!ready.restaurants)empty($("restaurants"),"جارٍ تحميل المطاعم…");
+  else if(failed.restaurants)empty($("restaurants"),"تعذّر تحميل المطاعم. حاول تحديث الصفحة.");
+  else{
+    const localQuery=normalize($("restaurantSearch").value);
+    const rows=state.restaurants.filter(r=>matchesRestaurant(r,"",query,city) && matchesRestaurant(r,"",localQuery,"") && (!directoryCuisines.size || [...directoryCuisines].some(c=>restaurantHasCategory(r,c))));
+    const sort=$("restaurantSort").value;
+    rows.sort(sort==="name"?(a,b)=>String(a.name).localeCompare(String(b.name),"ar"):sort==="rating"?(a,b)=>restaurantRating(b.id).average-restaurantRating(a.id).average || displayOrder(a,b):displayOrder);
+    $("resultCount").textContent=rows.length+" مطعم"+(city?" · "+city:"");
+    rows.forEach(r=>$("restaurants").append(restaurantCard(r)));if(!rows.length)empty($("restaurants"),"لا توجد مطاعم مطابقة. جرّب قسمًا أو مدينة أخرى.");
+  }
+  if(detailId)renderRestaurantDetail();
+}
+function openRestaurant(id,push=true){
+  const popup=$("categoryResultsDialog");if(popup?.open)popup.close();
+  detailId=id;detailCuisine="";$("detailSearch").value="";
+  $("publicPage").hidden=true;$("adminPage").hidden=true;$("restaurantDetail").hidden=false;
+  if(push)history.pushState({restaurant:id},"",restaurantHref(id));
+  renderRestaurantDetail();window.scrollTo({top:0,behavior:"instant"});
+}
+function renderRestaurantDetail(){
+  if(!detailId)return;
+  const row=state.restaurants.find(r=>r.id===detailId && r.active!==false),info=$("restaurantDetailInfo");info.replaceChildren();
+  if(!ready.restaurants){empty(info,"جارٍ تحميل المطعم…");return;}
+  if(!row){empty(info,failed.restaurants?"تعذّر تحميل المطعم. حدّث الصفحة للمحاولة مجددًا.":"هذا المطعم غير متاح حاليًا.");$("restaurantDetailOffers").replaceChildren();$("detailMeals").replaceChildren();$("detailCategories").replaceChildren();return;}
+  const profile=el("div",undefined,"restaurant-profile"),body=el("div"),name=el("h1",row.name);name.id="detailName";
+  profile.append(photo(safePhoto(row.img)||categoryPhoto(restaurantCategories(row)[0]),row.name));body.append(name,el("p",[row.city,...restaurantCategories(row)].filter(Boolean).join(" · ")),el("p",restaurantDescription(row)));
+  const actions=el("div",undefined,"row");actions.append(ratingControl(row),whatsappLink(row,"قائمة المطعم"));body.append(actions);profile.append(body);info.append(profile);
+  const offers=state.offers.filter(o=>o.active!==false && o.restaurantId===row.id),offerBox=$("restaurantDetailOffers");offerBox.replaceChildren();offerBox.hidden=!offers.length;
+  if(offers.length){offerBox.append(el("h2","العروض ("+offers.length+")"));const list=el("div",undefined,"detail-offer-list");offers.forEach(o=>{const card=el("article",undefined,"detail-offer");card.append(offerImageButton(o),el("h3",o.title));if(o.details)card.append(el("p",o.details));card.append(offerContactActions(o));list.append(card);});offerBox.append(list);}
+  renderDetailMeals();
+}
+function renderDetailMeals(){
+  const row=state.restaurants.find(r=>r.id===detailId && r.active!==false);if(!row)return;
+  const meals=state.menuItems.filter(m=>m.merchantId===detailId && m.status==="approved").sort(displayOrder),categories=[...new Set(meals.map(m=>m.payload.category))];
+  if(detailCuisine && !categories.includes(detailCuisine))detailCuisine="";
+  $("detailCategories").replaceChildren();["",...categories].forEach(c=>{const b=button(c || "جميع الوجبات",()=>{detailCuisine=c;renderDetailMeals();},"detail-category");b.setAttribute("aria-pressed",String(detailCuisine===c));$("detailCategories").append(b);});
+  const query=normalize($("detailSearch").value),filtered=meals.filter(m=>(!detailCuisine || m.payload.category===detailCuisine) && (!query || normalize(m.payload.name+" "+m.payload.description).includes(query)));
+  $("detailMenuTitle").textContent=(detailCuisine || "الوجبات والقائمة")+" ("+filtered.length+")";$("detailMeals").replaceChildren();
+  if(!ready.menuItems)empty($("detailMeals"),"جارٍ تحميل قائمة المطعم…");
+  else if(failed.menuItems)empty($("detailMeals"),"تعذّر تحميل الوجبات. حاول تحديث الصفحة.");
+  else if(!filtered.length)empty($("detailMeals"),meals.length?"لا توجد وجبات مطابقة للبحث.":"لم ينشر المطعم وجبات معتمدة بعد.");
+  else filtered.forEach(m=>$("detailMeals").append(detailMealCard(m,row)));
+}
+document.addEventListener("click",event=>{const a=event.target.closest("a[data-open-restaurant]");if(!a || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey)return;event.preventDefault();openRestaurant(a.dataset.openRestaurant);});
+$("backToRestaurants").addEventListener("click",()=>{showPublic();$("restaurantDirectory").scrollIntoView({block:"start"});});
+$("restaurantSearch").addEventListener("input",renderPublic);$("restaurantSort").addEventListener("change",renderPublic);
+$("clearRestaurantFilters").addEventListener("click",()=>{directoryCuisines.clear();$("restaurantSearch").value="";$("restaurantSort").value="recommended";renderDirectoryFilters();renderPublic();});
+$("detailSearch").addEventListener("input",renderDetailMeals);
+window.addEventListener("popstate",()=>{const id=new URLSearchParams(location.search).get("restaurant");if(id)openRestaurant(id,false);else{detailId="";$("restaurantDetail").hidden=true;$("publicPage").hidden=false;$("adminPage").hidden=true;}});
+renderDirectoryFilters();
+
+$("search").addEventListener("input",renderPublic);
+$("city").addEventListener("change",renderPublic);
+$("clear").addEventListener("click",()=>{
+  $("search").value = "";
+  $("city").value = "";
+  selectedFood = "";
+  renderCategories();
+  renderPublic();
+});
+$("offerToggle").addEventListener("click",()=>{
+  expandedOffers = !expandedOffers;
+  renderOffers();
+});
+
+function showPublic(){
+  if(IS_ADMIN_PAGE){location.assign("./index.html");return;}
+  detailId="";$("restaurantDetail").hidden=true;
+  $("publicPage").hidden = false;
+  $("adminPage").hidden = true;
+  history.replaceState(null,"",location.pathname);
+}
+function showAdmin(){
+  if(!IS_ADMIN_PAGE){location.assign("./admin.html");return;}
+  if (currentUser?.uid !== ADMIN_UID) return openLogin("admin");
+  detailId="";$("restaurantDetail").hidden=true;
+  $("publicPage").hidden = true;
+  $("adminPage").hidden = false;
+  history.replaceState(null,"",location.pathname);
+  $("adminLanding").hidden=true;
+  renderAdminLists();
+}
+function showDialog(id){
+  if (!$(id).open) $(id).showModal();
+}
+document.querySelectorAll("[data-close]").forEach(b=>{
+  b.addEventListener("click",()=>$(b.dataset.close).close());
+});
+$("loginDialog").addEventListener("close",()=>{
+  $("password").value = "";
+  $("password").type = "password";
+  $("showPassword").textContent = "إظهار كلمة المرور";
+  $("showPassword").setAttribute("aria-pressed","false");
+});
+
+function changeSignup(value){
+  signup = value;
+  $("loginTab").classList.toggle("primary",!value);
+  $("signupTab").classList.toggle("primary",value);
+  $("loginSubmit").textContent = value ? "إنشاء حساب زائر" : "تسجيل الدخول";
+  $("password").autocomplete = value ? "new-password" : "current-password";
+  $("password").minLength = value ? 8 : 1;
+}
+function openLogin(mode="visitor"){
+  if(mode==="admin" && !IS_ADMIN_PAGE){location.assign("./admin.html");return;}
+  if(IS_ADMIN_PAGE)mode="admin";
+  loginMode = mode;
+  $("googleBtn").hidden=mode!=="visitor";
+  $("email").type=mode==="visitor"?"email":"text";
+  $("email").autocomplete=mode==="visitor"?"email":"username";
+  document.querySelector('label[for="email"]').textContent=mode==="admin"?"اسم المستخدم":mode==="merchant"?"اسم المستخدم (أو بريد الحساب القديم)":"البريد الإلكتروني";
+  $("email").value=mode==="admin"?ADMIN_USERNAME:"";
+  $("resetPassword").hidden=mode==="admin";
+  changeSignup(false);
+  $("loginTabs").hidden = mode !== "visitor";
+  $("loginTitle").textContent = mode === "admin" ? "دخول الإدارة" :
+    mode === "merchant" ? "دخول صاحب المطعم" : "دخول العميل للتقييم";
+  tell("",false,"loginMessage");
+  showDialog("loginDialog");
+}
+function updateAccount(){
+  $("accountEmail").textContent = membership?.username || (currentUser?.email || "").replace("@merchant.albaladfood.com","");
+  $("accountInfo").textContent = IS_ADMIN_PAGE && currentUser?.uid === ADMIN_UID ? "حساب الإدارة" :
+    !membershipReady ? "جارٍ التحقق من الحساب…" :
+    membership ? "حساب تاجر — "+(activeMember() ? "الاشتراك فعّال حتى " : "انتهى الاشتراك في ")+dateText(membership.expiresAt) :
+    "حساب زائر";
+  $("merchantBtn").textContent = currentUser && membership ? "إضافة / تعديل قائمتي" : "دخول صاحب المطعم";
+  $("membershipInfo").textContent = !membershipReady ? "جارٍ التحقق من الاشتراك…" :
+    !membership ? "لا يوجد اشتراك تاجر لهذا الحساب. تواصل مع الإدارة لتفعيل حساب تاجر." :
+    activeMember() ? "اشتراكك فعّال حتى "+dateText(membership.expiresAt) :
+    "انتهى الاشتراك في "+dateText(membership.expiresAt)+". تواصل مع الإدارة للتجديد.";
+  $("menuForm").hidden = !activeMember() || merchantTab !== "new";
+  $("newMenuBtn").disabled = !activeMember();
+  renderMyMenu();
+}
+
+$("loginTab").addEventListener("click",()=>changeSignup(false));
+$("signupTab").addEventListener("click",()=>changeSignup(true));
+$("showPassword").addEventListener("click",()=>{
+  const show = $("password").type === "password";
+  $("password").type = show ? "text" : "password";
+  $("showPassword").textContent = show ? "إخفاء كلمة المرور" : "إظهار كلمة المرور";
+  $("showPassword").setAttribute("aria-pressed",String(show));
+});
+$("accountBtn").addEventListener("click",()=>{
+  if (!currentUser) return openLogin();
+  updateAccount();
+  showDialog("accountDialog");
+});
+$("merchantBtn").addEventListener("click",()=>{
+  if (!currentUser || !membership) return openLogin("merchant");
+  updateAccount();
+  showDialog("merchantDialog");
+});
+$("adminBtn").addEventListener("click",showAdmin);
+$("backToSite").addEventListener("click",showPublic);
+$("pendingBtn").addEventListener("click",()=>{
+  showAdmin();
+  $("approvals").scrollIntoView({behavior:"smooth"});
+});
+
+async function finishLogin(credential){
+  const user = credential.user;
+  if (loginMode === "admin" && user.uid !== ADMIN_UID){
+    await Auth.signOut(auth);
+    throw friendly("هذا الحساب غير مخوّل بالدخول إلى الإدارة.");
+  }
+  if (loginMode === "merchant"){
+    const snapshot = await DB.getDocFromServer(DB.doc(db,"merchants",user.uid));
+    if (!snapshot.exists())
+      throw friendly("تم تسجيل الدخول، لكن الحساب غير مسجّل كتاجر. يجب أن تفعّله الإدارة.");
+    const record = snapshot.data();
+    if (!Number.isFinite(record.expiresAt) || record.expiresAt <= Date.now())
+      throw friendly("تم تسجيل الدخول، لكن اشتراك التاجر منتهٍ. تواصل مع الإدارة.");
+  }
+  $("loginDialog").close();
+  tell("تم تسجيل الدخول بنجاح.");
+  if (loginMode === "visitor" && ratingRestaurantId){
+    const member=await DB.getDocFromServer(DB.doc(db,"merchants",user.uid));
+    membership=member.exists()?member.data():null;membershipReady=true;
+    openRating(ratingRestaurantId);
+  }
+  if (loginMode === "admin") showAdmin();
+  if (loginMode === "merchant"){
+    updateAccount();
+    showDialog("merchantDialog");
+  }
+}
+
+$("loginForm").addEventListener("submit",event=>{
+  event.preventDefault();
+  const identity = $("email").value.trim();
+  const password = $("password").value;
+  const create = signup && loginMode === "visitor";
+  run($("loginDialog"),async()=>{
+    const email=loginMode==="admin"?adminLoginEmail(identity):loginMode==="merchant"?merchantLoginEmail(identity):identity;
+    if(create && /@(merchant|admin)\.albaladfood\.com$/i.test(email))throw friendly("هذا الاسم مخصص لحسابات المطاعم التي تنشئها الإدارة.");
+    const credential = create
+      ? await Auth.createUserWithEmailAndPassword(auth,email,password)
+      : await Auth.signInWithEmailAndPassword(auth,email,password);
+    await finishLogin(credential);
+  },"loginMessage");
+});
+$("googleBtn").addEventListener("click",()=>run($("loginDialog"),async()=>{
+  if(loginMode!=="visitor")throw friendly("استخدم اسم المستخدم وكلمة المرور لحساب المطعم.");
+  const provider = new Auth.GoogleAuthProvider();
+  provider.setCustomParameters({prompt:"select_account"});
+  await finishLogin(await Auth.signInWithPopup(auth,provider));
+},"loginMessage"));
+$("resetPassword").addEventListener("click",()=>run($("loginDialog"),async()=>{
+  if(loginMode==="merchant" && (!$("email").value.includes("@") || $("email").value.endsWith("@merchant.albaladfood.com")))throw friendly("لاستعادة حساب المطعم باسم المستخدم، تواصل مع الإدارة عبر رابط الانضمام أسفل الصفحة.");
+  if (!$("email").value.trim() || !$("email").checkValidity())
+    throw friendly("أدخل بريدًا إلكترونيًا صحيحًا أولًا.");
+  await Auth.sendPasswordResetEmail(auth,$("email").value.trim());
+  tell("إذا كان البريد مرتبطًا بحساب، فستصلك تعليمات إعادة تعيين كلمة المرور.",false,"loginMessage");
+},"loginMessage"));
+
+async function logout(){
+  await Auth.signOut(auth);
+  ["accountDialog","merchantDialog","loginDialog"].forEach(id=>$(id).close());
+  tell("تم تسجيل الخروج.");
+}
+$("logoutBtn").addEventListener("click",()=>run($("logoutBtn"),logout));
+$("accountLogout").addEventListener("click",()=>run($("accountLogout"),logout));
+
+function renderHistory(){
+  $("menuHistory").replaceChildren();
+  if (!requestRows.length) return empty($("menuHistory"),"لا توجد طلبات بعد.");
+  const labels = {pending:"بانتظار المراجعة",approved:"تمت الموافقة",rejected:"مرفوض"};
+  [...requestRows].sort((a,b)=>timestamp(b.submittedAt)-timestamp(a.submittedAt)).forEach(row=>{
+    const item = el("article",undefined,"admin-item");
+    item.append(
+      el("strong",(row.targetItemId ? "تعديل: " : "إضافة: ")+(row.payload?.name || "وجبة")),
+      el("span",labels[row.status] || row.status,"chip status-"+row.status)
+    );
+    if (row.reviewNote) item.append(el("p","ملاحظة الإدارة: "+row.reviewNote,"review-description"));
+    $("menuHistory").append(item);
+  });
+}
+
+function menuPhotos(payload){
+  return [payload?.img,...(Array.isArray(payload?.images)?payload.images:[])].filter(src=>safePhoto(src)).slice(0,5);
+}
+
+function showMenuPhotos(payload,title){
+  let dialog = $("menuPhotosDialog");
+  if (!dialog){
+    dialog = document.createElement("dialog");
+    dialog.id = "menuPhotosDialog";
+    dialog.className = "wide";
+    dialog.setAttribute("aria-labelledby","menuPhotosTitle");
+    document.body.append(dialog);
+  }
+  const heading = el("h2",title);
+  heading.id = "menuPhotosTitle";
+  const head = el("div",undefined,"dialog-head");
+  head.append(heading,button("إغلاق ✕",()=>dialog.close()));
+  const pages = el("div",undefined,"gallery-pages");
+  menuPhotos(payload).forEach((src,i)=>pages.append(photo(src,title+" — "+(i+1))));
+  dialog.replaceChildren(head,pages);
+  if (!dialog.open) dialog.showModal();
+  dialog.scrollTop = 0;
+}
+
+function menuGallery(payload,title){
+  const gallery = el("div",undefined,"menu-gallery");
+  const photos = menuPhotos(payload);
+  gallery.append(photo(photos[0],title));
+  const open = button("عرض الصور والقائمة ("+photos.length+")",()=>showMenuPhotos(payload,title));
+  // Cloned category cards use delegated clicks below.
+  open.dataset.menuGallery = JSON.stringify({title,photos});
+  gallery.append(open);
+  return gallery;
+}
+
+document.addEventListener("click",event=>{
+  const control = event.target.closest("#categoryResultsDialog [data-menu-gallery]");
+  if (!control) return;
+  const data = JSON.parse(control.dataset.menuGallery);
+  showMenuPhotos({img:data.photos[0],images:data.photos.slice(1)},data.title);
+});
+
+function clearPhotoDraft(){
+  photoDraft.forEach(item=>{if(item.file) URL.revokeObjectURL(item.src);});
+  photoDraft = [];
+  $("menuPhoto").value = "";
+  renderPhotoDraft();
+}
+
+function renderPhotoDraft(){
+  const box = $("menuPhotoPreview");
+  box.replaceChildren();
+  photoDraft.forEach((item,i)=>{
+    const figure = el("figure");
+    const img = document.createElement("img");
+    img.src = item.src;
+    img.alt = "صورة "+(i+1);
+    figure.append(img,el("figcaption",i===0?"الصورة الرئيسية":"صورة "+(i+1)));
+    figure.append(button("حذف الصورة",()=>{
+      if ($("menuForm").dataset.busy) return;
+      if(item.file) URL.revokeObjectURL(item.src);
+      photoDraft.splice(i,1);
+      renderPhotoDraft();
+    }));
+    box.append(figure);
+  });
+}
+
+$("menuPhoto").addEventListener("change",()=>{
+  const files = [...$("menuPhoto").files];
+  $("menuPhoto").value = "";
+  if (!files.length) return;
+  if (photoDraft.length+files.length>5)
+    return tell("يمكن إضافة 5 صور فقط. احذف صورة أو اختر عددًا أقل.",true,"menuMessage");
+  if(files.some(file=>!["image/jpeg","image/png","image/webp"].includes(file.type)||file.size>5*1024*1024))
+    return tell("اختر صور JPG أو PNG أو WebP بحجم لا يتجاوز 5 ميغابايت للصورة.",true,"menuMessage");
+  photoDraft.push(...files.map(file=>({file,src:URL.createObjectURL(file)})));
+  tell("",false,"menuMessage");
+  renderPhotoDraft();
+});
+
+function resetMenuEditor(){
+  editingItem = null;
+  $("menuForm").reset();
+  $("menuPhoto").required = false;
+  clearPhotoDraft();
+  $("menuFormTitle").textContent = "طلب إضافة وجبة";
+  $("editHint").hidden = true;
+}
+function setMerchantTab(tab){
+  if ($("menuForm").dataset.busy) return;
+  merchantTab = tab;
+  $("myPublishedSection").hidden = tab !== "published";
+  $("menuForm").hidden = tab !== "new" || !activeMember();
+  $("newMenuBtn").classList.toggle("primary",tab === "new");
+  $("myMenuBtn").classList.toggle("primary",tab === "published");
+  renderMyMenu();
+}
+
+function renderMyMenu(){
+  const box = $("myPublishedList");
+  box.replaceChildren();
+  if (!currentUser) return;
+  if (failed.menuItems) return empty(box,"تعذر تحميل وجباتك. تحقق من الاتصال وأعد المحاولة.");
+  if (!ready.menuItems) return empty(box,"جارٍ تحميل وجباتك…");
+  const rows = state.menuItems.filter(item=>item.merchantId === currentUser.uid && item.status === "approved");
+  if (!rows.length) return empty(box,"لا توجد وجبات منشورة بعد. أرسل طلب إضافة وانتظر موافقة الإدارة.");
+
+  rows.forEach(item=>{
+    const row = el("article",undefined,"admin-item");
+    const pending = requestRows.some(request=>request.status === "pending" && request.targetItemId === item.id);
+    const restaurant = state.restaurants.find(r=>r.id === item.merchantId);
+    if (!restaurant || restaurant.active === false)
+      row.append(el("p","المطعم مخفي حاليًا؛ لن تظهر وجباته للزوار حتى تفعّله الإدارة.","notice"));
+    row.append(el("h3",item.payload.name),el("p",money(item.payload),"price"));
+    if (pending) row.append(el("p","يوجد طلب تعديل بانتظار المراجعة.","muted"));
+
+    const edit = button("طلب تعديل",()=>{
+      if (!activeMember() || $("menuForm").dataset.busy) return;
+      resetMenuEditor();
+      editingItem = {
+        id:item.id,
+        baseSourceRequestId:item.sourceRequestId || item.id,
+        img:item.payload.img
+      };
+      $("menuName").value = item.payload.name;
+      $("menuDescription").value = item.payload.description;
+      $("menuCategory").value = item.payload.category;
+      $("menuPrice").value = item.payload.price;
+      $("menuCurrency").value = item.payload.currency;
+      $("menuPhoto").required = false;
+      photoDraft = menuPhotos(item.payload).map(src=>({src}));
+      renderPhotoDraft();
+      $("menuFormTitle").textContent = "طلب تعديل: "+item.payload.name;
+      $("editHint").hidden = false;
+      tell("",false,"menuMessage");
+      setMerchantTab("new");
+      $("menuName").focus();
+    });
+    edit.disabled = pending || !activeMember();
+    row.append(edit);
+    box.append(row);
+  });
+}
+
+$("newMenuBtn").addEventListener("click",()=>{
+  if ($("menuForm").dataset.busy) return;
+  resetMenuEditor();
+  setMerchantTab("new");
+  tell("",false,"menuMessage");
+});
+$("myMenuBtn").addEventListener("click",()=>setMerchantTab("published"));
+
+$("menuForm").addEventListener("submit",event=>{
+  event.preventDefault();
+  const uid = currentUser?.uid;
+  const payload = {
+    name:$("menuName").value.trim(),
+    description:$("menuDescription").value.trim(),
+    category:$("menuCategory").value,
+    price:Number($("menuPrice").value),
+    currency:$("menuCurrency").value
+  };
+  const draft = [...photoDraft];
+  const edit = editingItem ? {...editingItem} : null;
+
+  run($("menuForm"),async()=>{
+    if (!uid || !activeMember()) throw friendly("يلزم حساب تاجر باشتراك فعّال.");
+    if (!payload.name) throw friendly("أدخل اسم الوجبة.");
+    if (!Number.isFinite(payload.price) || payload.price < 0 || payload.price > 1000000000)
+      throw friendly("أدخل سعرًا صحيحًا.");
+    if (!draft.length || draft.length>5) throw friendly("أضف من صورة واحدة إلى 5 صور.");
+    const pictures = [];
+    for (const item of draft) pictures.push(item.file ? await compressImage(item.file) : item.src);
+    payload.img = pictures[0];
+    payload.images = pictures.slice(1);
+    if (auth.currentUser?.uid !== uid) throw friendly("تغيّر الحساب. أعد تسجيل الدخول.");
+
+    await DB.addDoc(DB.collection(db,"menuRequests"),{
+      merchantId:uid,
+      payload,
+      status:"pending",
+      submittedAt:DB.serverTimestamp(),
+      ...(edit ? {targetItemId:edit.id,baseSourceRequestId:edit.baseSourceRequestId} : {})
+    });
+
+    resetMenuEditor();
+    tell(
+      edit ? "تم إرسال طلب التعديل. تبقى النسخة الحالية حتى موافقة الإدارة." :
+      "تم إرسال الوجبة إلى الإدارة. ستظهر في الصفحة الرئيسية بعد الموافقة.",
+      false,"menuMessage"
+    );
+  },"menuMessage");
+});
+
+async function reviewRequest(id,decision,note){
+  if (auth.currentUser?.uid !== ADMIN_UID) throw friendly("هذه العملية للإدارة فقط.");
+  const requestRef = DB.doc(db,"menuRequests",id);
+
+  await DB.runTransaction(db,async transaction=>{
+    const snapshot = await transaction.get(requestRef);
+    if (!snapshot.exists() || snapshot.data().status !== "pending")
+      throw friendly("تمت مراجعة هذا الطلب مسبقًا.");
+    const request = snapshot.data();
+
+    if (decision === "approved"){
+      const restaurant=await transaction.get(DB.doc(db,"restaurants",request.merchantId));
+      if(!restaurant.exists())throw friendly("تم حذف المطعم. ارفض الطلب أو أعد إنشاء بيانات المطعم أولًا.");
+      let existingOrder;
+      const targetId = request.targetItemId || id;
+      if (request.targetItemId){
+        const current = await transaction.get(DB.doc(db,"menuItems",targetId));
+        if (!current.exists() || current.data().merchantId !== request.merchantId)
+          throw friendly("الوجبة الأصلية غير موجودة أو لا تخص هذا التاجر. ارفض الطلب مع ذكر السبب.");
+        existingOrder=current.data().sortOrder;
+        if (current.data().sourceRequestId !== request.baseSourceRequestId)
+          throw friendly("تغيرت الوجبة منذ إرسال هذا الطلب. ارفضه واطلب من التاجر إرسال تعديل جديد.");
+      }
+      transaction.set(DB.doc(db,"menuItems",targetId),{
+        merchantId:request.merchantId,
+        payload:request.payload,
+        status:"approved",
+        sourceRequestId:id,
+        ...(Number.isInteger(existingOrder)?{sortOrder:existingOrder}:{}),
+        approvedAt:DB.serverTimestamp()
+      });
+    }
+
+    transaction.update(requestRef,{
+      status:decision,
+      reviewedAt:DB.serverTimestamp(),
+      reviewedBy:ADMIN_UID,
+      reviewNote:note.trim()
+    });
+  });
+}
+
+function renderPending(rows){
+  $("pendingBtn").textContent = "طلبات القائمة ("+rows.length+")";
+  $("approvalState").textContent = rows.length ? rows.length+" طلب بانتظار المراجعة" : "لا توجد طلبات معلّقة.";
+  $("pendingList").replaceChildren();
+
+  [...rows].sort((a,b)=>timestamp(a.submittedAt)-timestamp(b.submittedAt)).forEach(row=>{
+    const p = row.payload || {};
+    const restaurant = state.restaurants.find(x=>x.id === row.merchantId);
+    const item = el("article",undefined,"admin-item");
+    item.append(
+      menuGallery(p,p.name || "وجبة"),
+      el("h3",(row.targetItemId ? "طلب تعديل: " : "طلب إضافة: ")+(p.name || "وجبة")),
+      el("p",restaurant?.name || "التاجر: "+row.merchantId,"muted"),
+      el("p",p.description || "لا يوجد وصف","review-description"),
+      el("p",p.category+" · "+money(p),"price")
+    );
+    if (!restaurant || restaurant.active === false)
+      item.append(el("p","هذا المطعم مخفي. بعد الموافقة، يجب إظهاره من قسم المطاعم ليشاهده الزوار.","notice"));
+
+    const label = el("label","ملاحظة الإدارة — سبب الرفض مطلوب عند الرفض");
+    const note = document.createElement("textarea");
+    note.maxLength = 500;
+    label.append(note);
+    const actions = el("div",undefined,"row");
+
+    const process = decision=>run(item,async()=>{
+      if (decision === "rejected" && !note.value.trim())
+        throw friendly("اكتب سبب الرفض ليظهر للتاجر.");
+      await reviewRequest(row.id,decision,note.value);
+      tell(decision === "approved"
+        ? "تمت الموافقة. تظهر الوجبة للزوار عندما يكون المطعم ظاهرًا."
+        : "تم رفض الطلب وإبلاغ التاجر داخل حسابه.");
+    });
+
+    actions.append(
+      button("الموافقة والنشر",()=>process("approved"),"btn primary"),
+      button("رفض الطلب",()=>process("rejected"),"btn danger")
+    );
+    item.append(label,actions);
+    $("pendingList").append(item);
+  });
+}
+
+function renderAdminLists(){
+  if (currentUser?.uid !== ADMIN_UID) return;
+  const selectedRestaurant=$("offerRestaurant").value;
+  $("offerRestaurant").replaceChildren(new Option("اختر المطعم — اختياري",""));
+  state.restaurants.filter(r=>r.active!==false).forEach(r=>$("offerRestaurant").append(new Option(r.name,r.id)));
+  $("offerRestaurant").value=selectedRestaurant;
+  [["offers","adminOffers"],["restaurants","adminRestaurants"],["menuItems","adminMenus"]].forEach(([collectionName,target])=>{
+    $(target).replaceChildren();
+    if (!state[collectionName].length) empty($(target),"لا توجد بيانات.");
+    state[collectionName].slice().sort(displayOrder).forEach(row=>{
+      const item = el("div",undefined,"admin-item");
+      item.append(el("strong",row.title || row.name || row.payload?.name || "بدون عنوان"));
+      item.append(el("p",row.active === false ? "مخفي عن الزوار" : "ظاهر للزوار","muted"));
+      if(collectionName!=="menuItems")item.append(button(row.active === false ? "إظهار" : "إخفاء",()=>run(item,async()=>{
+        await DB.updateDoc(DB.doc(db,collectionName,row.id),{active:row.active === false});
+        tell("تم تحديث حالة النشر.");
+      })));
+      if(collectionName==="offers"){
+        const restaurant=el("select");restaurant.setAttribute("aria-label","المطعم صاحب العرض");restaurant.append(new Option("اختر مطعمًا — اختياري",""));
+        state.restaurants.forEach(r=>restaurant.append(new Option(r.name,r.id)));
+        if(row.restaurantId && !state.restaurants.some(r=>r.id===row.restaurantId))restaurant.append(new Option("المطعم المرتبط غير متاح",row.restaurantId));
+        restaurant.value=row.restaurantId || "";
+        const name=el("input");name.maxLength=150;name.value=row.contactName || "";name.setAttribute("aria-label","اسم المطعم صاحب العرض عند عدم الربط");
+        const phone=el("input");phone.type="tel";phone.dir="ltr";phone.placeholder="+963…";phone.value=row.whatsapp || "";phone.setAttribute("aria-label","رقم التواصل للعرض — يظهر للعملاء");
+        item.append(el("p","المطعم صاحب العرض"),restaurant,el("p","اسم المطعم إذا لم تختر مطعمًا"),name,el("p","رقم التواصل — اتركه فارغًا لاستخدام رقم المطعم"),phone,button("حفظ بيانات التواصل",()=>run(item,async()=>{
+          const whatsapp=phone.value.trim()?normalizeWhatsapp(phone.value):"";
+          if(whatsapp && !restaurant.value && !name.value.trim())throw friendly("اختر المطعم أو أدخل اسمه مع رقم التواصل.");
+          await DB.updateDoc(DB.doc(db,"offers",row.id),{restaurantId:restaurant.value,contactName:name.value.trim(),whatsapp});tell("تم حفظ التواصل عبر واتساب والاتصال للعرض.");
+        })));
+      }
+      if(collectionName!=="offers"){
+        const order=el("input");order.type="number";order.min="0";order.max="999999";order.step="1";order.value=String(row.sortOrder ?? 1000);order.setAttribute("aria-label","ترتيب العرض — الرقم الأصغر أولًا");
+        item.append(el("p","ترتيب العرض — الرقم الأصغر أولًا"),order,button("حفظ الترتيب",()=>run(item,async()=>{
+          const sortOrder=Number(order.value);if(!Number.isInteger(sortOrder)||sortOrder<0||sortOrder>999999)throw friendly("أدخل ترتيبًا صحيحًا من 0 إلى 999999.");
+          await DB.updateDoc(DB.doc(db,collectionName,row.id),{sortOrder});tell("تم حفظ ترتيب العرض.");
+        })));
+      }
+      if(collectionName==="restaurants"){
+        const description=el("textarea");description.maxLength=300;description.value=row.description || "";description.setAttribute("aria-label","وصف مختصر للمطعم");
+        item.append(el("p","وصف مختصر للمطعم"),description,button("حفظ الوصف",()=>run(item,async()=>{
+          await DB.updateDoc(DB.doc(db,"restaurants",row.id),{description:description.value.trim()});tell("تم حفظ وصف المطعم.");
+        })));
+
+        const phone=el("input");phone.type="tel";phone.dir="ltr";phone.value=row.whatsapp || "+963";phone.setAttribute("aria-label","WhatsApp للمطعم — يظهر للعملاء");
+        item.append(el("p","WhatsApp للمطعم — يظهر للعملاء"),phone,button("حفظ WhatsApp",()=>run(item,async()=>{
+          await DB.updateDoc(DB.doc(db,"restaurants",row.id),{whatsapp:normalizeWhatsapp(phone.value)});tell("تم حفظ رقم WhatsApp.");
+        })));
+      }
+      item.append(button("حذف نهائي",()=>run(item,async()=>{
+        if(!confirm("حذف "+(row.name || row.title || row.payload?.name || "السجل")+" نهائيًا؟"))return;
+        await DB.deleteDoc(DB.doc(db,collectionName,row.id));tell(collectionName==="restaurants"?"تم حذف المطعم وإزالة وجباته من عرض العملاء. حساب الدخول وسجل الطلبات محفوظان للإدارة.":"تم حذف السجل.");
+      }),"btn danger"));
+      $(target).append(item);
+    });
+  });
+
+  $("adminMerchants").replaceChildren();
+  if (!merchantRows.length) empty($("adminMerchants"),"لا توجد حسابات تجار.");
+  merchantRows.forEach(row=>{
+    const item = el("div",undefined,"admin-item");
+    item.append(
+      el("strong",row.name || "تاجر"),
+      el("p",[row.email,row.phone].filter(Boolean).join(" · "),"muted"),
+      el("p","نهاية الاشتراك: "+dateText(row.expiresAt))
+    );
+    item.append(button("تمديد 30 يومًا",()=>run(item,async()=>{
+      const ref = DB.doc(db,"merchants",row.id);
+      await DB.runTransaction(db,async tx=>{
+        const snapshot = await tx.get(ref);
+        if (!snapshot.exists()) throw friendly("حساب التاجر غير موجود.");
+        const expiry = snapshot.data().expiresAt;
+        tx.update(ref,{
+          expiresAt:Math.max(Date.now(),Number.isFinite(expiry)?expiry:0)+30*86400000
+        });
+      });
+      tell("تم تمديد الاشتراك 30 يومًا.");
+    })));
+    $("adminMerchants").append(item);
+  });
+  renderPending(pendingRows);
+}
+
+$("offerForm").addEventListener("submit",event=>{
+  event.preventDefault();
+  const title = $("offerTitle").value.trim();
+  const file = $("offerPic").files[0];
+  const details=$("offerDetails").value.trim(),restaurantId=$("offerRestaurant").value;
+  const contactName=$("offerContactName").value.trim(),rawWhatsapp=$("offerWhatsapp").value.trim();
+  run($("offerForm"),async()=>{
+    if (!title) throw friendly("أدخل عنوان العرض.");
+    const whatsapp=rawWhatsapp?normalizeWhatsapp(rawWhatsapp):"";
+    if(whatsapp && !restaurantId && !contactName)throw friendly("اختر المطعم أو أدخل اسمه مع رقم التواصل.");
+    const img = await compressImage(file);
+    await DB.addDoc(DB.collection(db,"offers"),{
+      title,details,restaurantId,contactName,whatsapp,img,active:true,createdAt:DB.serverTimestamp()
+    });
+    $("offerForm").reset();
+    tell("تم نشر العرض.");
+  });
+});
+
+$("foodForm").addEventListener("submit",event=>{
+  event.preventDefault();
+  const name = $("foodSelect").value;
+  const file = $("foodPic").files[0];
+  run($("foodForm"),async()=>{
+    const img = await compressImage(file);
+    await DB.setDoc(DB.doc(db,"foods","category-"+FOOD_NAMES.indexOf(name)),{
+      name,img,updatedAt:DB.serverTimestamp()
+    });
+    $("foodForm").reset();
+    tell("تم تحديث صورة الصنف.");
+  });
+});
+
+$("merchantForm").addEventListener("submit",event=>{
+  event.preventDefault();
+  const values = {
+    name:$("merchantName").value.trim(),
+    description:$("merchantDescription").value.trim(),
+    email:$("merchantEmail").value.trim(),
+    username:$("merchantUsername").value.trim().toLowerCase(),
+    whatsapp:$("merchantWhatsapp").value.trim(),
+    password:$("merchantPassword").value,
+    phone:$("merchantPhone").value.trim(),
+    city:$("merchantCity").value,
+    category:$("merchantFood").value,
+    days:Number($("merchantDays").value),
+    file:$("merchantPic").files[0]
+  };
+  run($("merchantForm"),async()=>{
+    if (auth.currentUser?.uid !== ADMIN_UID) throw friendly("هذه العملية للإدارة فقط.");
+    if (!values.name || !Number.isInteger(values.days) || values.days < 1 || values.days > 3650)
+      throw friendly("تحقّق من اسم المطعم ومدة الاشتراك.");
+    values.whatsapp=normalizeWhatsapp(values.whatsapp);
+    const loginEmail=merchantLoginEmail(values.username);
+    const img = values.file ? await compressImage(values.file) : "";
+    const secondary = App.initializeApp(CONFIG,"merchant-"+crypto.randomUUID());
+    const secondaryAuth = Auth.getAuth(secondary);
+    let createdUser;
+    let committed = false;
+    try{
+      await Auth.setPersistence(secondaryAuth,Auth.inMemoryPersistence);
+      const credential = await Auth.createUserWithEmailAndPassword(
+        secondaryAuth,loginEmail,values.password
+      );
+      createdUser = credential.user;
+      const batch = DB.writeBatch(db);
+      batch.set(DB.doc(db,"merchants",createdUser.uid),{
+        name:values.name,
+        email:values.email,
+        username:values.username,
+        loginEmail,
+        phone:values.phone,
+        expiresAt:Date.now()+values.days*86400000,
+        createdAt:DB.serverTimestamp()
+      });
+      batch.set(DB.doc(db,"restaurants",createdUser.uid),{
+        name:values.name,
+        city:values.city,
+        categories:[values.category],
+        description:values.description,
+        whatsapp:values.whatsapp,
+        img,
+        active:true,
+        createdAt:DB.serverTimestamp()
+      });
+      await batch.commit();
+      committed = true;
+      $("merchantForm").reset();
+      tell("تم إنشاء حساب المطعم. يمكن لصاحبه الدخول باسم المستخدم وكلمة المرور اللذين أدخلتهما.");
+    }catch(error){
+      if (createdUser && !committed){
+        try{await Auth.deleteUser(createdUser);}
+        catch{
+          throw friendly("لم تُحفظ بيانات المطعم، وتعذّر حذف حساب الدخول غير المكتمل. راجع هذا البريد في Firebase Authentication قبل إعادة الإنشاء.");
+        }
+      }
+      throw error;
+    }finally{
+      try{await Auth.signOut(secondaryAuth);}catch{}
+      try{await App.deleteApp(secondary);}catch{}
+    }
+  });
+});
+
+$("migrateBtn").addEventListener("click",()=>run($("migrateBtn"),async()=>{
+  if (auth.currentUser?.uid !== ADMIN_UID) throw friendly("هذه العملية للإدارة فقط.");
+  let oldOffers,oldFoods;
+  try{
+    oldOffers = JSON.parse(localStorage.getItem("admin_offers") || "[]");
+    oldFoods = JSON.parse(localStorage.getItem("admin_foods") || "[]");
+  }catch{throw friendly("تعذّر قراءة البيانات القديمة من هذا المتصفح.");}
+  if (!Array.isArray(oldOffers) || !Array.isArray(oldFoods))
+    throw friendly("صيغة البيانات القديمة غير صحيحة.");
+
+  let added = 0;
+  let skipped = 0;
+  for (const [kind,rows] of [["offers",oldOffers],["foods",oldFoods]]){
+    for (const row of rows){
+      const name = String(kind === "offers" ? row?.title || "" : row?.name || "").trim();
+      const original = row?.img;
+      if (!name || name.length > 150 ||
+          (kind === "foods" && !FOOD_NAMES.includes(name)) ||
+          typeof original !== "string"){
+        skipped++;
+        continue;
+      }
+      let img = safePhoto(original);
+      if (/^data:image\/(?:jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/.test(original) && original.length < 7000000){
+        try{
+          const blob = await (await fetch(original)).blob();
+          img = await compressImage(blob);
+        }catch{skipped++;continue;}
+      }
+      if (!img){skipped++;continue;}
+      const bytes = await crypto.subtle.digest("SHA-256",new TextEncoder().encode(name+"\n"+original));
+      const hash = [...new Uint8Array(bytes)].map(n=>n.toString(16).padStart(2,"0")).join("");
+      const ref = DB.doc(db,kind,kind === "offers" ? "legacy-"+hash : "category-"+FOOD_NAMES.indexOf(name));
+      const saved = await DB.runTransaction(db,async tx=>{
+        const snapshot = await tx.get(ref);
+        if (snapshot.exists()) return false;
+        tx.set(ref,kind === "offers"
+          ? {title:name,img,active:true,createdAt:DB.serverTimestamp()}
+          : {name,img,updatedAt:DB.serverTimestamp()});
+        return true;
+      });
+      saved ? added++ : skipped++;
+    }
+  }
+  tell("اكتمل الاستيراد: "+added+" سجل جديد، "+skipped+" سجل متجاوز. لم تُحذف البيانات المحلية.");
+}));
+
+function watchPublic(name,reference){
+  DB.onSnapshot(reference,snapshot=>{
+    state[name] = snapshot.docs.map(doc=>({...doc.data(),id:doc.id}));
+    ready[name] = true;
+    failed[name] = false;
+    publicErrors.delete(name);
+    if (!publicErrors.size && $("status").classList.contains("error"))
+      tell("تم استعادة الاتصال.");
+    if (name === "foods"){renderCategories();renderDirectoryFilters();}
+    renderOffers();
+    renderPublic();
+    renderMyMenu();
+    if (currentUser?.uid === ADMIN_UID) renderAdminLists();
+  },error=>{
+    ready[name] = true;
+    failed[name] = true;
+    state[name] = [];
+    publicErrors.add(name);
+    tell(errorText(error),true);
+    renderOffers();
+    renderPublic();
+    renderMyMenu();
+  });
+}
+
+function handleAuth(user){
+  if (user && currentUser?.uid === user.uid) return;
+  const version = ++authVersion;
+  privateStops.forEach(stop=>stop());
+  privateStops = [];
+  currentUser = user;
+  membership = null;
+  membershipReady = !user;
+  merchantRows = [];
+  requestRows = [];
+  pendingRows = [];
+  $("pendingList").replaceChildren();
+  $("adminMerchants").replaceChildren();
+  $("menuHistory").replaceChildren();
+  resetMenuEditor();
+  setMerchantTab("new");
+  tell("",false,"menuMessage");
+  ["merchantDialog","accountDialog"].forEach(id=>$(id).close());
+  const admin = IS_ADMIN_PAGE && user?.uid === ADMIN_UID;
+  $("accountBtn").textContent = user ? "حسابي" : "دخول العميل";
+  $("logoutBtn").hidden = !user;
+  $("adminBtn").hidden = true;
+  $("pendingBtn").hidden = !admin;
+  $("pendingBtn").textContent = "طلبات القائمة (0)";
+  updateAccount();
+
+  if (!admin && !$("adminPage").hidden) showPublic();
+
+  if (user){
+    privateStops.push(DB.onSnapshot(DB.doc(db,"merchants",user.uid),snapshot=>{
+      if (version !== authVersion) return;
+      membership = snapshot.exists() ? snapshot.data() : null;
+      membershipReady = true;
+      updateAccount();
+    },error=>{
+      if (version !== authVersion) return;
+      membership = null;
+      membershipReady = true;
+      updateAccount();
+      tell(errorText(error),true);
+    }));
+
+    privateStops.push(DB.onSnapshot(
+      DB.query(DB.collection(db,"menuRequests"),DB.where("merchantId","==",user.uid)),
+      snapshot=>{
+        if (version !== authVersion) return;
+        requestRows = snapshot.docs.map(doc=>({...doc.data(),id:doc.id}));
+        renderHistory();
+        renderMyMenu();
+      },
+      error=>{
+        if (version !== authVersion) return;
+        empty($("menuHistory"),errorText(error));
+      }
+    ));
+  }
+
+  if (admin){
+    privateStops.push(DB.onSnapshot(DB.collection(db,"merchants"),snapshot=>{
+      if (version !== authVersion) return;
+      merchantRows = snapshot.docs.map(doc=>({...doc.data(),id:doc.id}));
+      renderAdminLists();
+    },error=>{
+      if (version === authVersion) empty($("adminMerchants"),errorText(error));
+    }));
+
+    $("approvalState").textContent = "جارٍ تحميل الطلبات…";
+    privateStops.push(DB.onSnapshot(
+      DB.query(DB.collection(db,"menuRequests"),DB.where("status","==","pending")),
+      snapshot=>{
+        if (version !== authVersion) return;
+        pendingRows = snapshot.docs.map(doc=>({...doc.data(),id:doc.id}));
+        renderPending(pendingRows);
+      },
+      error=>{
+        if (version !== authVersion) return;
+        $("pendingBtn").textContent = "تعذّر تحميل الطلبات";
+        $("approvalState").textContent = errorText(error);
+      }
+    ));
+    if (IS_ADMIN_PAGE) showAdmin();
+  }else if (!user && IS_ADMIN_PAGE){
+    $("adminLanding").hidden=false;
+    openLogin("admin");
+  }
+}
+
+renderCategories();
+const initialRestaurant=new URLSearchParams(location.search).get("restaurant");
+if(initialRestaurant)openRestaurant(initialRestaurant,false);
+
+
+$("adminLoginOpen").addEventListener("click",()=>openLogin("admin"));
+async function beginAdminSetup(){
+  const provider=new Auth.GoogleAuthProvider();provider.setCustomParameters({prompt:"select_account"});
+  const credential=await Auth.signInWithPopup(auth,provider);
+  if(credential.user.uid!==ADMIN_UID){await Auth.signOut(auth);throw friendly("اختر حساب Google الإداري الأصلي. هذا الحساب لا يملك صلاحية الإدارة.");}
+  $("loginDialog").close();$("adminNewPassword").value="";$("adminConfirmPassword").value="";
+  tell("",false,"adminSetupMessage");showDialog("adminSetupDialog");
+}
+$("adminRecovery").addEventListener("click",()=>run($("adminRecovery"),beginAdminSetup));
+$("adminSetupFromLogin").addEventListener("click",()=>run($("loginDialog"),beginAdminSetup,"loginMessage"));
+$("adminSetupDialog").addEventListener("close",()=>{$("adminSetupForm").reset();});
+$("adminSetupForm").addEventListener("submit",event=>{
+  event.preventDefault();run($("adminSetupForm"),async()=>{
+    const user=auth.currentUser;
+    if(user?.uid!==ADMIN_UID)throw friendly("يلزم التحقق بحساب الإدارة أولًا.");
+    const password=$("adminNewPassword").value;
+    if(password.length<10 || password!==$("adminConfirmPassword").value)throw friendly("تأكد من تطابق كلمتي المرور وأن الطول 10 أحرف على الأقل.");
+    const existing=user.providerData.find(p=>p.providerId==="password");
+    if(existing){
+      if(existing.email?.toLowerCase()!==ADMIN_LOGIN_EMAIL)throw friendly("هذا الحساب مرتبط مسبقًا بطريقة دخول أخرى. لم يتم تغيير بياناته؛ يلزم مراجعة الربط قبل المتابعة.");
+      await Auth.updatePassword(user,password);
+    }else{
+      await Auth.linkWithCredential(user,Auth.EmailAuthProvider.credential(ADMIN_LOGIN_EMAIL,password));
+    }
+    await Auth.reload(user);
+    if(user.uid!==ADMIN_UID || !user.providerData.some(p=>p.providerId==="password" && p.email?.toLowerCase()===ADMIN_LOGIN_EMAIL))throw friendly("تعذّر تأكيد الربط. استخدم استعادة الدخول بحساب Google.");
+    $("adminSetupDialog").close();showAdmin();tell("تم تفعيل Jonathan. يمكنك الدخول به وبكلمة المرور التي اخترتها من رابط الإدارة فقط.");
+  },"adminSetupMessage");
+});
+
+async function boot(){
+  try{
+    [App,Auth,DB] = await Promise.all([
+      import("https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js"),
+      import("https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js"),
+      import("https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js")
+    ]);
+    app = IS_ADMIN_PAGE?App.initializeApp(CONFIG,"albalad-admin"):App.initializeApp(CONFIG);
+    auth = Auth.getAuth(app);
+    if(IS_ADMIN_PAGE)await Auth.setPersistence(auth,Auth.browserSessionPersistence);
+    db = DB.getFirestore(app);
+    $("adminRecovery").disabled=false;$("adminSetupFromLogin").disabled=false;
+    Auth.onAuthStateChanged(auth,handleAuth,error=>tell(errorText(error),true));
+    watchPublic("ratings",DB.collection(db,"ratings"));
+    watchPublic("offers",DB.collection(db,"offers"));
+    watchPublic("foods",DB.collection(db,"foods"));
+    watchPublic("restaurants",DB.collection(db,"restaurants"));
+    watchPublic("menuItems",DB.query(DB.collection(db,"menuItems"),DB.where("status","==","approved")));
+    $("accountBtn").disabled = false;
+    $("merchantBtn").disabled = false;
+    tell("");
+  }catch{
+    tell("تعذّر تحميل Firebase. تحقق من الإنترنت ثم حدّث الصفحة.",true);
+    ["offers","restaurants"].forEach(id=>empty($(id),"تعذّر الاتصال بالخدمة."));
+  }
+}
+
+document.addEventListener("visibilitychange",()=>{
+  if (!document.hidden) updateAccount();
+});
+if(!IS_ADMIN_PAGE && new URLSearchParams(location.search).get("admin")==="1")location.replace("./admin.html");
+else boot();
+</script>
 </body>
 </html>
