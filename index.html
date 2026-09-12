@@ -177,7 +177,6 @@ footer li{margin-bottom:7px}
     <nav class="actions" aria-label="الحساب">
       <button class="btn" id="accountBtn" disabled>تسجيل الدخول</button>
       <button class="btn primary" id="merchantBtn" disabled>إضافة / تعديل قائمتي</button>
-      <button class="btn" id="adminBtn" hidden>لوحة الإدارة</button>
       <button class="btn" id="pendingBtn" hidden aria-live="polite">طلبات القائمة (0)</button>
       <button class="btn" id="logoutBtn" hidden>خروج</button>
     </nav>
@@ -442,6 +441,13 @@ const CONFIG = {
   appId: "1:933902087450:web:a9e7a10d4dc393c6bb28a3"
 };
 const ADMIN_UID = "diJ1B4OuMIbmpBt26ZCL1ghnvHj1";
+const IS_ADMIN_PAGE=location.pathname.endsWith("/admin.html");
+const ADMIN_USERNAME="Jonathan";
+const ADMIN_LOGIN_EMAIL="jonathan@admin.albaladfood.com";
+function adminLoginEmail(value){
+  if(value.trim().toLowerCase()!==ADMIN_USERNAME.toLowerCase())throw friendly("اسم المستخدم أو كلمة المرور غير صحيحة.");
+  return ADMIN_LOGIN_EMAIL;
+}
 const CITIES = ["دمشق","ريف دمشق","حمص","اللاذقية","حلب","دير الزور"];
 const FOOD_NAMES = ["شاورما","بروستد","سندويش غربي","فلافل","مندي","برغر","كوكتيل","حلويات"];
 const PHOTOS = [
@@ -952,17 +958,20 @@ $("offerToggle").addEventListener("click",()=>{
 });
 
 function showPublic(){
+  if(IS_ADMIN_PAGE){location.assign("./index.html");return;}
   detailId="";$("restaurantDetail").hidden=true;
   $("publicPage").hidden = false;
   $("adminPage").hidden = true;
   history.replaceState(null,"",location.pathname);
 }
 function showAdmin(){
+  if(!IS_ADMIN_PAGE){location.assign("./admin.html");return;}
   if (currentUser?.uid !== ADMIN_UID) return openLogin("admin");
   detailId="";$("restaurantDetail").hidden=true;
   $("publicPage").hidden = true;
   $("adminPage").hidden = false;
-  history.replaceState(null,"",location.pathname+"?admin=1");
+  history.replaceState(null,"",location.pathname);
+  $("adminLanding").hidden=true;
   renderAdminLists();
 }
 function showDialog(id){
@@ -987,12 +996,15 @@ function changeSignup(value){
   $("password").minLength = value ? 8 : 1;
 }
 function openLogin(mode="visitor"){
+  if(mode==="admin" && !IS_ADMIN_PAGE){location.assign("./admin.html");return;}
+  if(IS_ADMIN_PAGE)mode="admin";
   loginMode = mode;
   $("googleBtn").hidden=mode!=="visitor";
-  $("email").type=mode==="merchant"?"text":"email";
-  $("email").autocomplete=mode==="merchant"?"username":"email";
-  document.querySelector('label[for="email"]').textContent=mode==="merchant"?"اسم المستخدم (أو بريد الحساب القديم)":"البريد الإلكتروني";
-  $("email").value="";
+  $("email").type=mode==="visitor"?"email":"text";
+  $("email").autocomplete=mode==="visitor"?"email":"username";
+  document.querySelector('label[for="email"]').textContent=mode==="admin"?"اسم المستخدم":mode==="merchant"?"اسم المستخدم (أو بريد الحساب القديم)":"البريد الإلكتروني";
+  $("email").value=mode==="admin"?ADMIN_USERNAME:"";
+  $("resetPassword").hidden=mode==="admin";
   changeSignup(false);
   $("loginTabs").hidden = mode !== "visitor";
   $("loginTitle").textContent = mode === "admin" ? "دخول الإدارة" :
@@ -1002,7 +1014,7 @@ function openLogin(mode="visitor"){
 }
 function updateAccount(){
   $("accountEmail").textContent = membership?.username || (currentUser?.email || "").replace("@merchant.albaladfood.com","");
-  $("accountInfo").textContent = currentUser?.uid === ADMIN_UID ? "حساب الإدارة" :
+  $("accountInfo").textContent = IS_ADMIN_PAGE && currentUser?.uid === ADMIN_UID ? "حساب الإدارة" :
     !membershipReady ? "جارٍ التحقق من الحساب…" :
     membership ? "حساب تاجر — "+(activeMember() ? "الاشتراك فعّال حتى " : "انتهى الاشتراك في ")+dateText(membership.expiresAt) :
     "حساب زائر";
@@ -1034,7 +1046,6 @@ $("merchantBtn").addEventListener("click",()=>{
   updateAccount();
   showDialog("merchantDialog");
 });
-$("adminBtn").addEventListener("click",showAdmin);
 $("backToSite").addEventListener("click",showPublic);
 $("pendingBtn").addEventListener("click",()=>{
   showAdmin();
@@ -1043,8 +1054,10 @@ $("pendingBtn").addEventListener("click",()=>{
 
 async function finishLogin(credential){
   const user = credential.user;
-  if (loginMode === "admin" && user.uid !== ADMIN_UID)
-    throw friendly("تم تسجيل الدخول، لكن هذا الحساب ليس حساب الإدارة.");
+  if (loginMode === "admin" && user.uid !== ADMIN_UID){
+    await Auth.signOut(auth);
+    throw friendly("هذا الحساب غير مخوّل بالدخول إلى الإدارة.");
+  }
   if (loginMode === "merchant"){
     const snapshot = await DB.getDocFromServer(DB.doc(db,"merchants",user.uid));
     if (!snapshot.exists())
@@ -1073,8 +1086,8 @@ $("loginForm").addEventListener("submit",event=>{
   const password = $("password").value;
   const create = signup && loginMode === "visitor";
   run($("loginDialog"),async()=>{
-    const email=loginMode==="merchant"?merchantLoginEmail(identity):identity;
-    if(create && email.toLowerCase().endsWith("@merchant.albaladfood.com"))throw friendly("هذا الاسم مخصص لحسابات المطاعم التي تنشئها الإدارة.");
+    const email=loginMode==="admin"?adminLoginEmail(identity):loginMode==="merchant"?merchantLoginEmail(identity):identity;
+    if(create && /@(merchant|admin)\.albaladfood\.com$/i.test(email))throw friendly("هذا الاسم مخصص لحسابات المطاعم التي تنشئها الإدارة.");
     const credential = create
       ? await Auth.createUserWithEmailAndPassword(auth,email,password)
       : await Auth.signInWithEmailAndPassword(auth,email,password);
@@ -1674,10 +1687,9 @@ function handleAuth(user){
   setMerchantTab("new");
   tell("",false,"menuMessage");
   ["merchantDialog","accountDialog"].forEach(id=>$(id).close());
-  const admin = user?.uid === ADMIN_UID;
+  const admin = IS_ADMIN_PAGE && user?.uid === ADMIN_UID;
   $("accountBtn").textContent = user ? "حسابي" : "دخول العميل";
   $("logoutBtn").hidden = !user;
-  $("adminBtn").hidden = !admin;
   $("pendingBtn").hidden = !admin;
   $("pendingBtn").textContent = "طلبات القائمة (0)";
   updateAccount();
@@ -1736,8 +1748,9 @@ function handleAuth(user){
         $("approvalState").textContent = errorText(error);
       }
     ));
-    if (new URLSearchParams(location.search).get("admin") === "1") showAdmin();
-  }else if (!user && new URLSearchParams(location.search).get("admin") === "1"){
+    if (IS_ADMIN_PAGE) showAdmin();
+  }else if (!user && IS_ADMIN_PAGE){
+    $("adminLanding").hidden=false;
     openLogin("admin");
   }
 }
@@ -1753,8 +1766,9 @@ async function boot(){
       import("https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js"),
       import("https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js")
     ]);
-    app = App.initializeApp(CONFIG);
+    app = IS_ADMIN_PAGE?App.initializeApp(CONFIG,"albalad-admin"):App.initializeApp(CONFIG);
     auth = Auth.getAuth(app);
+    if(IS_ADMIN_PAGE)await Auth.setPersistence(auth,Auth.browserSessionPersistence);
     db = DB.getFirestore(app);
     Auth.onAuthStateChanged(auth,handleAuth,error=>tell(errorText(error),true));
     watchPublic("ratings",DB.collection(db,"ratings"));
@@ -1774,7 +1788,8 @@ async function boot(){
 document.addEventListener("visibilitychange",()=>{
   if (!document.hidden) updateAccount();
 });
-boot();
+if(!IS_ADMIN_PAGE && new URLSearchParams(location.search).get("admin")==="1")location.replace("./admin.html");
+else boot();
 </script>
 </body>
 </html>
